@@ -2,6 +2,8 @@ package top.yigege.domain;
 
 import java.util.Date;
 
+import org.apache.struts2.json.annotations.JSON;
+
 public class UserOrder {
 	private String userOrderId;
 	private String shipAddress;
@@ -19,6 +21,7 @@ public class UserOrder {
 	private String remark;
 	
 	private String state;
+	
 	
 	private User user;
 
@@ -102,6 +105,7 @@ public class UserOrder {
 		this.state = state;
 	}
 
+	@JSON(serialize=false)
 	public User getUser() {
 		return user;
 	}

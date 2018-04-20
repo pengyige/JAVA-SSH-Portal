@@ -2,6 +2,7 @@ package top.yigege.web.action;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -58,7 +59,7 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		//1.校验token
 		int state;
 		if(userService.validateToken(token) == -1) {
-			this.getJsonData().put("state", "-1");
+			this.getJsonData().put("state", -1);
 			return "jsonData";
 		}
 		
@@ -69,12 +70,38 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyyddmm");
 		Date date = new Date();
 		String userOrderId = bartDateFormat.format(date)+date.getTime();
+		this.userOrder.setOrderTime(date);
 		this.userOrder.setUserOrderId(userOrderId);
 		this.userOrder.setUser(user);
 		
 		//3.保存订单
 		state = userOrderService.saveUserOrder(this.userOrder);
 		this.getJsonData().put("state", state);
+		return "jsonData";
+	}
+	
+	
+	
+	/**
+	 *用户订单查询 
+	 */
+	public String query() {
+		//1.校验token
+		int state;
+		if(userService.validateToken(token) == -1) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+		//2.获取用户订单业务逻辑处理
+		try {
+			List<UserOrder> userOrderLists = userOrderService.findUserOrderByUserId(userId,this.userOrder.getState());
+			this.getJsonData().put("state", 1);
+			this.getJsonData().put("userOrders", userOrderLists);
+		}catch(Exception e) {
+			this.getJsonData().put("state", 0);
+			return "jsonData";
+		}
+		
 		return "jsonData";
 	}
 }

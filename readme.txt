@@ -45,14 +45,14 @@ user |  CREATE TABLE `user` (
   `token` varchar(255) DEFAULT NULL,
   `username` varchar(255) ,
   `password` varchar(255) DEFAULT NULL,
-  `sex` int(11) DEFAULT NULL,
+  `sex` int(11) DEFAULT NULL, //1男 2女
   `tel` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
+  `type` int(11) DEFAULT NULL, //1个人 2商业
   PRIMARY KEY (`userId`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 //创建订单表
 user_order | CREATE TABLE `user_order` (
@@ -66,7 +66,7 @@ user_order | CREATE TABLE `user_order` (
   `orderTime` datetime DEFAULT NULL,
   `payment` double DEFAULT NULL,
   'remark' varchar(255) DEFAULT NULL,
-  `state` varchar(255) DEFAULT NULL,
+  `state` varchar(255) DEFAULT NULL, //订单状态 1待支付 2待接单 3待取货4配送中 5已完成
   `user_order_id` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`userOrderId`),
   KEY `FK731991DA961D5C0C` (`user_order_id`),

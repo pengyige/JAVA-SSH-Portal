@@ -1,5 +1,7 @@
 package top.yigege.service;
 
+import java.util.List;
+
 import top.yigege.dao.UserOrderDao;
 import top.yigege.domain.UserOrder;
 
@@ -17,6 +19,16 @@ public class UserOrderService {
 			return resultState;
 		}
 		return resultState;
+	}
+	public List<UserOrder> findUserOrderByUserId(String userId,String orderState) {
+		List<UserOrder> userOrderLists =  null;
+		try {
+			userOrderLists = userOrderDao.findUserOrderByUserId(userId,orderState);
+		}catch(Exception e) {
+			return null;
+		}
+		
+		return userOrderLists;
 	}
 
 	

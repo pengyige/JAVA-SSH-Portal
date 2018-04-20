@@ -63,13 +63,33 @@
 <hr/>
 <br/>
 <h2>添加订单测试</h2>
+
 	<form action="userorder_add.action" method="post">
 		token:<input name="token" type="text"/>
 		userId:<input name="userId" type="text"/>
+		shipAddress:<input name="shipAddress" type="text"/>
+		shipName:<input name="shipName" type="text"/>
+		shipTel:<input name="shipTel" type="text"/>
+		receiveAddress:<input name="receiveAddress" type="text"/>
+		receiveName:<input name="receiveName" type="text"/>
+		receiveTel:<input name="receiveTel" type="text"/>
+		payment:<input name="payment" type="text"/>
 		remark:<input name="remark" type="text"/>
+		state:<input name="state" type="text"/>
 		<input type="submit" value="提交"/>
 	</form>
 
+<hr/>
+<hr/>
+<br/>
+<h2>查询订单测试</h2>
+
+	<form action="userorder_query.action" method="post">
+		token:<input name="token" type="text"/>
+		userId:<input name="userId" type="text"/>
+		state:<input name="state" type="text"/>
+		<input type="submit" value="提交"/>
+	</form>
 	
 </body>
 </html>

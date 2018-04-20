@@ -22,6 +22,7 @@
 				<param name="root">
 					jsonData
 				</param>
+				<param name="excludeProperties">user.userOrders</param>
 			</result>
 		
 		</action>
@@ -29,7 +30,6 @@
 		<!-- 用户订单模块  -->
 		<action name="userorder_*" class="userOrderAction" method="{1}">
 			<interceptor-ref name="defaultStack"></interceptor-ref>
-		
 			<result name="jsonData" type="json">
 				<param name="root">
 					jsonData
