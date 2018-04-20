@@ -1,0 +1,22 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping >  
+	<class name="top.yigege.domain.UserOrder" table="user_order">
+		<id name="userOrderId">
+			<generator class="assigned"/>  
+		</id>
+		
+		<property name="shipAddress" ></property>
+		<property name="shipName" ></property>
+		<property name="shipTel" ></property>
+		<property name="receiveAddress" ></property>
+		<property name="receiveName" ></property>
+		<property name="receiveTel" ></property>
+		<property name="remark" ></property>
+		<property name="orderTime" ></property>
+		<property name="payment" ></property>
+		<property name="state" ></property>
+		
+		<!-- 多的一方，联系人所属用户 -->
+		<many-to-one name="user" class="top.yigege.domain.User" column="user_order_id"></many-to-one>
+	</class> 
+</hibernate-mapping>

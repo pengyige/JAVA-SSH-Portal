@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="http://www.springframework.org/schema/beans"
+   xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:context="http://www.springframework.org/schema/context" 
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xmlns:cache="http://www.springframework.org/schema/cache" xmlns:p="http://www.springframework.org/schema/p"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans 
+     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+     http://www.springframework.org/schema/aop
+     http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+     http://www.springframework.org/schema/context
+     http://www.springframework.org/schema/context/spring-context-3.0.xsd
+     http://www.springframework.org/schema/tx
+     http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+     http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache-3.0.xsd">
+    <!--  <context:component-scan base-package="cn.pengyi..*"/>  -->
+<!-- 
+     整合hibernate
+     	加载属性文件
+         <context:property-placeholder location="classpath:db.properties"/>
+      -->
+       <!-- 配置和连接池 -->
+      <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+     	<property name="driverClass" value="com.mysql.jdbc.Driver" />
+     	<property name="jdbcUrl" value="jdbc:mysql://localhost:3306/portal"/>
+     	<property name="user" value="root"/>
+     	<property name="password" value="root"/>
+     </bean>
+		
+		<!-- sessionFactory对象创建 --> 
+		<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+			<property name="dataSource" ref="dataSource"></property>
+		    <property name="configLocations" value="classpath:hibernate.cfg.xml"></property> 
+		</bean>
+		
+<!-- xml配置事务 -->	
+
+	<!-- 事务配置 -->
+	<bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+		
+
+	<!--   配置通知:具体要增强的业务逻辑 -->
+ 	<tx:advice id="txAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<!-- 匹配服务类中方法 -->
+			<tx:method name="save*"/>
+			<tx:method name="update*"/>
+			<tx:method name="delete*"/>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="*"/>
+		</tx:attributes>
+	</tx:advice> 
+
+		<!-- 配置aop -->
+ 	<aop:config>
+		<!-- 切点(真正要增强的方法) -->
+		<aop:pointcut expression="execution(* top.yigege.service.*.*(..))" id="cut"/>
+		<!-- 切面 -->
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="cut" />
+	</aop:config> 
+
+	
+<!-- xml配置事务 -->	
+	
+<!--   使用事务注解  service类上或者方法上使用注解@Transactional -->
+	<!--  <tx:annotation-driven transaction-manager="transactionManager"/>  -->
+		<!-- 手动创建hibernatTemplate模板 -->
+	<!--  	<bean id="hibernateTemplate" class="org.springframework.orm.hibernate3.HibernateTemplate">
+		<property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>  
+	
+-->	
+	
+	
+	
+	<!-- 依赖注入 -->
+	
+	<!-- 用户模块 -->
+	 <bean id="userDaoImpl" class="top.yigege.dao.impl.UserDaoImpl">
+		<!-- 使用继承的HiberanteSupport 内部自动创建了一个hibernateTemplate 只需要注入sessionFactory
+		 <property name="hibernateTemplate" ref="hibernateTemplate"></property> --> 
+		 <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="userService" class="top.yigege.service.UserService">
+		<property name="userDao" ref="userDaoImpl"></property>
+	</bean>
+
+      <bean id="userAction" class="top.yigege.web.action.UserAction" scope="prototype">
+  				<property name="userService" ref="userService"></property>
+     </bean>
+  
+     
+     <!-- 用户订单模块 -->
+      <bean id="userOrderDaoImpl" class="top.yigege.dao.impl.UserOrderDaoImpl">
+		 <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean>
+	
+	<bean id="userOrderService" class="top.yigege.service.UserOrderService">
+		<property name="userOrderDao" ref="userOrderDaoImpl"></property>
+	</bean>
+
+     <bean id="userOrderAction" class="top.yigege.web.action.UserOrderAction" scope="prototype">
+  				<property name="userOrderService" ref="userOrderService"></property>
+     			<property name="userService" ref="userService"></property>
+     </bean>
+     
+     
+</beans>

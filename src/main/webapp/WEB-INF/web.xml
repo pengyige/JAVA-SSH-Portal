@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+<web-app>
+	<display-name>portal</display-name>
+
+	 <context-param>
+	
+	 <param-name>contextConfigLocation</param-name>
+	
+	 <param-value>classpath:beans.xml</param-value> 
+	
+	</context-param>  
+	
+	<!-- 配置openSessionInViewFilter过滤器 -->
+	 <filter>
+	    <filter-name>openSessionInViewFilter</filter-name>
+	    <filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
+	  </filter>
+	  
+	    <!-- 配置struts2框架核心过滤器 -->
+	 <filter>  
+	        <filter-name>struts2</filter-name>  
+	        <filter-class>org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter</filter-class>  
+	 </filter> 
+	   
+
+	<!-- 	配置spring文件路径,默认在WEB-INF/applicationContext.xml -->
+	   
+	  <filter-mapping>
+	    <filter-name>openSessionInViewFilter</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	  
+	   <filter-mapping>
+	    <filter-name>struts2</filter-name>
+	    <url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	
+
+	  
+	  <!-- 配置Spring监听器 -->
+	   <listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	  </listener> 
+	
+	  
+	 <welcome-file-list>
+		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.htm</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
+		<welcome-file>default.html</welcome-file>
+		<welcome-file>default.htm</welcome-file>
+		<welcome-file>default.jsp</welcome-file>
+	</welcome-file-list> 
+</web-app>

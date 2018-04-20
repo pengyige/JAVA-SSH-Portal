@@ -1,0 +1,23 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping >  
+    <class name="top.yigege.domain.User" table="user">  
+        <id name="userId" >  
+            <generator class="uuid"/>  
+        </id>  
+     	<property name="token"></property>
+     	<property name="username"  unique-key="true"></property>
+     	<property name="password"></property>
+     	<property name="sex"></property>
+     	<property name="tel"></property>
+     	<property name="email"></property>
+     	<property name="address" ></property>
+     	<property name="type"></property> 
+  
+     	
+     	<!-- 一对多映射 -->
+     	<set name="userOrders" inverse="true" cascade="all">
+ 			<key column="user_order_id"></key>
+ 			<one-to-many class="top.yigege.domain.UserOrder"/>    	
+     	</set>
+    </class>  
+</hibernate-mapping>
