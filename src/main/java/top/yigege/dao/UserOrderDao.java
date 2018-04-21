@@ -8,4 +8,6 @@ public interface UserOrderDao extends BaseDao<UserOrder>{
 
 	List<UserOrder> findUserOrderByUserId(String userId,String orderState);
 
+	int updateState(String userOrderId, String userOrderState);
+
 }

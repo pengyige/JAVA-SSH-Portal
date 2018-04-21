@@ -32,6 +32,8 @@
 		 <!-- <property name="hibernate.current_session_context_class">thread</property> --> 
 		<mapping resource="top/yigege/domain/User.hbm.xml"/> 
 		<mapping resource="top/yigege/domain/UserOrder.hbm.xml"></mapping>
+		<mapping resource="top/yigege/domain/Teleporter.hbm.xml"></mapping>
+		<mapping resource="top/yigege/domain/TeleporterAdmin.hbm.xml"></mapping>
 	</session-factory>
 
 </hibernate-configuration>

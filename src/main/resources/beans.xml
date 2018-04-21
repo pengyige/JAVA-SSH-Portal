@@ -108,5 +108,32 @@
      			<property name="userService" ref="userService"></property>
      </bean>
      
+     <!-- 传送点模块 -->
+     <bean id="teleporterDaoImpl" class="top.yigege.dao.impl.TeleporterDaoImpl">
+     		<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     
+     <bean id="teleporterService" class="top.yigege.service.TeleporterService">
+     		<property name="teleporterDao" ref="teleporterDaoImpl"></property>
+     </bean>
+     
+     <bean id="teleporterAction" class="top.yigege.web.action.TeleporterAction" scope="prototype">
+     		<property name="teleporterService" ref="teleporterService"></property>
+     </bean>
+     
+     
+     <!-- 传送点管理员模块 -->
+     <bean id="teleporterAdminDaoImpl" class="top.yigege.dao.impl.TeleporterAdminDaoImpl">
+     		<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     
+     <bean id="teleporterAdminService" class="top.yigege.service.TeleporterAdminService">
+     		<property name="teleporterAdminDao" ref="teleporterAdminDaoImpl"></property>
+     </bean>
+     
+     <bean id="teleporterAdminAction" class="top.yigege.web.action.TeleporterAdminAction" scope="prototype">
+     		<property name="teleporterAdminService" ref="teleporterAdminService"></property>
+     </bean>
+     
      
 </beans>

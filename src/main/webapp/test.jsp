@@ -91,5 +91,28 @@
 		<input type="submit" value="提交"/>
 	</form>
 	
+<hr/>
+<hr/>
+<br/>
+<h2>修改用户订单状态测试</h2>
+
+	<form action="userorder_updateState.action" method="post">
+		token:<input name="token" type="text"/>
+		userOrderId:<input name="userOrderId" type="text"/>
+		state:<input name="state" type="text"/>
+		<input type="submit" value="提交"/>
+	</form>	
+	
+<hr/>
+<hr/>
+<br/>
+<h2>修改用户订单状态测试</h2>
+
+	<form action="userorder_cancelOrder.action" method="post">
+		token:<input name="token" type="text"/>
+		userOrderId:<input name="userOrderId" type="text"/>
+		<input type="submit" value="提交"/>
+	</form>	
+	
 </body>
 </html>

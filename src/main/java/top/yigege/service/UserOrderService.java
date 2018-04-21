@@ -30,6 +30,30 @@ public class UserOrderService {
 		
 		return userOrderLists;
 	}
+	
+	public int updateUserOrderState(String userOrderId,String userOrderState) {
+		int resultState = 1;
+		try {
+			resultState = userOrderDao.updateState(userOrderId,userOrderState);
+		}catch(Exception e) {
+			resultState = 0;
+			return resultState;
+		}
+		return resultState;
+	}
+	
+	public int cancelUserOrder(String userOrderId) {
+		int resultState = 1;
+		try {
+			UserOrder userOrder = new UserOrder();
+			userOrder.setUserOrderId(userOrderId);
+			userOrderDao.delete(userOrder);
+		}catch(Exception e) {
+			resultState = 0;
+			return resultState;
+		}
+		return resultState;
+	}
 
 	
 }

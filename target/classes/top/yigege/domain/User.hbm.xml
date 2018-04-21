@@ -7,11 +7,15 @@
      	<property name="token"></property>
      	<property name="username"  unique-key="true"></property>
      	<property name="password"></property>
-     	<property name="sex"></property>
+     	<property name="sex">
+     		<column name="sex" default="1"></column>
+     	</property>
      	<property name="tel"></property>
      	<property name="email"></property>
      	<property name="address" ></property>
-     	<property name="type"></property> 
+     	<property name="type">
+     		<column name="type" default="1"></column>
+     	</property> 
   
      	
      	<!-- 一对多映射 -->

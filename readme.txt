@@ -33,6 +33,64 @@
 管理员与传送点 一对一
 传送点与骑手 一对多
 
+//user(用户表)
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| userId   | varchar(255) | NO   | PRI | NULL    |       |
+| token    | varchar(255) | YES  |     | NULL    |       |
+| username | varchar(255) | YES  | UNI | NULL    |       |
+| password | varchar(255) | YES  |     | NULL    |       |
+| sex      | int(11)      | YES  |     | NULL    |       |
+| tel      | varchar(255) | YES  |     | NULL    |       |
+| email    | varchar(255) | YES  |     | NULL    |       |
+| address  | varchar(255) | YES  |     | NULL    |       |
+| type     | int(11)      | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+
+//user_order(用户订单表)
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| userOrderId    | varchar(255) | NO   | PRI | NULL    |       |
+| shipAddress    | varchar(255) | YES  |     | NULL    |       |
+| shipName       | varchar(255) | YES  |     | NULL    |       |
+| shipTel        | varchar(255) | YES  |     | NULL    |       |
+| receiveAddress | varchar(255) | YES  |     | NULL    |       |
+| receiveName    | varchar(255) | YES  |     | NULL    |       |
+| receiveTel     | varchar(255) | YES  |     | NULL    |       |
+| remark         | varchar(255) | YES  |     | NULL    |       |
+| orderTime      | datetime     | YES  |     | NULL    |       |
+| payment        | double       | YES  |     | NULL    |       |
+| state          | varchar(255) | YES  |     | NULL    |       |
+| user_order_id  | varchar(255) | YES  | MUL | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+
+//teleporter(传送点表)
++--------------+--------------+------+-----+---------+----------------+
+| Field        | Type         | Null | Key | Default | Extra          |
++--------------+--------------+------+-----+---------+----------------+
+| teleporterId | int(11)      | NO   | PRI | NULL    | auto_increment |
+| createDate   | datetime     | YES  |     | NULL    |                |
+| address      | varchar(255) | YES  |     | NULL    |                |
+| remark       | varchar(255) | YES  |     | NULL    |                |
++--------------+--------------+------+-----+---------+----------------+
+
+//teleporter_admin(传送点管理员表)
++------------------+--------------+------+-----+---------+-------+
+| Field            | Type         | Null | Key | Default | Extra |
++------------------+--------------+------+-----+---------+-------+
+| telporterAdminId | varchar(255) | NO   | PRI | NULL    |       |
+| username         | varchar(255) | YES  |     | NULL    |       |
+| password         | varchar(255) | YES  |     | NULL    |       |
+| sex              | int(11)      | YES  |     | NULL    |       |
+| tel              | varchar(255) | YES  |     | NULL    |       |
+| admin_porter_Id  | int(11)      | YES  | UNI | NULL    |       |
++------------------+--------------+------+-----+---------+-------+
+
+
+
+
 //创建数据库
 create database portal;
 
@@ -74,4 +132,27 @@ user_order | CREATE TABLE `user_order` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
+//创建传送点管理员表
+CREATE TABLE `teleporter_admin` (
+  `telporterAdminId` varchar(255) NOT NULL,
+  `username` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  `sex` int(11) DEFAULT NULL,
+  `tel` varchar(255) DEFAULT NULL,
+  `admin_porter_Id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`telporterAdminId`),
+  UNIQUE KEY `admin_porter_Id` (`admin_porter_Id`),
+  KEY `FK23841968DEC24015` (`admin_porter_Id`),
+  CONSTRAINT `FK23841968DEC24015` FOREIGN KEY (`admin_porter_Id`) REFERENCES `teleporter` (`teleporterId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+
+//创建传送点表
+CREATE TABLE `teleporter` (
+  `teleporterId` int(11) NOT NULL AUTO_INCREMENT,
+  `createDate` datetime DEFAULT NULL,
+  `address` varchar(255) DEFAULT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`teleporterId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8
 		

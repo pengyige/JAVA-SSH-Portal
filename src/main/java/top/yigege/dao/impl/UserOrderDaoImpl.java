@@ -24,6 +24,18 @@ public class UserOrderDaoImpl extends BaseDaoImpl<UserOrder> implements UserOrde
 		
 	}
 
+	@Override
+	public int updateState(String userOrderId, String userOrderState) {
+		String hql = "update UserOrder set state = ? where userOrderId = ?";
+		int count = this.getSessionFactory().getCurrentSession()
+											.createQuery(hql)
+											.setParameter(0, userOrderState)
+											.setParameter(1, userOrderId)
+											.executeUpdate();
+		return count;
+	
+	}
+
 
 
 }

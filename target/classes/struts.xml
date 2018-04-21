@@ -25,12 +25,39 @@
 				<param name="excludeProperties">user.userOrders</param>
 			</result>
 		
+			<result name="error">
+					error.jsp
+			</result>
+			
+			<result name="admin">
+					admin.jsp
+			</result>
 		</action>
 		
 		<!-- 用户订单模块  -->
 		<action name="userorder_*" class="userOrderAction" method="{1}">
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result name="jsonData" type="json">
+				<param name="root">
+					jsonData
+				</param>
+			</result>
+		</action>
+		
+		<!-- 传送点模块 -->
+		<action name="teleporter_*" class="teleporterAction" method="{1}">
+			 <interceptor-ref name="defaultStack"></interceptor-ref>
+			 <result name="jsonData" type="json">
+				<param name="root">
+					jsonData
+				</param>
+			</result>
+		</action>
+		
+		<!-- 传送点管理员模块 -->
+		<action name="teleporterAdmin_*" class="teleporterAdminAction" method="{1}">
+			 <interceptor-ref name="defaultStack"></interceptor-ref>
+			 <result name="jsonData" type="json">
 				<param name="root">
 					jsonData
 				</param>

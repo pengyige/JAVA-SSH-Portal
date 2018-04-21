@@ -104,4 +104,41 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		
 		return "jsonData";
 	}
+	
+	
+	
+	/**
+	 * 修改用户订单状态
+	 */
+	public String updateState() {
+		//1.校验token
+		int state;
+		if(userService.validateToken(token) == -1) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+				
+		//2.更新订单状态
+	    state = userOrderService.updateUserOrderState(this.userOrder.getUserOrderId(),userOrder.getState());
+	    this.getJsonData().put("state", state);
+	    return "jsonData";
+	}
+	
+	
+	/**
+	 * 取消用户订单
+	 */
+	public String cancelOrder() {
+		//1.校验token
+		int state;
+		if(userService.validateToken(token) == -1) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+		
+		//2.取消订单业务处理
+		state = userOrderService.cancelUserOrder(this.userOrder.getUserOrderId());
+		this.getJsonData().put("state", state);
+		return "jsonData";
+	}
 }

@@ -1,0 +1,16 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping >  
+    <class name="top.yigege.domain.Teleporter" table="teleporter">  
+        <id name="teleporterId" >  
+            <generator class="identity"/>  
+        </id>  
+
+    	<property name="createDate"></property>
+    	<property name="address"></property>
+    	<property name="remark"></property>
+  
+     	
+     <!-- 一个传送点对于一个管理员 -->
+     	<one-to-one name="teleporterAdmin"  property-ref="teleporter" cascade="delete"/>
+    </class>  
+</hibernate-mapping>

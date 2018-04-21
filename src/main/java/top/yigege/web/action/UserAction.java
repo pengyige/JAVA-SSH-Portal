@@ -1,6 +1,8 @@
 package top.yigege.web.action;
 
-import java.util.HashMap;
+import java.util.Map;
+
+import com.opensymphony.xwork2.ActionContext;
 
 import top.yigege.domain.User;
 import top.yigege.service.UserService;
@@ -230,5 +232,21 @@ public class UserAction extends BaseAction{
 	}
 	
 	
+	
+	/**
+	 * 超级管理员登入接口
+	 */
+	public String superAdminLogin() {
+		if(username.equals("pengyi") && password.equals("123456")) {
+			User user = new  User();
+			user.setUsername(username);
+			user.setPassword(password);
+			 ActionContext actionContext = ActionContext.getContext();  
+		        Map session = actionContext.getSession();  
+		        session.put("superuser", user);  
+		        return "admin";
+		}	
+		return "error";
+	}
 	
 }
