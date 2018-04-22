@@ -114,5 +114,73 @@
 		<input type="submit" value="提交"/>
 	</form>	
 	
+<hr/>
+<hr/>
+<br/>
+<h2>骑手注册测试</h2>
+	<form action="rider_register.action" method="post">
+		tel:<input name="tel" type="text"/>
+		<input type="submit" value="提交"/>
+	</form>
+	
+	
+<hr/>
+<hr/>
+<br/>
+<h2>骑手手机号登入测试</h2>
+	<form action="rider_loginByTel.action" method="post">
+		tel:<input name="tel" type="text"/>
+		<input type="submit" value="提交"/>
+	</form>
+	
+	
+<hr/>
+<hr/>
+<br/>
+<h2>骑手传送点登记测试</h2>
+	<form action="rider_checkin.action" method="post">
+		teleporterId:<input name="teleporterId" type="text"/><br/>
+		riderId:<input name="riderId" type="text"/><br/>
+		<input type="submit" value="提交"/>
+	</form>
+	
+	
+<hr/>
+<hr/>
+<br/>
+<h2>骑手传送点信息修改测试</h2>
+	<form action="rider_update.action" method="post">
+		token:<input name="token" type="text"/><br/>
+		riderId:<input name="riderId" type="text"/><br/>
+		username:<input name="username" type="text"/><br/>
+		password:<input name="password" type="text"/><br/>
+		sex:<input name="sex" type="text"/><br/>
+		tel:<input name="tel" type="text"/><br/>
+		<input type="submit" value="提交"/>
+	</form>
+	
+	
+<hr/>
+<hr/>
+<br/>
+<h2>骑手接单测试</h2>
+	<form action="riderorder_receive.action" method="post">
+		token:<input name="token" type="text"/><br/>
+		userOrderId:<input name="userOrderId" type="text"/><br/>
+		riderId:<input name="riderId" type="text"/><br/>
+		<input type="submit" value="提交"/>
+	</form>
+
+<hr/>
+<hr/>
+<br/>
+<h2>查询所有骑手订单测试</h2>
+	<form action="riderorder_findAll.action" method="post">
+		token:<input name="token" type="text"/><br/>
+		riderId:<input name="riderId" type="text"/><br/>
+		<input type="submit" value="提交"/>
+	</form>
+	
+	
 </body>
 </html>

@@ -7,15 +7,13 @@
 <struts>
 	
 	<package name="portal" extends="struts-default,json-default" namespace="/">
-		
 		<!-- 定义用户登入拦截器 -->
 		<!-- <interceptors> 
 		<interceptor name="FilterInterceptor" class="cn.pengyi.web.interceptor.UserLoginInterceptor"></interceptor> 
 		</interceptors> -->
 		<!-- action已由spring管理 -->
 		<!-- 用户模块 -->
-		<action name="user_*" class="userAction" method="{1}">
-				
+		<action name="user_*" class="userAction" method="{1}">				
 			<!-- 对UserAction使用定义的拦截器 -->
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 			<result name="jsonData" type="json">
@@ -63,6 +61,27 @@
 				</param>
 			</result>
 		</action>
+		
+		<!-- 骑手模块 -->
+		<action name="rider_*" class="riderAction" method="{1}">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="jsonData" type="json">
+				<param name="root">
+					jsonData
+				</param>
+			</result>
+		</action>
+		
+		<!-- 骑手订单模块  -->
+		<action name="riderorder_*" class="riderOrderAction" method="{1}">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			<result name="jsonData" type="json">
+				<param name="root">
+					jsonData
+				</param>
+			</result>
+		</action>
+		
 	</package>
 
 </struts>

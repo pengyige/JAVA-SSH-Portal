@@ -1,6 +1,8 @@
 package top.yigege.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Teleporter {
 	private Integer teleporterId;
@@ -10,6 +12,17 @@ public class Teleporter {
 	
 	//传送点与传送点管理员一对一
 	private TeleporterAdmin teleporterAdmin;
+	
+	//传送点与骑手一对多
+	private Set<Rider> riders = new HashSet<Rider>();
+	
+	
+	public Set<Rider> getRiders() {
+		return riders;
+	}
+	public void setRiders(Set<Rider> riders) {
+		this.riders = riders;
+	}
 	public TeleporterAdmin getTeleporterAdmin() {
 		return teleporterAdmin;
 	}

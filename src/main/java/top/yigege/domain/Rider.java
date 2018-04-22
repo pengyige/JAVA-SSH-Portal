@@ -1,82 +1,96 @@
 package top.yigege.domain;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.struts2.json.annotations.JSON;
 
-public class User {
-	private String userId;
+public class Rider {
+	private String riderId;
 	private String token;
 	private String username;
 	private String password;
 	private int sex;
 	private String tel;
-	private String email;
-	private String address;
-	private int type;
 	
-	private Set<UserOrder> userOrders = new HashSet<UserOrder>();
+	private Date checkinDate;
+	
+	private Teleporter teleporter;
 	@JSON(serialize=false)
-	public Set<UserOrder> getUserOrders() {
-		return userOrders;
+	public Teleporter getTeleporter() {
+		return teleporter;
 	}
-	public void setUserOrders(Set<UserOrder> userOrders) {
-		this.userOrders = userOrders;
+
+	public void setTeleporter(Teleporter teleporter) {
+		this.teleporter = teleporter;
 	}
-	public String getUserId() {
-		return userId;
+
+	
+	private Set<RiderOrder> riderOrders = new HashSet<RiderOrder>();
+	public String getRiderId() {
+		return riderId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+
+	public void setRiderId(String riderId) {
+		this.riderId = riderId;
 	}
+
 	public String getToken() {
 		return token;
 	}
+
 	public void setToken(String token) {
 		this.token = token;
 	}
+
 	public String getUsername() {
 		return username;
 	}
+
 	public void setUsername(String username) {
 		this.username = username;
 	}
+
 	public String getPassword() {
 		return password;
 	}
+
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public int getSex() {
 		return sex;
 	}
+
 	public void setSex(int sex) {
 		this.sex = sex;
 	}
+
 	public String getTel() {
 		return tel;
 	}
+
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String getEmail() {
-		return email;
+
+	@JSON(serialize=false)
+	public Set<RiderOrder> getRiderOrders() {
+		return riderOrders;
 	}
-	public void setEmail(String email) {
-		this.email = email;
+
+	public void setRiderOrders(Set<RiderOrder> riderOrders) {
+		this.riderOrders = riderOrders;
 	}
-	public String getAddress() {
-		return address;
+
+	public Date getCheckinDate() {
+		return checkinDate;
 	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public int getType() {
-		return type;
-	}
-	public void setType(int type) {
-		this.type = type;
+
+	public void setCheckinDate(Date checkinDate) {
+		this.checkinDate = checkinDate;
 	}
 	
 	

@@ -1,0 +1,26 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping >  
+    <class name="top.yigege.domain.Rider" table="rider">  
+        <id name="riderId" >  
+            <generator class="uuid"/>  
+        </id>  
+     	<property name="token"></property>
+     	<property name="username"  unique-key="true"></property>
+     	<property name="password"></property>
+     	<property name="checkinDate"></property>
+     	<property name="sex">
+     		<column name="sex" default="1"></column>
+     	</property>
+     	<property name="tel"></property>
+  
+     	
+     	<!-- 一对多映射 -->
+     	<set name="riderOrders" inverse="true" cascade="all">
+ 			<key column="rider_order_id"></key>
+ 			<one-to-many class="top.yigege.domain.RiderOrder"/>    	
+     	</set>
+     	
+     	<!-- 多对一 传送点与骑手 -->
+     	<many-to-one name="teleporter" class="top.yigege.domain.Teleporter" column="teleporter_rider_id"></many-to-one>
+    </class>  
+</hibernate-mapping>

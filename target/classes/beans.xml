@@ -135,5 +135,32 @@
      		<property name="teleporterAdminService" ref="teleporterAdminService"></property>
      </bean>
      
+     <!-- 骑手模块 -->
+     <bean id="riderDaoImpl" class="top.yigege.dao.impl.RiderDaoImpl">
+     		<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
      
+     <bean id="riderService" class="top.yigege.service.RiderService">
+     		<property name="riderDao" ref="riderDaoImpl"></property>
+     </bean>
+     
+     <bean id="riderAction" class="top.yigege.web.action.RiderAction" scope="prototype">
+     		<property name="riderService" ref="riderService"></property>
+     </bean>
+     
+     
+     <!-- 骑手订单模块 -->
+     <bean id="riderOrderImpl" class="top.yigege.dao.impl.RiderOrderImpl">
+     		<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     
+     <bean id="riderOrderService" class="top.yigege.service.RiderOrderService">
+     		<property name="riderOrderDao" ref="riderOrderImpl"></property>
+     </bean>
+     
+     <bean id="riderOrderAction" class="top.yigege.web.action.RiderOrderAction" scope="prototype">
+     		<property name="riderOrderService" ref="riderOrderService"></property>
+     		<property name="riderService" ref="riderService"></property>
+     		<property name="userOrderService" ref="userOrderService"></property>
+     </bean>
 </beans>

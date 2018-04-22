@@ -34,6 +34,8 @@
 		<mapping resource="top/yigege/domain/UserOrder.hbm.xml"></mapping>
 		<mapping resource="top/yigege/domain/Teleporter.hbm.xml"></mapping>
 		<mapping resource="top/yigege/domain/TeleporterAdmin.hbm.xml"></mapping>
+		<mapping resource="top/yigege/domain/Rider.hbm.xml"></mapping>
+		<mapping resource="top/yigege/domain/RiderOrder.hbm.xml"></mapping>
 	</session-factory>
 
 </hibernate-configuration>
