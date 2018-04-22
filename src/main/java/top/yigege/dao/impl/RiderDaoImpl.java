@@ -56,12 +56,12 @@ public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 
 	@Override
 	public void checkIn(String teleporterId, String riderId) {
-		Date checinDate = new Date();
+		Date checkinDate = new Date();
 		Session session = this.getSessionFactory().getCurrentSession();
-		String hql = "update Rider set teleporter_rider_id = ? checkinDate = ? where riderId = ?";
+		String hql = "update Rider set teleporter_rider_id = ?, checkinDate = ? where riderId = ?";
 		session.createQuery(hql)
 				.setParameter(0, teleporterId)
-				.setParameter(1, checinDate)
+				.setParameter(1, checkinDate)
 				.setParameter(2, riderId)
 				.executeUpdate();
 		

@@ -148,7 +148,7 @@
 <hr/>
 <hr/>
 <br/>
-<h2>骑手传送点信息修改测试</h2>
+<h2>骑手信息修改测试</h2>
 	<form action="rider_update.action" method="post">
 		token:<input name="token" type="text"/><br/>
 		riderId:<input name="riderId" type="text"/><br/>
@@ -180,7 +180,6 @@
 		riderId:<input name="riderId" type="text"/><br/>
 		<input type="submit" value="提交"/>
 	</form>
-	
 	
 </body>
 </html>

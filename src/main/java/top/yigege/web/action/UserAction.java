@@ -97,7 +97,7 @@ public class UserAction extends BaseAction{
 		//1.判断token是否有效
 		resultState =userService.validateToken(token);
 		if(resultState == -1) {
-			this.getJsonData().put("state", -3);
+			this.getJsonData().put("state", -1);
 			return "jsonData";
 		}
 		//获取数据库中用户所有信息,根据传入参数进行update
@@ -140,6 +140,7 @@ public class UserAction extends BaseAction{
 		User user = new User();
 		user.setUsername(tel);
 		user.setTel(tel);
+		user.setSex(1);
 		user.setType(1);
 		if(userService.telIsRegister(tel)) {
 			this.getJsonData().put("state", -1);
