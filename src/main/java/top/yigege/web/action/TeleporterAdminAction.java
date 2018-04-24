@@ -118,5 +118,26 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	     }
 		return "jsonData";
 	}
+	
+	/**
+	 * 管理员登入
+	 * @return
+	 */
+	public String login() {
+		
+		TeleporterAdmin teleporterAdmin = teleporterAdminService.adminLogin(this.teleporterAdmin);
+		if(teleporterAdmin != null) {
+			 ActionContext actionContext = ActionContext.getContext();  
+		     Map session = actionContext.getSession();  
+		     session.put("admin", teleporterAdmin); 
+		     this.getJsonData().put("state", 1);
+		     this.getJsonData().put("result",teleporterAdmin);
+		}else {
+			this.getJsonData().put("state", 0);
+		}
+		
+		
+		return "jsonData";
+	}
 
 }

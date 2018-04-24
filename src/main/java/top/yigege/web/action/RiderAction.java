@@ -132,4 +132,10 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>{
 		return "jsonData";
 	}
 	
+	
+	public String findAll() {
+		
+		return "json";
+	}
+	
 }

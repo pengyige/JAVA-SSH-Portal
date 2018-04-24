@@ -1,0 +1,233 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Fluid Layout - jQuery EasyUI Demo</title>
+	<link rel="stylesheet" type="text/css" href="easyUI/themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="easyUI/themes/icon.css">
+	<link rel="stylesheet" type="text/css" href="easyUI/demo.css">
+	<script type="text/javascript" src="easyUI/jquery.min.js"></script>
+	<script type="text/javascript" src="easyUI/jquery.easyui.min.js"></script>
+</head>
+<body>
+	<!-- 顶部-->
+	<nav>
+		<div style="width:200px;margin:0 auto;">
+		   <h2>传送门后台管理</h2>
+		</div>
+		
+		<div style="float:right">
+			 <p style="margin-right:20px;">用户名:xxx</p>
+			 您还没有登入，请先登入<a href="#" class="easyui-linkbutton" data-options="toggle:true">登入</a>
+		</div>
+		
+	</nav>
+	
+	
+	<div style="margin:20px 0;"></div>
+	<div class="easyui-layout" style="width:100%;height:450px;">
+		
+		<!-- 左边区 -->	
+		<div id="p" data-options="region:'west',iconCls:'icon-ok'" title="功能部分" style="width:30%;padding:10px">
+			<div style="margin:20px 0 10px 0;">
+			</div>
+			<!-- 左边标题区 -->
+			<div class="easyui-accordion" data-options="multiple:true" style="width:80%;height1:80%;">
+				<div title="传送点管理"  style="overflow:auto;padding:10px;">
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true,selected:true" onclick="$('#addPorterDlg').dialog('open')">添加传送点</a><br/>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true">查询传送点</a><br/>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true" onclick="$('#deletePorterDlg').dialog('open')" >删除传送点</a><br/>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true">修改传送点</a><br/>
+				</div>
+				<div title="管理员管理" style="padding:10px;">
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true,selected:true" onclick="$('#addPorterAdminDlg').dialog('open')">添加管理员</a><br/>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true">查询管理员</a><br/>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true" onclick="$('#deletePorterAdminDlg').dialog('open')">删除管理员</a><br/>
+				<a href="#" class="easyui-linkbutton" data-options="toggle:true,group:'g2',plain:true">修改管理员</a><br/>
+				</div>
+			
+				
+			</div>
+		</div>
+				<!-- 添加传送点对话框 -->
+				<div id="addPorterDlg" class="easyui-dialog" title="添加传送点对话框" style="width:400px;height:200px;padding:10px;"
+					data-options="
+					closed:true,
+					iconCls: 'icon-save',
+					buttons: [{
+						text:'Ok',
+						iconCls:'icon-ok',
+						handler:function(){
+							alert('ok');
+						}
+					},{
+						text:'Cancel',
+						handler:function(){
+							alert('cancel');;
+						}
+					}]
+				">
+					<div style="padding:10px 60px 20px 60px">
+								<table cellpadding="5">
+									<tr>
+										<td>地址:</td>
+										<td><input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
+									</tr>
+									<tr>
+										<td>备注:</td>
+										<td><input class="easyui-textbox" type="text" name="email" ></input></td>
+									</tr>
+								</table>
+							</form>
+					</div>
+				</div>
+				
+				<!-- 删除传送点对话框 -->
+				<div id="deletePorterDlg" class="easyui-dialog" title="删除传送点对话框" style="width:400px;height:200px;padding:10px;"
+					data-options="
+					closed:true,
+					iconCls: 'icon-save',
+					buttons: [{
+						text:'Ok',
+						iconCls:'icon-ok',
+						handler:function(){
+							alert('ok');
+						}
+					},{
+						text:'Cancel',
+						handler:function(){
+							alert('cancel');;
+						}
+					}]
+				">
+					<div style="padding:10px 60px 20px 60px">
+								<table cellpadding="5">
+									<tr>
+										<td>传送点Id:</td>
+										<td><input class="easyui-textbox" type="text" name="name" data-options="required:true"></input></td>
+									</tr>
+								</table>
+							</form>
+					</div>
+				</div>
+				
+			
+				<!-- 添加管理员对话框 -->
+				<div id="addPorterAdminDlg" class="easyui-dialog" title="添加管理员对话框" style="width:600px;height:400px;padding:10px;"
+					data-options="
+					closed:true,
+					iconCls: 'icon-save',
+					buttons: [{
+						text:'Ok',
+						iconCls:'icon-ok',
+						handler:function(){
+							alert('ok');
+						}
+					},{
+						text:'Cancel',
+						handler:function(){
+							alert('cancel');;
+						}
+					}]
+				">
+					<div style="padding:10px 60px 20px 60px">
+								<table cellpadding="5">
+									<tr>
+										<td>姓名:</td>
+										<td><input class="easyui-textbox" type="text" name="username" data-options="required:true"></input></td>
+									</tr>
+									<tr>
+										<td>手机号:</td>
+										<td><input class="easyui-textbox" type="text" name="tel" ></input></td>
+									</tr>
+									<tr>
+										<td>传送点:</td>
+										<td>
+										<select id="cc" class="easyui-combobox" name="teleporterId" style="width:200px;" data-options="required:true">
+											<option value="AL">Alabama</option>
+											<option value="AK">Alaska</option>
+											<option value="AZ">Arizona</option>
+											<option value="AR">Arkansas</option>
+											<option value="CA">California</option>
+											<option value="CO">Colorado</option>
+											<option value="CT">Connecticut</option>
+											<option value="DE">Delaware</option>
+											<option value="FL">Florida</option>
+											<option value="GA">Georgia</option>
+										
+										</select>
+										</td>
+									</tr>
+								</table>
+							</form>
+					</div>
+				</div>
+				
+				
+				<!-- 删除管理员对话框 -->
+				<div id="deletePorterAdminDlg" class="easyui-dialog" title="删除管理员对话框" style="width:400px;height:200px;padding:10px;"
+					data-options="
+					closed:true,
+					iconCls: 'icon-save',
+					buttons: [{
+						text:'Ok',
+						iconCls:'icon-ok',
+						handler:function(){
+							alert('ok');
+						}
+					},{
+						text:'Cancel',
+						handler:function(){
+							alert('cancel');;
+						}
+					}]
+				">
+					<div style="padding:10px 60px 20px 60px">
+								<table cellpadding="5">
+									<tr>
+										<td>手机号:</td>
+										<td><input class="easyui-textbox" type="text" name="tel" ></input></td>
+									</tr>
+								</table>
+							</form>
+					</div>
+				</div>
+				
+				
+				
+		<!-- 中间区 -->
+		<div data-options="region:'center'" title="显示区域" sytle="width:65%;">
+			<table class="easyui-datagrid" title="传送点信息" style="width:100%;height:100%"
+						data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
+					<thead>
+						<tr>
+							<th data-options="field:'teleporterId',width:80">传送点Id</th>
+							<th data-options="field:'createDate',width:100">创建时间</th>
+							<th data-options="field:'address',width:80,align:'right'">地址</th>
+							<th data-options="field:'remark',width:80,align:'right'">备注</th>
+							<th data-options="field:'xxx',width:250">管理员姓名</th>
+							<th data-options="field:'xxx',width:60,align:'center'">管理员电话</th>
+						</tr>
+					</thead>
+			</table>
+			
+			
+			<table class="easyui-datagrid" title="管理员信息" style="width:100%;height:100%"
+						data-options="singleSelect:true,collapsible:true,url:'datagrid_data1.json',method:'get'">
+					<thead>
+						<tr>
+							<th data-options="field:'telporterAdminId',width:80">管理员Id</th>
+							<th data-options="field:'username',width:100">姓名</th>
+							<th data-options="field:'sex',width:80,align:'right'">性别</th>
+							<th data-options="field:'tel',width:80,align:'right'">电话</th>
+							<th data-options="field:'teleporterAddress',width:80,align:'right'">管理地址</th>
+						</tr>
+					</thead>
+			</table>
+		</div>
+
+		
+	</div>
+</body>
+</html>

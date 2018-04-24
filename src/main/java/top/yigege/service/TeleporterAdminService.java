@@ -34,6 +34,11 @@ public class TeleporterAdminService {
 		
 		return teleporterAdminDao.findAll();
 	}
+	public TeleporterAdmin adminLogin(TeleporterAdmin teleporterAdmin) {
+		
+		
+		return teleporterAdminDao.findTeleporterAdminByPass(teleporterAdmin);
+	}
 	
 
 }

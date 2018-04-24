@@ -233,6 +233,18 @@ public class UserAction extends BaseAction{
 	}
 	
 	
+	/**
+	 * 手机号是否已注册
+	 */
+	public String telIsExist() {
+		if(userService.telIsRegister(tel))
+			this.getJsonData().put("state", 1);
+		else
+			this.getJsonData().put("state", 0);
+		return "jsonData";
+	}
+	
+	
 	
 	/**
 	 * 超级管理员登入接口

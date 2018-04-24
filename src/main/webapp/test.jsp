@@ -58,6 +58,16 @@
 		username:<input name="username" type="text"/>
 		<input type="submit" value="提交"/>
 	</form>
+	
+<hr/>
+<hr/>
+<br/>
+<h2>用户手机号是否存在测试</h2>
+	<form action="user_telIsExist.action" method="post">
+		tel:<input name="tel" type="text"/>
+		<input type="submit" value="提交"/>
+	</form>	
+	
 
 <hr/>
 <hr/>
@@ -178,6 +188,18 @@
 	<form action="riderorder_findAll.action" method="post">
 		token:<input name="token" type="text"/><br/>
 		riderId:<input name="riderId" type="text"/><br/>
+		<input type="submit" value="提交"/>
+	</form>
+	
+	
+<hr/>
+<hr/>
+<br/>
+<h2>查管理员登入测试</h2>
+	<form action="teleporterAdmin_login.action" method="post">
+	
+		tel:<input name="tel" type="text"/><br/>
+		password:<input name="password" type="text"/><br/>
 		<input type="submit" value="提交"/>
 	</form>
 	

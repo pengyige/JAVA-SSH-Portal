@@ -1,0 +1,97 @@
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>Fluid Layout - jQuery EasyUI Demo</title>
+		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
+		<script type="text/javascript" src="easyUI/jquery.min.js"></script>
+		<script type="text/javascript" src="js/teleporteradmin.js">></script>
+	</head>
+	<body>
+		<!--导航条-->
+		<nav class="navbar navbar-default">
+			 <div class="container-fluid">
+				<div class="navbar-header">
+				  <a class="navbar-brand" href="#">
+					<img alt="传送门" src="...">
+				  </a>
+				</div>
+				 
+				
+				<p class="navbar-text" style="font-size:20px;margin-left:450px">传送门骑手管理</p>
+			
+				<ul class="nav navbar-nav navbar-right">
+					<p class="navbar-text">您还没有登入，请先登入</p>
+					<button type="button" class="btn btn-default navbar-btn" style="margin-right:5px;">登入</button>
+				</ul>
+			 </div>
+		</nav>
+		
+		<!-- 左边操作区 -->
+		<div style="width:20%;margin-top:1px;background-color:#E0EEE0;float:left;">
+			<ul class="nav nav-pills nav-stacked">
+				<li role="presentation" class="active"><a id="queryRider" href="#">骑手管理</a></li>
+				<li role="presentation" ><a id="queryRider" href="#">XX管理</a></li>
+				<li role="presentation"><a id="queryRider" href="#">XX管理</a></li>
+			</ul>
+		</div>
+		
+		<!-- 右边显示区 -->
+		<div style="width:75%;height:400px;margin-top:1px;margin-right:3px;background-color:#E0EEE0;float:right;text-align:center">
+			<form class="form-inline" style="width:400px;margin-top:5px;">
+				<label for="phoneInput">手机号:</label>
+				<input type="text" class="form-control" id="phoneInput" placeholder="请输入骑手手机号">
+				<button class="btn btn-default">确定</button>
+			</form>
+			<table class="table table-hover">
+				<tr>
+					<td>骑手姓名</td>
+					<td>性别</td>
+					<td>电话</td>
+					<td>登记日期</td>
+					<td>操作</td>
+				</tr>
+				
+				<tr>
+					<td>彭骑手</td>
+					<td>男</td>
+					<td>123456788</td>
+					<td>2018-4-24</td>
+					<td>
+						<button class="btn btn-default">登记</button>
+						<button class="btn btn-warning">修改</button>
+						<button class="btn btn-danger">删除</button>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>彭骑手</td>
+					<td>男</td>
+					<td>123456788</td>
+					<td>2018-4-24</td>
+					<td>
+						<button class="btn btn-default">登记</button>
+						<button class="btn btn-warning">修改</button>
+						<button class="btn btn-danger">删除</button>
+					</td>
+				</tr>
+				
+				<tr>
+					<td>彭骑手</td>
+					<td>男</td>
+					<td>123456788</td>
+					<td>2018-4-24</td>
+					<td>
+						<button class="btn btn-default">登记</button>
+						<button class="btn btn-warning">修改</button>
+						<button class="btn btn-danger">删除</button>
+					</td>
+				</tr>
+				
+				
+			</table>
+		</div>
+		
+		
+		<!-- 查询骑手对话框-->
+	</body>
+</html>
