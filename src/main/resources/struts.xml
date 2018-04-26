@@ -28,7 +28,7 @@
 			</result>
 			
 			<result name="admin">
-					admin.jsp
+					supermanage.jsp
 			</result>
 		</action>
 		
@@ -59,6 +59,14 @@
 				<param name="root">
 					jsonData
 				</param>
+			</result>
+			
+			<result name="manage" type="redirect">
+				manage.jsp
+			</result>
+			
+			<result name="ad_login" type="dispatcher">
+				ad_login.jsp
 			</result>
 		</action>
 		

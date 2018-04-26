@@ -17,7 +17,6 @@ public class Rider {
 	private Date checkinDate;
 	
 	private Teleporter teleporter;
-	@JSON(serialize=false)
 	public Teleporter getTeleporter() {
 		return teleporter;
 	}

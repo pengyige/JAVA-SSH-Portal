@@ -1,13 +1,19 @@
 package top.yigege.web.action;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.struts2.interceptor.ServletRequestAware;
+
 import com.opensymphony.xwork2.ModelDriven;
 
 import top.yigege.domain.Rider;
-import top.yigege.domain.User;
+import top.yigege.domain.TeleporterAdmin;
 import top.yigege.service.RiderService;
 import top.yigege.util.MD5Util;
 
-public class RiderAction extends BaseAction implements ModelDriven<Rider>{
+public class RiderAction extends BaseAction implements ModelDriven<Rider>,ServletRequestAware{
 	private RiderService riderService;
 	public RiderService getRiderService() {
 		return riderService;
@@ -38,6 +44,15 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>{
 	public Rider getModel() {
 		// TODO Auto-generated method stub
 		return this.rider;
+	}
+	
+	
+	//采用IOC注入servletAPI
+	private HttpServletRequest request;
+	@Override
+	public void setServletRequest(HttpServletRequest request) {
+		this.request = request;
+		
 	}
 	
 	
@@ -121,21 +136,119 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>{
 		return "jsonData";
 	}
 	
+	
 	/**
 	 * 骑手传送点登记
 	 */
 	public String checkin() {
+		//1.判断管理员是否登入
+		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) request.getSession().getAttribute("teleporterAdmin");
+		if(teleporterAdmin == null) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
 		
+		//2.判断骑手是否已经登记
+		Rider tempRider = riderService.findRiderById(this.rider.getRiderId());
+		if(tempRider.getTeleporter() != null) {
+			this.getJsonData().put("state", -2);
+			return "jsonData";
+		}
+		
+		//3.登记业务处理
 		int state = 1;
-		state = riderService.riderCheckin(teleporterId,rider.getRiderId());
+		state = riderService.riderCheckin(teleporterId,this.rider.getRiderId());
 		this.getJsonData().put("state", state);
 		return "jsonData";
 	}
 	
 	
-	public String findAll() {
+	/**
+	 * 骑手注销登记
+	 */
+	public String logoutCheckin() {
+		//1.判断管理员是否登入
+		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) request.getSession().getAttribute("teleporterAdmin");
+		if(teleporterAdmin == null) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
 		
-		return "json";
+		//2.判断骑手是否已经登记
+		Rider tempRider = riderService.findRiderById(this.rider.getRiderId());
+		if(tempRider.getTeleporter() == null) {
+			this.getJsonData().put("state", -2);
+			return "jsonData";
+		}
+		
+		//3.判断管理员是否有权限
+		if(tempRider.getTeleporter() != null) {
+			if(tempRider.getTeleporter().getTeleporterId() != teleporterAdmin.getTeleporter().getTeleporterId()) {
+				this.getJsonData().put("state", -3);
+				return "jsonData";
+			}
+		}
+		
+		//4.注销登记骑手业务处理
+		int state = riderService.logoutCheckin(this.rider.getRiderId());
+		this.getJsonData().put("state", state);
+		return "jsonData";
 	}
+	
+	
+	
+	/**
+	 * 查询所有骑手
+	 * @return
+	 */
+	public String findAll() {
+		//1.判断管理员是否登入
+		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) request.getSession().getAttribute("teleporterAdmin");
+		if(teleporterAdmin == null) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+		
+		//2.查询所有骑手业务处理
+		try {
+			List<Rider> riderLists = riderService.findAll();
+			this.getJsonData().put("state", 1);
+			this.getJsonData().put("result", riderLists);
+		}catch(Exception e) {
+			this.getJsonData().put("state", 0);
+			return "jsonData";
+		}
+		return "jsonData";
+	}
+	
+	
+	/**
+	 * 通过手机号查询骑手信息
+	 */
+	public String queryByTel() {
+		//1.判断管理员是否登入
+		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) request.getSession().getAttribute("teleporterAdmin");
+		if(teleporterAdmin == null) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+		
+		//2.通过手机号查找骑手
+		try {
+			Rider rider = riderService.findRiderByTel(this.rider.getTel());
+			if(rider == null) {
+				this.getJsonData().put("state", -2);
+			}else {
+				this.getJsonData().put("state", 1);
+				this.getJsonData().put("result", rider);
+			}
+			
+		}catch(Exception e) {
+			this.getJsonData().put("state", 0);
+			return "jsonData";
+		}
+		return "jsonData";
+	}
+
 	
 }

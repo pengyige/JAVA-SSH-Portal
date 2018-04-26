@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.struts2.json.annotations.JSON;
+
 public class Teleporter {
 	private Integer teleporterId;
 	private Date createDate;
@@ -16,7 +18,7 @@ public class Teleporter {
 	//传送点与骑手一对多
 	private Set<Rider> riders = new HashSet<Rider>();
 	
-	
+	@JSON(serialize=false)
 	public Set<Rider> getRiders() {
 		return riders;
 	}

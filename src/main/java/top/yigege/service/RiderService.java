@@ -1,5 +1,7 @@
 package top.yigege.service;
 
+import java.util.List;
+
 import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
 
@@ -56,6 +58,22 @@ public class RiderService {
 		int state = 1;
 		try {
 			riderDao.update(tempRider);
+		}catch(Exception e) {
+			state = 0;
+			return state;
+		}
+		return state;
+	}
+	public List<Rider> findAll() {
+		// TODO Auto-generated method stub
+		return riderDao.findAll();
+	}
+	
+	
+	public int logoutCheckin(String riderId) {
+		int state = 1;
+		try {
+			riderDao.logoutChecin(riderId);
 		}catch(Exception e) {
 			state = 0;
 			return state;

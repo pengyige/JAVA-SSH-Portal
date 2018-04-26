@@ -237,8 +237,11 @@ public class UserAction extends BaseAction{
 	 * 手机号是否已注册
 	 */
 	public String telIsExist() {
-		if(userService.telIsRegister(tel))
+		User user = userService.findUserByTel(tel);
+		if(user != null) {
 			this.getJsonData().put("state", 1);
+			this.getJsonData().put("result", user);
+		}
 		else
 			this.getJsonData().put("state", 0);
 		return "jsonData";

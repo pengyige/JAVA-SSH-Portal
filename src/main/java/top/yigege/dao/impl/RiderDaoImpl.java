@@ -81,4 +81,17 @@ public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 		return 1;
 	}
 
+
+	@Override
+	public void logoutChecin(String riderId) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		String hql = "update Rider set teleporter_rider_id = ?, checkinDate = ? where riderId = ?";
+		session.createQuery(hql)
+				.setParameter(0, null)
+				.setParameter(1, null)
+				.setParameter(2, riderId)
+				.executeUpdate();
+		
+	}
+
 }

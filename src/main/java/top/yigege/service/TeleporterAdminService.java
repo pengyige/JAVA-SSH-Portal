@@ -34,11 +34,19 @@ public class TeleporterAdminService {
 		
 		return teleporterAdminDao.findAll();
 	}
-	public TeleporterAdmin adminLogin(TeleporterAdmin teleporterAdmin) {
+	
+	public TeleporterAdmin loginByPass(String cookie_tel_str,
+			String cookie_password_str) {
 		
-		
-		return teleporterAdminDao.findTeleporterAdminByPass(teleporterAdmin);
+		return teleporterAdminDao.loginByTel2(cookie_tel_str, cookie_password_str);
 	}
+	
+	
+	public boolean telIsExist(String tel) {
+		
+		return teleporterAdminDao.telIsExist(tel);
+	}
+	
 	
 
 }

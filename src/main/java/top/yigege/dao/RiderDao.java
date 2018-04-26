@@ -14,4 +14,6 @@ public interface RiderDao extends BaseDao<Rider>{
 
 	int findToken(String token);
 
+	void logoutChecin(String riderId);
+
 }
