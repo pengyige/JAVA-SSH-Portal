@@ -80,5 +80,9 @@ public class RiderService {
 		}
 		return state;
 	}
+	public List<Rider> findRidersByTeleproter(String teleporterId) {
+		// TODO Auto-generated method stub
+		return riderDao.findRidersByTeleproter(teleporterId);
+	}
 	
 }

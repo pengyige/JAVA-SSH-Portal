@@ -94,4 +94,15 @@ public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 		
 	}
 
+
+	@Override
+	public List<Rider> findRidersByTeleproter(String teleporterId) {
+		Session session = this.getSessionFactory().getCurrentSession();
+		String hql = "from Rider where teleporter_rider_id = ?";
+		List list = session.createQuery(hql)
+				.setParameter(0, teleporterId)
+				.list();
+		return list;
+	}
+
 }

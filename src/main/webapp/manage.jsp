@@ -50,7 +50,7 @@
 			<div>
 				  <ul class="nav nav-tabs" role="tablist">
 				    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">骑手登记或注销</a></li>
-				    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">查询骑手</a></li>
+				    <li role="presentation"><a href="#queryRiderDiv" aria-controls="queryRiderDiv" role="tab" data-toggle="tab">查询骑手</a></li>
 				  </ul>
 				
 				  <div class="tab-content">
@@ -100,8 +100,9 @@
 						</div>
 				    </div>
 				    	<!-- 查询骑手 -->
-				    <div role="tabpanel" class="tab-pane" id="profile">
-				    	查询骑手
+				    <div role="tabpanel" class="tab-pane" id="queryRiderDiv">
+				    	<table id="resultRidersTable" class="table table-hover">
+						</table>
 				    </div>
 				  </div>
 

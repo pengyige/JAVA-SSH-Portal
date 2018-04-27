@@ -223,6 +223,30 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	
 	
 	/**
+	 * 通过传送点查询骑手信息
+	 */
+	public String findAllByTeleporter() {
+		//1.判断管理员是否登入
+		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) request.getSession().getAttribute("teleporterAdmin");
+		if(teleporterAdmin == null) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+		
+		
+		//2.通过传送点Id查询所有骑手
+		try {
+			List<Rider> riderLists = riderService.findRidersByTeleproter(teleporterId);
+			this.getJsonData().put("state", 1);
+			this.getJsonData().put("result", riderLists);
+		}catch(Exception e) {
+			this.getJsonData().put("state", 0);
+			return "jsonData";
+		}
+		return "jsonData";
+	}
+	
+	/**
 	 * 通过手机号查询骑手信息
 	 */
 	public String queryByTel() {

@@ -1,5 +1,7 @@
 package top.yigege.dao;
 
+import java.util.List;
+
 import top.yigege.domain.Rider;
 
 public interface RiderDao extends BaseDao<Rider>{
@@ -15,5 +17,7 @@ public interface RiderDao extends BaseDao<Rider>{
 	int findToken(String token);
 
 	void logoutChecin(String riderId);
+
+	List<Rider> findRidersByTeleproter(String teleporterId);
 
 }

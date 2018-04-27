@@ -68,7 +68,37 @@ $(function (){
 	});
 	
 
-	
+	//查询当前传送点所有骑手信息
+	$('a[data-toggle="tab"]').on('show.bs.tab', function (e) {
+		 /* e.target // 激活的标签页
+		  e.relatedTarget // 前一个激活的标签页
+		  */
+		var activeTab = $(e.target).text();
+		if(activeTab == "查询骑手"){
+			var teleporterId = $("#teleporterId").val();
+			if(teleporterId == null){
+				alert('您还没有登入或还没有在传送点登记!');
+				return;
+			}
+			
+			//1.清除原先内容
+			$("#resultRidersTable").empty();
+			
+			//2.获取所有骑手信息
+			$.ajax({
+				url:'rider_findAllByTeleporter.action',
+				method:'POST',
+				data:{"teleporterId":teleporterId},
+				success:function (result){
+					switch(result.state){
+					case 0:alert('服务器繁忙！');break;
+					case 1:riderResultHanlder(result.result);break;
+					case -1:alert('您还没有登入，请先登入!');break;
+					}
+				}
+			});
+		}
+	});
 
 	
 	/*******************函数定义***********/
@@ -117,6 +147,31 @@ $(function (){
 		}
 		
 		$("#riderId").val(rider.riderId);
+	}
+	
+	
+	/**
+	 * 处理所有骑手JSON数据
+	 */
+	function riderResultHanlder(riders){
+		var content='<tr><th>姓名</th><th>性别</th><th>电话</th><th>注册日期</th></tr>';
+		if(riders.length == 0){
+			$('#resultRidersTable').append(content+'<tr><td>还没有骑手登记</td></tr>');
+			return;
+		}
+		
+		for(var i = 0 ; i < riders.length; i++){
+			var username = riders[i].username;
+			var sex;
+			if(riders[i].sex ==	1)
+				sex = '男';
+			else
+				sex = '女';
+			var tel = riders[i].tel;
+			var checkinDate = riders[i].checkinDate;
+			content += '<tr><td>'+username+'</td><td>'+sex+'</td><td>'+tel+'</td><td>'+checkinDate+'</td></tr>';
+		}
+		$('#resultRidersTable').append(content);
 	}
 	
 	
