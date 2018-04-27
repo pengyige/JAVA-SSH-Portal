@@ -265,4 +265,17 @@ public class UserAction extends BaseAction{
 		return "error";
 	}
 	
+	/**
+	 * 超级管理员注销接口
+	 */
+	public String superAdminLogout() {
+		 ActionContext actionContext = ActionContext.getContext();  
+	     Map session = actionContext.getSession();
+	     User user = (User) session.get("superuser");
+	     if(user != null)
+	    	 session.remove("superuser");
+	     
+	     return "superad_login";
+	}
+	
 }

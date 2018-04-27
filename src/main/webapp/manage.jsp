@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Fluid Layout - jQuery EasyUI Demo</title>
+		<title>传送门</title>
 		<link rel="stylesheet" type="text/css" href="bootstrap-3.3.7-dist/css/bootstrap.min.css">
 		<script type="text/javascript" src="easyUI/jquery.min.js"></script>
 		<script type="text/javascript" src="bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>

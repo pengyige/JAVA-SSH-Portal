@@ -1,16 +1,25 @@
 package top.yigege.web.action;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
 import top.yigege.domain.Teleporter;
+import top.yigege.json.result.ForTeleporter;
 import top.yigege.service.TeleporterService;
 
-public class TeleporterAction extends BaseAction implements ModelDriven<Teleporter>{
+public class TeleporterAction extends BaseAction implements ModelDriven<Teleporter>,ServletResponseAware{
+	
+	
 	private TeleporterService teleporterService;
 	public void setTeleporterService(TeleporterService teleporterService) {
 		this.teleporterService = teleporterService;
@@ -31,6 +40,14 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 		return this.teleporter;
 	}
 	
+	
+	//采用IOC注入servletApi
+	private HttpServletResponse response;
+	@Override
+	public void setServletResponse(HttpServletResponse response) {
+		// TODO Auto-generated method stub
+		this.response = response;
+	}
 	
 	/**
 	 * 添加传送点
@@ -93,11 +110,60 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 	     //2.查询所有传送点业务处理
 	     List<Teleporter> teleporterLists = teleporterService.queryAll();
 	     if(teleporterLists != null) {
-	    	 this.getJsonData().put("state", 1);
-	    	 this.getJsonData().put("result", teleporterLists);
+	    	 this.getJsonData().put("total", teleporterLists.size());
+	    	 this.getJsonData().put("rows", teleporterLists);
 	     }else {
 	    	 this.getJsonData().put("state", 0);
 	     }
 	     return "jsonData";
 	}
+	
+	
+	/**
+	 * 得到传送点下拉框所对应的JSON数据
+	 */
+	public String getJSONforSelect() {
+		//1.检查超级管理员是否登入
+		int state;
+		 ActionContext actionContext = ActionContext.getContext();  
+	     Map session = actionContext.getSession(); 
+	     if(!session.containsKey("superuser")) {
+	    	 this.getJsonData().put("state", -1);
+	    	 return "jsonData";
+	     }
+	     
+	     //2.查询所有传送点业务处理
+	     List<Teleporter> teleporterLists = teleporterService.queryAll();
+	     if(teleporterLists != null) {
+	    	 List<ForTeleporter> optionLists = new ArrayList();
+	    	 //只需要传送点id,和地址
+	    	 StringBuilder sb = new StringBuilder();
+	    	 sb.append("[");
+	    	 for(int i = 0 ; i < teleporterLists.size(); i ++) {
+	    		 Teleporter teleporter =  teleporterLists.get(i);
+	    		 String temp = "{\"value\":"+teleporter.getTeleporterId()+",\"address\":\""+teleporter.getAddress()+"\"},";
+	    		 sb.append(temp);
+	    	 }
+	    	 sb.append("]");
+	    	 sb.setCharAt(sb.length()-2, ' ');
+	    	
+	    	 response.setCharacterEncoding("UTF-8");
+	    	 response.setContentType("text/html;charset=utf-8");
+	    	 try {
+				response.getWriter().println(sb.toString());
+				response.getWriter().close();
+				return null;
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+	    	 
+	  
+	     }else {
+	    	 this.getJsonData().put("state", 0);
+	     }
+	     return "jsonData";
+	  
+	}
+	
 }
