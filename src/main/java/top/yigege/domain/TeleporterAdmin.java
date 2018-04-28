@@ -1,7 +1,7 @@
 package top.yigege.domain;
 
 public class TeleporterAdmin {
-	private String telporterAdminId;
+	private String teleporterAdminId;
 	private String username;
 	private String password;
 	private int sex;
@@ -16,11 +16,12 @@ public class TeleporterAdmin {
 	public void setTeleporter(Teleporter teleporter) {
 		this.teleporter = teleporter;
 	}
-	public String getTelporterAdminId() {
-		return telporterAdminId;
+	
+	public String getTeleporterAdminId() {
+		return teleporterAdminId;
 	}
-	public void setTelporterAdminId(String telporterAdminId) {
-		this.telporterAdminId = telporterAdminId;
+	public void setTeleporterAdminId(String teleporterAdminId) {
+		this.teleporterAdminId = teleporterAdminId;
 	}
 	public String getUsername() {
 		return username;

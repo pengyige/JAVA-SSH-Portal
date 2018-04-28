@@ -87,7 +87,7 @@
 +------------------+--------------+------+-----+---------+-------+
 | Field            | Type         | Null | Key | Default | Extra |
 +------------------+--------------+------+-----+---------+-------+
-| telporterAdminId | varchar(255) | NO   | PRI | NULL    |       |
+| teleporterAdminId | varchar(255) | NO   | PRI | NULL    |       |
 | username         | varchar(255) | YES  |     | NULL    |       |
 | password         | varchar(255) | YES  |     | NULL    |       |
 | sex              | int(11)      | YES  |     | 1       |       |
@@ -164,7 +164,7 @@ use portal;
 
 //创建传送点管理员表
 | teleporter_admin | CREATE TABLE `teleporter_admin` (
-  `telporterAdminId` varchar(255) NOT NULL,
+  `teleporterAdminId` varchar(255) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
   `sex` int(11) DEFAULT '1',

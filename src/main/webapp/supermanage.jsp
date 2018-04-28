@@ -147,11 +147,11 @@
 								<table cellpadding="5">
 									<tr>
 										<td>姓名:</td>
-										<td><input class="easyui-textbox" type="text" name="username" data-options="required:true"></input></td>
+										<td><input id="username" class="easyui-textbox" type="text" name="username" data-options="required:true"></input></td>
 									</tr>
 									<tr>
 										<td>电话:</td>
-										<td><input class="easyui-textbox" type="text" name="tel" ></input></td>
+										<td><input id="tel" class="easyui-textbox" type="text" name="tel" ></input></td>
 									</tr>
 									<tr>
 										<td>传送点:</td>
@@ -188,7 +188,7 @@
 								<table cellpadding="5">
 									<tr>
 										<td>管理员Id:</td>
-										<td><input class="easyui-textbox" type="text" name="teleporterAdminId" ></input></td>
+										<td><input id="teleporterAdminId" class="easyui-textbox" type="text" name="teleporterAdminId" ></input></td>
 									</tr>
 								</table>
 							</form>

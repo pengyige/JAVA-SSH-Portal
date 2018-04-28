@@ -2,7 +2,7 @@
 
 <hibernate-mapping >  
     <class name="top.yigege.domain.TeleporterAdmin" table="teleporter_admin">  
-        <id name="telporterAdminId" >  
+        <id name="teleporterAdminId" >  
             <generator class="uuid"/>  
         </id>  
 

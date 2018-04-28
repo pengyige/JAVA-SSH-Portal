@@ -139,8 +139,8 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	     //2.查询所有管理员业务处理
 	     List<TeleporterAdmin> teleporterAdminLists = teleporterAdminService.findAll();
 	     if(teleporterAdminLists != null) {
-	    	 this.getJsonData().put("state", 1);
-	    	 this.getJsonData().put("result", teleporterAdminLists);
+	    	 this.getJsonData().put("total", teleporterAdminLists.size());
+	    	 this.getJsonData().put("rows", teleporterAdminLists);
 	     }else {
 	    	 this.getJsonData().put("state", 0);
 	     }
