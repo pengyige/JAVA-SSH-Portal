@@ -106,6 +106,7 @@
      <bean id="userOrderAction" class="top.yigege.web.action.UserOrderAction" scope="prototype">
   				<property name="userOrderService" ref="userOrderService"></property>
      			<property name="userService" ref="userService"></property>
+     			<property name="riderService" ref="riderService"></property>
      </bean>
      
      <!-- 传送点模块 -->

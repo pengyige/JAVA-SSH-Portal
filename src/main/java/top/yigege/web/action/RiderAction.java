@@ -62,6 +62,8 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	public String register() {
 		this.rider.setUsername(rider.getTel());
 		this.rider.setSex(1);
+		this.rider.setRiderState(1);
+		this.rider.setDeviceToken(rider.getDeviceToken());
 		//1.校验手机号是否已注册
 		if(riderService.telIsRegister(rider.getTel())) {
 			this.getJsonData().put("state", -1);
@@ -126,7 +128,11 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 			tempRider.setSex(rider.getSex());
 		if(rider.getTel() != null && !rider.getTel().trim().equals(""))
 			tempRider.setTel(rider.getTel());
-				
+		if(rider.getDeviceToken() != null && !rider.getDeviceToken().trim().equals(""))
+			tempRider.setDeviceToken(rider.getDeviceToken());
+		if(rider.getRiderState() != 0)
+			tempRider.setRiderState(rider.getRiderState());
+		
 		//更新用户
 	    resultState = riderService.updateUserService(tempRider);
 	    this.getJsonData().put("state",resultState);
@@ -135,6 +141,30 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	
 		return "jsonData";
 	}
+	
+	
+	/**
+	 * 骑手是否登入
+	 */
+	public String isCheckin() {
+		int resultState;
+		//1.判断token是否有效
+		resultState =riderService.validateToken(rider.getToken());
+		if(resultState == -1) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+		
+		Rider tempRider = riderService.findRiderByTel(rider.getTel());
+		if(tempRider.getCheckinDate() == null) {
+			this.getJsonData().put("state", 0);
+		}else {
+			this.getJsonData().put("state", 1);
+		}
+		
+		return "jsonData";
+	}
+	
 	
 	
 	/**

@@ -130,6 +130,7 @@
 <h2>骑手注册测试</h2>
 	<form action="rider_register.action" method="post">
 		tel:<input name="tel" type="text"/>
+		deviceToken:<input name="deviceToken" tye="text" />
 		<input type="submit" value="提交"/>
 	</form>
 	
@@ -143,6 +144,16 @@
 		<input type="submit" value="提交"/>
 	</form>
 	
+<hr/>
+<hr/>
+<br/>
+<h2>骑手是否已登记测试</h2>
+	<form action="rider_isCheckin.action" method="post">
+		token:<input name="token" type="text"/><br/>
+		tel:<input name="tel" type="text"/><br/>
+		<input type="submit" value="提交"/>
+	</form>	
+		
 	
 <hr/>
 <hr/>
@@ -153,6 +164,8 @@
 		riderId:<input name="riderId" type="text"/><br/>
 		<input type="submit" value="提交"/>
 	</form>
+	
+	
 	
 	
 <hr/>
@@ -166,6 +179,7 @@
 		password:<input name="password" type="text"/><br/>
 		sex:<input name="sex" type="text"/><br/>
 		tel:<input name="tel" type="text"/><br/>
+		riderState:<input name="riderState" type="text"/><br/>
 		<input type="submit" value="提交"/>
 	</form>
 	

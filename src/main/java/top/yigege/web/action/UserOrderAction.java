@@ -1,15 +1,21 @@
 package top.yigege.web.action;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.tencent.xinge.XingeApp;
 
+import top.yigege.domain.Rider;
 import top.yigege.domain.User;
 import top.yigege.domain.UserOrder;
+import top.yigege.service.RiderService;
 import top.yigege.service.UserOrderService;
 import top.yigege.service.UserService;
+import top.yigege.util.XingeUtil;
 
 public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder>{
 	private UserOrderService userOrderService;
@@ -20,6 +26,12 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 	private UserService userService;
 	public void setUserService(UserService userService) {
 		this.userService = userService;
+	}
+	
+	
+	private RiderService riderService;
+	public void setRiderService(RiderService riderService) {
+		this.riderService = riderService;
 	}
 
 	//通过属性封装获取参数
@@ -77,6 +89,22 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		//3.保存订单
 		state = userOrderService.saveUserOrder(this.userOrder);
 		this.getJsonData().put("state", state);
+		
+		//4.开始推送到骑手端
+		  //4.1查询当前骑手状态为开始接单的deviceToken
+		List<Rider> ridersList = riderService.findAll();
+		List<String> deviceTokensList = new ArrayList<String>();
+		for(int i = 0 ; i < ridersList.size(); i++) {
+			if(ridersList.get(i).getRiderState() == 2) {
+				deviceTokensList.add(ridersList.get(i).getDeviceToken());
+			}
+		}
+		
+		//随机推送
+		int index = (int) (Math.random()*deviceTokensList.size());
+		
+		XingeApp.pushTokenAndroid(XingeUtil.APPID,XingeUtil.SECRETKEY, "您有新的用户订单("+userOrder.getUserOrderId()+")", "传送门",deviceTokensList.get(index) );
+		
 		return "jsonData";
 	}
 	

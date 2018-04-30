@@ -14,6 +14,26 @@ public class Rider {
 	private int sex;
 	private String tel;
 	
+	private int riderState;
+	public int getRiderState() {
+		return riderState;
+	}
+
+	public void setRiderState(int riderState) {
+		this.riderState = riderState;
+	}
+
+
+	private String deviceToken;
+	public String getDeviceToken() {
+		return deviceToken;
+	}
+
+	public void setDeviceToken(String deviceToken) {
+		this.deviceToken = deviceToken;
+	}
+
+
 	private Date checkinDate;
 	
 	private Teleporter teleporter;

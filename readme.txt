@@ -107,6 +107,8 @@
 | sex                 | int(11)      | YES  |     | 1       |       |
 | tel                 | varchar(255) | YES  |     | NULL    |       |
 | teleporter_rider_id | int(11)      | YES  | MUL | NULL    |       |
+| deviceToken         | varchar(255) | YES  |     | NULL    |       |
+| riderState          | int(11)      | YES  |     | 1       |       |
 +---------------------+--------------+------+-----+---------+-------+
 
 //rider_order(骑手订单表)
@@ -196,11 +198,15 @@ use portal;
   `sex` int(11) DEFAULT '1',
   `tel` varchar(255) DEFAULT NULL,
   `teleporter_rider_id` int(11) DEFAULT NULL,
+  `deviceToken` varchar(255) DEFAULT NULL,
+  `riderState` int(11) DEFAULT '1',
   PRIMARY KEY (`riderId`),
   UNIQUE KEY `username` (`username`),
   KEY `FK677B67AE66AB740` (`teleporter_rider_id`),
   CONSTRAINT `FK677B67AE66AB740` FOREIGN KEY (`teleporter_rider_id`) REFERENCES `teleporter` (`teleporterId`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 |
+//riderState 1表示停止接单 2开始接单
+
 
 //创建骑手订单表
 | rider_order | CREATE TABLE `rider_order` (
