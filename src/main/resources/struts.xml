@@ -30,6 +30,10 @@
 			<result name="admin">
 					supermanage.jsp
 			</result>
+			
+			<result name="superad_login">
+				superad_login.jsp
+			</result>
 		</action>
 		
 		<!-- 用户订单模块  -->

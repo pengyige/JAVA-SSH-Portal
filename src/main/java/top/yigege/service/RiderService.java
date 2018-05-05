@@ -54,7 +54,7 @@ public class RiderService {
 		
 		return riderDao.find(riderId);
 	}
-	public int updateUserService(Rider tempRider) {
+	public int updateRiderService(Rider tempRider) {
 		int state = 1;
 		try {
 			riderDao.update(tempRider);

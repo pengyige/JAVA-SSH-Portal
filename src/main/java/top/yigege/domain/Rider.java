@@ -14,6 +14,20 @@ public class Rider {
 	private int sex;
 	private String tel;
 	
+	
+	private String realName;
+	private String  IDNumber;
+	private String address;
+	
+	public String getIDNumber() {
+		return IDNumber;
+	}
+
+	public void setIDNumber(String iDNumber) {
+		IDNumber = iDNumber;
+	}
+
+
 	private int riderState;
 	public int getRiderState() {
 		return riderState;
@@ -21,6 +35,15 @@ public class Rider {
 
 	public void setRiderState(int riderState) {
 		this.riderState = riderState;
+	}
+
+
+	public String getRealName() {
+		return realName;
+	}
+
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 
 
@@ -111,6 +134,15 @@ public class Rider {
 	public void setCheckinDate(Date checkinDate) {
 		this.checkinDate = checkinDate;
 	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
 	
 	
 }

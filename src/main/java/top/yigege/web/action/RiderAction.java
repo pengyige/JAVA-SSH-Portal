@@ -1,5 +1,6 @@
 package top.yigege.web.action;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,11 +8,13 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ModelDriven;
+import com.tencent.xinge.XingeApp;
 
 import top.yigege.domain.Rider;
 import top.yigege.domain.TeleporterAdmin;
 import top.yigege.service.RiderService;
 import top.yigege.util.MD5Util;
+import top.yigege.util.XingeUtil;
 
 public class RiderAction extends BaseAction implements ModelDriven<Rider>,ServletRequestAware{
 	private RiderService riderService;
@@ -29,6 +32,14 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	}
 	public void setTeleporterId(String teleporterId) {
 		this.teleporterId = teleporterId;
+	}
+
+	private String userOrderId;
+	public String getUserOrderId() {
+		return userOrderId;
+	}
+	public void setUserOrderId(String userOrderId) {
+		this.userOrderId = userOrderId;
 	}
 
 	//采用模型驱动封装骑手参数
@@ -133,8 +144,8 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		if(rider.getRiderState() != 0)
 			tempRider.setRiderState(rider.getRiderState());
 		
-		//更新用户
-	    resultState = riderService.updateUserService(tempRider);
+		//更新骑手
+	    resultState = riderService.updateRiderService(tempRider);
 	    this.getJsonData().put("state",resultState);
 	
 	
@@ -303,6 +314,63 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		}
 		return "jsonData";
 	}
+	
+	
+	/**
+	 * 骑手实名认证
+	 */
+	public String certification() {
+		int resultState;
+		//1.判断token是否有效
+		resultState =riderService.validateToken(rider.getToken());
+		if(resultState == -1) {
+			this.getJsonData().put("state", -1);
+			return "jsonData";
+		}
+		
+		Rider tempRider = riderService.findRiderById(rider.getRiderId());
+		String plusIDNumber =rider.getIDNumber().substring(0,6)+"********"+rider.getIDNumber().substring(14, 18);
+		
 
+		tempRider.setIDNumber(plusIDNumber);
+		tempRider.setRealName(rider.getRealName());
+		tempRider.setAddress(rider.getAddress());
+		
+		try {
+			riderService.updateRiderService(tempRider);
+			resultState = 1;
+			this.getJsonData().put("state", resultState);
+			this.getJsonData().put("rider",tempRider);
+		}catch(Exception e) {
+			this.getJsonData().put("state", 0);
+			return "jsonData";
+		}
+		
+		return "jsonData";
+	}
+	
+	
+	/**
+	 * 向骑士推送订单
+	 */
+	public String pushOrder() {
+		Rider tempRider = riderService.findRiderByTel(rider.getTel());
+		//开始推送到骑手端
+		/*  //1.查询当前骑手状态为开始接单的deviceToken
+		List<Rider> ridersList = riderService.findAll();
+		List<String> deviceTokensList = new ArrayList<String>();
+		for(int i = 0 ; i < ridersList.size(); i++) {
+			if(ridersList.get(i).getRiderState() == 2) {
+				deviceTokensList.add(ridersList.get(i).getDeviceToken());
+			}
+		}
+		
+		//随机推送
+		int index = (int) (Math.random()*deviceTokensList.size());*/
+		
+		XingeApp.pushTokenAndroid(XingeUtil.APPID,XingeUtil.SECRETKEY, "您有新的用户订单("+userOrderId+")", "传送门",tempRider.getDeviceToken());
+		this.getJsonData().put("state", 1);
+		return "jsonData";
+	}
 	
 }

@@ -55,5 +55,7 @@ public class UserOrderService {
 		return resultState;
 	}
 
-	
+	public List findAll() {
+		return userOrderDao.findAll();
+	}
 }

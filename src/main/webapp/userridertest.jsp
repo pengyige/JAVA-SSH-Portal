@@ -85,6 +85,8 @@
 		receiveTel:<input name="receiveTel" type="text"/>
 		payment:<input name="payment" type="text"/>
 		remark:<input name="remark" type="text"/>
+		longitude:<input name="longitude" type="text"/>
+		latitude:<input name="latitude" type="text"/>
 		state:<input name="state" type="text"/>
 		<input type="submit" value="提交"/>
 	</form>
@@ -123,6 +125,14 @@
 		userOrderId:<input name="userOrderId" type="text"/>
 		<input type="submit" value="提交"/>
 	</form>	
+	<hr/>
+<hr/>
+<br/>
+<h2>查询所有单订单测试</h2>
+	<form action="userorder_getAllOrders.action" method="post">
+		<input type="submit" value="提交"/>
+	</form>	
+	
 	
 <hr/>
 <hr/>
@@ -194,6 +204,20 @@
 		riderId:<input name="riderId" type="text"/><br/>
 		<input type="submit" value="提交"/>
 	</form>
+
+<hr/>
+<hr/>
+<br/>
+<h2>骑手实名认证测试</h2>
+	<form action="rider_certification.action" method="post">
+		token:<input name="token" type="text"/><br/>
+		riderId:<input name="riderId" type="text"/><br/>
+	    realName:<input name="realName" type="text"/><br/>
+	    IDNumber:<input name="IDNumber" type="text"/><br/>
+	    address:<input name="address" type="address"/><br/>
+		<input type="submit" value="提交"/>
+	</form>
+
 
 <hr/>
 <hr/>

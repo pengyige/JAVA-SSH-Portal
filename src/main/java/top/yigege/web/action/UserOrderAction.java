@@ -90,21 +90,6 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		state = userOrderService.saveUserOrder(this.userOrder);
 		this.getJsonData().put("state", state);
 		
-		//4.开始推送到骑手端
-		  //4.1查询当前骑手状态为开始接单的deviceToken
-		List<Rider> ridersList = riderService.findAll();
-		List<String> deviceTokensList = new ArrayList<String>();
-		for(int i = 0 ; i < ridersList.size(); i++) {
-			if(ridersList.get(i).getRiderState() == 2) {
-				deviceTokensList.add(ridersList.get(i).getDeviceToken());
-			}
-		}
-		
-		//随机推送
-		int index = (int) (Math.random()*deviceTokensList.size());
-		
-		XingeApp.pushTokenAndroid(XingeUtil.APPID,XingeUtil.SECRETKEY, "您有新的用户订单("+userOrder.getUserOrderId()+")", "传送门",deviceTokensList.get(index) );
-		
 		return "jsonData";
 	}
 	
@@ -123,6 +108,25 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		//2.获取用户订单业务逻辑处理
 		try {
 			List<UserOrder> userOrderLists = userOrderService.findUserOrderByUserId(userId,this.userOrder.getState());
+			this.getJsonData().put("state", 1);
+			this.getJsonData().put("userOrders", userOrderLists);
+		}catch(Exception e) {
+			this.getJsonData().put("state", 0);
+			return "jsonData";
+		}
+		
+		return "jsonData";
+	}
+	
+	
+	/**
+	 * 获取所有订单
+	 * @return
+	 */
+	public String getAllOrders() {
+		try {
+			@SuppressWarnings("unchecked")
+			List<UserOrder> userOrderLists = userOrderService.findAll();
 			this.getJsonData().put("state", 1);
 			this.getJsonData().put("userOrders", userOrderLists);
 		}catch(Exception e) {

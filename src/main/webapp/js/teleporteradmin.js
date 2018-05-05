@@ -1,7 +1,47 @@
+//创建订单点
+function createOrderPoint(point,map,orderData){
+	var removeMarker = function(e,ee,marker){
+		//map.removeOverlay(marker);
+		/* var tel=prompt("订单ID:"+marker.z.title+"<br/>请输入骑手手机号:");
+		 if(tel == null || tel.trim() == ""){
+			 alert('手机号不能为空!');
+			 return;
+		 }
+		
+		 alert('派单成功！');*/
+		$("#userorderId").html(marker.z.title);
+		$("#SendOrderModal").modal('show');
+	}
+
+	//创建右键菜单
+	var markerMenu=new BMap.ContextMenu();
+	markerMenu.addItem(new BMap.MenuItem('派单',removeMarker.bind(marker)));
+	
+	//通过点创建覆盖物
+	var marker = new BMap.Marker(point);
+	map.addOverlay(marker);
+	marker.addContextMenu(markerMenu);
+	marker.z.title = orderData.userOrderId;
+	
+	//创建点击查看订单详情
+	var opts = {
+	  width : 250,     // 信息窗口宽度
+	  height: 100,     // 信息窗口高度
+	  title : "<h3 style=\"width:100px;margin:0 auto;\">用户订单</h3>" , // 信息窗口标题
+	  enableMessage:true,//设置允许信息窗发送短息
+	  message:"订单详细信息"
+	}
+	var infoWindow = new BMap.InfoWindow("订单编号:"+orderData.userOrderId+"<br/>取件地址:"+orderData.shipAddress+"<br/>送件地址:"+orderData.receiveAddress, opts);  // 创建信息窗口对象 
+	marker.addEventListener("click", function(){          
+		map.openInfoWindow(infoWindow,point); //开启信息窗口
+	}); 
+};
+
 $(function (){
 	//1.第二次访问使用cookie自动登入
 	autoLogin();
 	
+
 	//通过手机号查询骑手信息
 	$("#queryBtn").click(queryRider);
 	
@@ -97,13 +137,29 @@ $(function (){
 					}
 				}
 			});
-		}
+		};
+		
 	});
 
+	//添加派单点击事件
+	$("#sendOrderBtn").click(function (){
+		var userOrderId = $("#userorderId").html();
+		var sendOrderTel = $("#sendOrderTelInput").val();
+		$.ajax({
+			url:'rider_pushOrder.action',
+			method:'POST',
+			data:{"userOrderId":userOrderId,"tel":sendOrderTel},
+			success:function (){
+				alert('推送成功!');
+			}
+		});
+	});
+	
+	
 	
 	/*******************函数定义***********/
 	
-	
+
 	/*
 	 * 通过cookie自动登入
 	 */
@@ -139,12 +195,16 @@ $(function (){
 	
 		$("#sex").val(sex);
 		if(rider.teleporter == null){
-			$("#address").val('未登记');
+			//$("#address").val('未登记');
 			$("#checkinDate").val('未登记');
 		}else{
-			$("#address").val(rider.teleporter.address);
+			//$("#address").val(rider.teleporter.address);
 			$("#checkinDate").val(rider.checkinDate);
 		}
+		
+		$("#realName").val(rider.realName);
+		$("#IDNumber").val(rider.IDNumber);
+		$("#address").val(rider.address);
 		
 		$("#riderId").val(rider.riderId);
 	}
@@ -154,24 +214,33 @@ $(function (){
 	 * 处理所有骑手JSON数据
 	 */
 	function riderResultHanlder(riders){
-		var content='<tr><th>姓名</th><th>性别</th><th>电话</th><th>注册日期</th></tr>';
+		var content='<tr><th>所属传送点</th><th>手机号</th><th>住址</th><th>身份证号码</th><th>注册日期</th><th>详细信息</th></tr>';
 		if(riders.length == 0){
 			$('#resultRidersTable').append(content+'<tr><td>还没有骑手登记</td></tr>');
 			return;
 		}
 		
 		for(var i = 0 ; i < riders.length; i++){
-			var username = riders[i].username;
+			/*var username = riders[i].username;
 			var sex;
 			if(riders[i].sex ==	1)
 				sex = '男';
 			else
 				sex = '女';
+			var tel = riders[i].tel;*/
+			var teleporterName = riders[i].teleporter.address;
 			var tel = riders[i].tel;
+			var address = riders[i].address;
+			var IDNumber = riders[i].IDNumber;
 			var checkinDate = riders[i].checkinDate;
-			content += '<tr><td>'+username+'</td><td>'+sex+'</td><td>'+tel+'</td><td>'+checkinDate+'</td></tr>';
+			var detail = "<button class=\"btn btn-primary\" value=\""+riders[i].riderId+"\" >详细</button>"
+			content += '<tr><td>'+teleporterName+'</td><td>'+tel+'</td><td>'+address+'</td><td>'+IDNumber+'</td><td>'+checkinDate+'</td><td>'+detail+'</td></tr>';
 		}
 		$('#resultRidersTable').append(content);
+		
+		$("table button").click(function (){
+			$('#myModal').modal('show');
+		});
 	}
 	
 	
@@ -201,3 +270,4 @@ $(function (){
 	}
 	
 });
+
