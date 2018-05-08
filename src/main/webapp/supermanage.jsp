@@ -20,7 +20,7 @@
 			 <div class="container-fluid">
 				<div class="navbar-header">
 				  <a class="navbar-brand" href="#">
-					<img alt="传送门" src="...">
+					<img alt="传送门" src="img/logo.jpg" style="width:60px;height:35px;">
 				  </a>
 				</div>
 				<p class="navbar-text" style="font-size:20px;margin-left:450px"s>传送门后台管理</p>	

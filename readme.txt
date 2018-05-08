@@ -1,3 +1,5 @@
+#采用SSH框架进行后台开发，接入百度地图服务和腾讯信鸽完成推送
+
 一、环境搭建
 	1.1 导入开发包
 		struts2 2.3.16
@@ -13,6 +15,7 @@
 			top.yigege.web.action
 			top.yigege.util
 			top.yigege.exception
+			top.yigege.json.result
 		1.2.2 src/main/resources
 			beans.xml
 			struts.xml
@@ -20,11 +23,18 @@
 		1.2.3 src/test/java
 			top.yigege.action
 		1.2.4 src/main/webapp
+			   bootstrap-3.3.7-dist
+			   easyUI
 			   css
 			   image
 			   js
 			   WEB-INF
 			   		web.xml
+			   ad_login.jsp
+			   manage.jsp
+			   superad_login.jsp
+			   supermanage.jsp
+			   userridertest.jsp
 二、数据库设计
 用户表，骑手表、管理员表、传送点表、用户订单表、骑手订单表
 | rider            |
@@ -71,6 +81,8 @@
 | payment        | double       | YES  |     | NULL    |       |
 | state          | varchar(255) | YES  |     | NULL    |       |
 | user_order_id  | varchar(255) | YES  | MUL | NULL    |       |
+| longitude      | double       | YES  |     | NULL    |       |
+| latitude       | double       | YES  |     | NULL    |       |
 +----------------+--------------+------+-----+---------+-------+
 
 //teleporter(传送点表)
@@ -109,6 +121,9 @@
 | teleporter_rider_id | int(11)      | YES  | MUL | NULL    |       |
 | deviceToken         | varchar(255) | YES  |     | NULL    |       |
 | riderState          | int(11)      | YES  |     | 1       |       |
+| IDNumber            | varchar(255) | YES  |     | NULL    |       |
+| realName            | varchar(255) | YES  |     | NULL    |       |
+| address             | varchar(255) | YES  |     | NULL    |       |
 +---------------------+--------------+------+-----+---------+-------+
 
 //rider_order(骑手订单表)
