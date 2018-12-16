@@ -175,7 +175,12 @@
 		<version>2.3.16</version>
 	</dependency>
 	
-
+	<!-- 工具类 -->
+	<dependency>
+	    <groupId>commons-lang</groupId>
+	    <artifactId>commons-lang</artifactId>
+	    <version>2.6</version>
+	</dependency>
   </dependencies>
   
   

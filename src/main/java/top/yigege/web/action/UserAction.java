@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.opensymphony.xwork2.ActionContext;
 
+import top.yigege.constants.Constants;
 import top.yigege.domain.User;
 import top.yigege.service.UserService;
 import top.yigege.util.MD5Util;
@@ -104,7 +105,7 @@ public class UserAction extends BaseAction{
 		//1.判断token是否有效
 		resultState =userService.validateToken(token);
 		if(resultState == -1) {
-			this.getJsonData().put("state", -1);
+			this.getJsonData().put("state", Constants.ValidOrInvalid.INVALID);
 			return "jsonData";
 		}
 		//获取数据库中用户所有信息,根据传入参数进行update
@@ -150,7 +151,7 @@ public class UserAction extends BaseAction{
 		user.setSex(1);
 		user.setType(1);
 		if(userService.telIsRegister(tel)) {
-			this.getJsonData().put("state", -1);
+			this.getJsonData().put("state", Constants.YesOrNo.NO);
 			return "jsonData";
 		}
 		int resultState = userService.registerUser(user);
@@ -171,7 +172,7 @@ public class UserAction extends BaseAction{
 		
 		//检查手机号是否被注册
 		if(!userService.telIsRegister(user.getTel())) {
-			this.getJsonData().put("state",-1);
+			this.getJsonData().put("state",Constants.YesOrNo.NO);
 			return "jsonData";
 		}
 		
@@ -185,11 +186,11 @@ public class UserAction extends BaseAction{
 			userService.updateUserToken(resultUser.getUserId(), token);
 			resultUser.setToken(token);
 			
-			this.getJsonData().put("state", 1);
+			this.getJsonData().put("state", Constants.YesOrNo.YES);
 			this.getJsonData().put("user", resultUser);
 		
 		}else {
-			this.getJsonData().put("state", 0);
+			this.getJsonData().put("state", Constants.YesOrNo.ERROR);
 		}
 			
 		return "jsonData";
@@ -207,12 +208,12 @@ public class UserAction extends BaseAction{
 			userService.updateUserToken(user.getUserId(), token);
 			user.setToken(token);
 			
-			this.getJsonData().put("state", 1);
+			this.getJsonData().put("state", Constants.YesOrNo.YES);
 			this.getJsonData().put("user",user);
 			
 			
 		}else {
-			this.getJsonData().put("state", 0);
+			this.getJsonData().put("state", Constants.YesOrNo.ERROR);
 		}
 		return "jsonData";
 	}
@@ -246,11 +247,11 @@ public class UserAction extends BaseAction{
 	public String telIsExist() {
 		User user = userService.findUserByTel(tel);
 		if(user != null) {
-			this.getJsonData().put("state", 1);
+			this.getJsonData().put("state", Constants.YesOrNo.YES);
 			this.getJsonData().put("result", user);
 		}
 		else
-			this.getJsonData().put("state", 0);
+			this.getJsonData().put("state", Constants.YesOrNo.ERROR);
 		return "jsonData";
 	}
 	

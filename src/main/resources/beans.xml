@@ -20,10 +20,10 @@
       <context:property-placeholder location="classpath:db.properties"/>
        <!-- 配置和连接池 -->
       <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
-     	<property name="driverClass" value="${driverClass}" />
-     	<property name="jdbcUrl" value="${jdbcUrl}"/>
-     	<property name="user" value="${user}"/>
-     	<property name="password" value="${password}"/>
+     	<property name="driverClass" value="${jdbc.driverClass}" />
+     	<property name="jdbcUrl" value="${jdbc.jdbcUrl}"/>
+     	<property name="user" value="${jdbc.user}"/>
+     	<property name="password" value="${jdbc.password}"/>
      </bean>
 		
 	<!-- sessionFactory对象创建 --> 
@@ -162,4 +162,18 @@
      		<property name="riderService" ref="riderService"></property>
      		<property name="userOrderService" ref="userOrderService"></property>
      </bean>
+     
+     <!-- 超级管理员模块 -->
+     <bean id="superAdminDaoImpl" class="top.yigege.dao.impl.SuperAdminDaoImpl">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     
+     <bean id="superAdminService" class="top.yigege.service.SuperAdminService"> 
+     	<property name="superAdminDao" ref="superAdminDaoImpl"></property>
+     </bean>
+   
+   	 <bean id="superAdminAction" class="top.yigege.web.action.SuperAdminAction" scope="prototype">
+   	 	<property name="superAdminService" ref="superAdminService"></property>
+   	 </bean>
+   
 </beans>

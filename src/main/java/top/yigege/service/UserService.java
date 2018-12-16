@@ -1,5 +1,6 @@
 package top.yigege.service;
 
+import top.yigege.constants.Constants;
 import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 import top.yigege.exception.RegisterException;
@@ -25,11 +26,11 @@ public class UserService {
 	 * @return
 	 */
 	public int registerUser(User user){
-		int state = 1;
+		int state = Constants.YesOrNo.YES;
 		try {
 			userDao.save(user);
 		}catch(Exception e) {
-			state = 0;
+			state = Constants.YesOrNo.ERROR;
 		}
 		return state;
 	}
@@ -47,14 +48,15 @@ public class UserService {
 	 * 更新用户
 	 * @param user
 	 * @return
+	 * @throws Exception 
 	 */
-	public int updateUserService(User user) {
-		int iFlag = 1;
+	public int updateUserService(User user){
+		int iFlag = Constants.YesOrNo.YES;
 		//1.插入数据
 		try{
 			userDao.update(user);
 		}catch(Exception e) {
-			iFlag = 0;
+			iFlag =  Constants.YesOrNo.NO;
 		}
 		
 		return iFlag;
@@ -112,15 +114,15 @@ public class UserService {
 	 * @return
 	 */
 	public int nameIsExist(String username) {
-		int resultState ;
+		int resultState = Constants.YesOrNo.YES;
 		try {
 		if(userDao.nameIsExist(username)) {
-			resultState = 1;
+			resultState = Constants.YesOrNo.YES;
 		}else {
-			resultState = -1;
+			resultState = Constants.YesOrNo.NO;
 		}
 		}catch(Exception e) {
-			resultState = 0;
+			resultState = Constants.YesOrNo.ERROR;
 			return resultState;
 		}	
 		return resultState;
@@ -133,11 +135,11 @@ public class UserService {
 	 * @return
 	 */
 	public int clearUserToken(String token) {
-		int resultState = 1;
+		int resultState = Constants.ValidOrInvalid.VALID;
 		try {
 			userDao.clearToken(token);
 		}catch(Exception e) {
-			resultState = 0;
+			resultState = Constants.YesOrNo.ERROR;
 			return resultState;
 		}
 		return resultState;

@@ -94,6 +94,23 @@
 			</result>
 		</action>
 		
+		<!-- 超级管理员模块 -->
+		<action name="superadmin_*" class="superAdminAction" method="{1}">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			
+			<result name=loginSuccess>
+					supermanage.jsp
+			</result>
+			
+			<result name="toLoginPage">
+				superad_login.jsp
+			</result>
+			
+			<result name="loginError">
+				superad_login.jsp
+			</result>
+		</action>
+		
 	</package>
 
 </struts>
