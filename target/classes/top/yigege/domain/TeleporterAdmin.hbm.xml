@@ -1,7 +1,7 @@
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
 
 <hibernate-mapping >  
-    <class name="top.yigege.domain.TeleporterAdmin" table="teleporter_admin">  
+    <class name="top.yigege.domain.TeleporterAdmin" table="t_teleporter_admin">  
         <id name="teleporterAdminId" >  
             <generator class="uuid"/>  
         </id>  

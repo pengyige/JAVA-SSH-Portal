@@ -2,6 +2,13 @@ package top.yigege.util;
 
 import java.security.MessageDigest;
 
+/**
+ * 
+ * @ClassName:  MD5Util   
+ * @Description:MD5帮助类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:47:06
+ */
 public class MD5Util {
 	public static String MD5(String s) {
 	    try {

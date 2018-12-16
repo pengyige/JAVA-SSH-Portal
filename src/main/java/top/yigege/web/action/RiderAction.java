@@ -16,7 +16,16 @@ import top.yigege.service.RiderService;
 import top.yigege.util.MD5Util;
 import top.yigege.util.XingeUtil;
 
+/**
+ * 
+ * @ClassName:  RiderAction   
+ * @Description:骑手action
+ * @author: yigege
+ * @date:   2018年12月16日 下午12:23:46
+ */
 public class RiderAction extends BaseAction implements ModelDriven<Rider>,ServletRequestAware{
+	
+	/**骑手服务类*/
 	private RiderService riderService;
 	public RiderService getRiderService() {
 		return riderService;

@@ -17,6 +17,13 @@ import top.yigege.domain.Teleporter;
 import top.yigege.json.result.ForTeleporter;
 import top.yigege.service.TeleporterService;
 
+/**
+ * 
+ * @ClassName:  TeleporterAction   
+ * @Description:传送点action
+ * @author: yigege
+ * @date:   2018年12月16日 下午12:34:58
+ */
 public class TeleporterAction extends BaseAction implements ModelDriven<Teleporter>,ServletResponseAware{
 	
 	

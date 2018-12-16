@@ -9,6 +9,13 @@ import top.yigege.domain.TeleporterAdmin;
 import top.yigege.domain.User;
 import top.yigege.util.MD5Util;
 
+/**
+ * 
+ * @ClassName:  TeleporterAdminDaoImpl   
+ * @Description:传送点管理员Dao实现类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:14:23
+ */
 public class TeleporterAdminDaoImpl extends BaseDaoImpl<TeleporterAdmin> implements TeleporterAdminDao{
 
 	/*

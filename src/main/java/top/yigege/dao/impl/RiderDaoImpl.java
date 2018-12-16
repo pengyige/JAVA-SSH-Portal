@@ -8,6 +8,12 @@ import org.hibernate.Session;
 import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
 
+/**
+ * @ClassName:  RiderDaoImpl   
+ * @Description:骑手Dao实现类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:12:06
+ */
 public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 
 	@Override

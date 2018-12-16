@@ -6,17 +6,31 @@ import java.util.Set;
 
 import org.apache.struts2.json.annotations.JSON;
 
+/**
+ * 
+ * @ClassName:  Rider   
+ * @Description:骑手实体
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:16:50
+ */
 public class Rider {
+	/**骑手id*/
 	private String riderId;
+	/**骑手token*/
 	private String token;
+	/**骑手姓名*/
 	private String username;
+	/**骑手密码*/
 	private String password;
+	/**骑手性别*/
 	private int sex;
+	/**骑手电话*/
 	private String tel;
-	
-	
+	/**骑手真实姓名*/
 	private String realName;
+	/**骑手身份证号码*/
 	private String  IDNumber;
+	/**骑手地址*/
 	private String address;
 	
 	public String getIDNumber() {

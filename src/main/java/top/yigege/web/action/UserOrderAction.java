@@ -17,6 +17,13 @@ import top.yigege.service.UserOrderService;
 import top.yigege.service.UserService;
 import top.yigege.util.XingeUtil;
 
+/**
+ * 
+ * @ClassName:  UserOrderAction   
+ * @Description:用户订单action
+ * @author: yigege
+ * @date:   2018年12月16日 下午12:39:04
+ */
 public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder>{
 	private UserOrderService userOrderService;
 	public void setUserOrderService(UserOrderService userOrderService) {

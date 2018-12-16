@@ -6,6 +6,13 @@ import top.yigege.dao.UserOrderDao;
 import top.yigege.domain.User;
 import top.yigege.domain.UserOrder;
 
+/**
+ * 
+ * @ClassName:  UserOrderDaoImpl   
+ * @Description:用户订单Dao实现类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:16:19
+ */
 public class UserOrderDaoImpl extends BaseDaoImpl<UserOrder> implements UserOrderDao {
 
 	@Override

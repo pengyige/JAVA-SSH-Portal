@@ -5,6 +5,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * 
+ * @ClassName:  HibernateUtil   
+ * @Description:Hibernate帮助类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:46:43
+ */
 public class HibernateUtil {
 	private static final SessionFactory ourSessionFactory;
 

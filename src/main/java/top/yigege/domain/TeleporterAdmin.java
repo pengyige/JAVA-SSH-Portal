@@ -1,12 +1,28 @@
 package top.yigege.domain;
 
+/**
+ * 
+ * @ClassName:  TeleporterAdmin   
+ * @Description:传送点管理员
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:20:52
+ */
 public class TeleporterAdmin {
-	private String teleporterAdminId;
-	private String username;
-	private String password;
-	private int sex;
-	private String tel;
 	
+	/**传送点管理员id*/
+	private String teleporterAdminId;
+	
+	/**传送点管理员姓名*/
+	private String username;
+	
+	/**传送点管理员密码*/
+	private String password;
+	
+	/**传送点管理员性别*/
+	private int sex;
+	
+	/**传送点管理员电话*/
+	private String tel;
 	
 	//传送点管理员与传送点一对一
 	private Teleporter teleporter;

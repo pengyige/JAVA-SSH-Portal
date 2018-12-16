@@ -17,10 +17,14 @@
 			top.yigege.util
 			top.yigege.exception
 			top.yigege.json.result
+			top.yigege.enums
+			top.yigege.vo
 		1.2.2 src/main/resources
 			beans.xml
 			struts.xml
-			hibernate.cfg.xml
+			hibernate.cfg.xml		
+			log4j.properties		日志配置文件
+			db.properties
 		1.2.3 src/test/java
 			top.yigege.action
 		1.2.4 src/main/webapp
@@ -38,12 +42,12 @@
 			   userridertest.jsp
 二、数据库设计
 用户表，骑手表、管理员表、传送点表、用户订单表、骑手订单表
-| rider            |
-| rider_order      |
-| teleporter       |
-| teleporter_admin |
-| user             |
-| user_order       |
+| t_rider            |
+| t_rider_order      |
+| t_teleporter       |
+| t_teleporter_admin |
+| t_user             |
+| t_user_order       |
 用户与用户订单 一对多  (双向)
 骑手与骑手订单 一对多 (双向)
 传送点与骑手 一对多 (双向)
@@ -51,7 +55,7 @@
 骑手订单与用户订单 一对一 (单向外键关联,由骑手订单维护外键)
 
 表结构
-//user(用户表)
+//t_user(用户表)
 +----------+--------------+------+-----+---------+-------+
 | Field    | Type         | Null | Key | Default | Extra |
 +----------+--------------+------+-----+---------+-------+
@@ -66,7 +70,7 @@
 | type     | int(11)      | YES  |     | 1       |       |
 +----------+--------------+------+-----+---------+-------+
 
-//user_order(用户订单表)
+//t_user_order(用户订单表)
 +----------------+--------------+------+-----+---------+-------+
 | Field          | Type         | Null | Key | Default | Extra |
 +----------------+--------------+------+-----+---------+-------+
@@ -86,7 +90,7 @@
 | latitude       | double       | YES  |     | NULL    |       |
 +----------------+--------------+------+-----+---------+-------+
 
-//teleporter(传送点表)
+//t_teleporter(传送点表)
 +--------------+--------------+------+-----+---------+----------------+
 | Field        | Type         | Null | Key | Default | Extra          |
 +--------------+--------------+------+-----+---------+----------------+
@@ -96,7 +100,7 @@
 | remark       | varchar(255) | YES  |     | NULL    |                |
 +--------------+--------------+------+-----+---------+----------------+
 
-//teleporter_admin(传送点管理员表)
+//t_teleporter_admin(传送点管理员表)
 +------------------+--------------+------+-----+---------+-------+
 | Field            | Type         | Null | Key | Default | Extra |
 +------------------+--------------+------+-----+---------+-------+
@@ -108,7 +112,7 @@
 | admin_porter_Id  | int(11)      | YES  | UNI | NULL    |       |
 +------------------+--------------+------+-----+---------+-------+
 
-//rider(骑手表)
+//t_rider(骑手表)
 +---------------------+--------------+------+-----+---------+-------+
 | Field               | Type         | Null | Key | Default | Extra |
 +---------------------+--------------+------+-----+---------+-------+
@@ -127,7 +131,7 @@
 | address             | varchar(255) | YES  |     | NULL    |       |
 +---------------------+--------------+------+-----+---------+-------+
 
-//rider_order(骑手订单表)
+//t_rider_order(骑手订单表)
 +-------------------------+--------------+------+-----+---------+-------+
 | Field                   | Type         | Null | Key | Default | Extra |
 +-------------------------+--------------+------+-----+---------+-------+
@@ -145,7 +149,7 @@ create database portal;
 use portal;
 
 //创建用户表
-| user  | CREATE TABLE `user` (
+| user  | CREATE TABLE `t_user` (
   `userId` varchar(255) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
@@ -161,7 +165,7 @@ use portal;
 
 
 //创建订单表
-| user_order | CREATE TABLE `user_order` (
+| user_order | CREATE TABLE `t_user_order` (
   `userOrderId` varchar(255) NOT NULL,
   `shipAddress` varchar(255) DEFAULT NULL,
   `shipName` varchar(255) DEFAULT NULL,
@@ -181,7 +185,7 @@ use portal;
 //订单状态 1待支付 2待接单 3待取货4配送中 5已完成
 
 //创建传送点管理员表
-| teleporter_admin | CREATE TABLE `teleporter_admin` (
+| teleporter_admin | CREATE TABLE `t_teleporter_admin` (
   `teleporterAdminId` varchar(255) NOT NULL,
   `username` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -196,7 +200,7 @@ use portal;
 
 
 //创建传送点表
-| teleporter | CREATE TABLE `teleporter` (
+| teleporter | CREATE TABLE `t_teleporter` (
   `teleporterId` int(11) NOT NULL AUTO_INCREMENT,
   `createDate` datetime DEFAULT NULL,
   `address` varchar(255) DEFAULT NULL,
@@ -205,7 +209,7 @@ use portal;
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 //创建骑手表
-| rider | CREATE TABLE `rider` (
+| rider | CREATE TABLE `t_rider` (
   `riderId` varchar(255) NOT NULL,
   `token` varchar(255) DEFAULT NULL,
   `username` varchar(255) DEFAULT NULL,
@@ -225,7 +229,7 @@ use portal;
 
 
 //创建骑手订单表
-| rider_order | CREATE TABLE `rider_order` (
+| rider_order | CREATE TABLE `t_rider_order` (
   `riderOrderId` varchar(255) NOT NULL,
   `createDate` datetime DEFAULT NULL,
   `rider_order_id` varchar(255) DEFAULT NULL,

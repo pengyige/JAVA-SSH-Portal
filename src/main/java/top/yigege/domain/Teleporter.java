@@ -6,10 +6,25 @@ import java.util.Set;
 
 import org.apache.struts2.json.annotations.JSON;
 
+/**
+ * 
+ * @ClassName:  Teleporter   
+ * @Description:传送点实体
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:19:57
+ */
 public class Teleporter {
+	
+	/**传送点id*/
 	private Integer teleporterId;
+	
+	/**创建日期*/
 	private Date createDate;
+	
+	/**传送点地址*/
 	private String address;
+	
+	/**备注*/
 	private String remark;
 	
 	//传送点与传送点管理员一对一

@@ -1,5 +1,12 @@
 package top.yigege.exception;
 
+/***
+ * 
+ * @ClassName:  RegisterException   
+ * @Description:注册异常
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:29:41
+ */
 public class RegisterException extends Exception {
 
 	public RegisterException() {

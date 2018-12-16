@@ -4,25 +4,52 @@ import java.util.Date;
 
 import org.apache.struts2.json.annotations.JSON;
 
+/**
+ * 
+ * @ClassName:  UserOrder   
+ * @Description:用户订单
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:25:29
+ */
 public class UserOrder {
+	
+	/**用户订单id*/
 	private String userOrderId;
+	
+	/**发送人地址*/
 	private String shipAddress;
+	
+	/**发送人姓名*/
 	private String shipName;
+	
+	/**发送人电话*/
 	private String shipTel;
 	
+	/**收件人地址*/
 	private String receiveAddress;
+	
+	/**收件人姓名*/
 	private String receiveName;
+	
+	/**收件人电话*/
 	private String receiveTel;
 	
-	
+	/**订单日期*/
 	private Date orderTime;
+	
+	/**支付金额*/
 	private double payment;
 	
+	/**备注*/
 	private String remark;
 	
+	/**订单状态*/
 	private String state;
 	
+	/**经度*/
 	private double longitude;
+	
+	/**纬度*/
 	private double latitude;
 	
 	public double getLongitude() {

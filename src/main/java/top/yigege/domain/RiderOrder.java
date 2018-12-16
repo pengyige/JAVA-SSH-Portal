@@ -2,11 +2,22 @@ package top.yigege.domain;
 
 import java.util.Date;
 
+/**
+ * 
+ * @ClassName:  RiderOrder   
+ * @Description:骑手订单
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:17:07
+ */
 public class RiderOrder {
-	private String riderOrderId;
-	private Date createDate;
 	
+	/**骑手订单id*/
+	private String riderOrderId;
+	/**骑手订单创建日期*/
+	private Date createDate;
+	/**用户订单*/
 	private UserOrder userOrder;
+	/**骑手*/
 	private Rider rider;
 	public String getRiderOrderId() {
 		return riderOrderId;

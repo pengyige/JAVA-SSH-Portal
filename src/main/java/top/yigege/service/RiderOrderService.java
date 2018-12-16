@@ -9,13 +9,31 @@ import top.yigege.domain.Rider;
 import top.yigege.domain.RiderOrder;
 import top.yigege.domain.UserOrder;
 
+/**
+ * 
+ * @ClassName:  RiderOrderService   
+ * @Description:骑手订单服务类
+ * @author: yigege
+ * @date:   2018年12月16日 上午10:49:28
+ */
 public class RiderOrderService {
+	
+	/**骑手订单dao*/
 	private RiderOrderDao riderOrderDao;
+	/**
+	 * 注入骑手订单dao
+	 * @param riderOrderDao
+	 */
 	public void setRiderOrderDao(RiderOrderDao riderOrderDao) {
 		this.riderOrderDao = riderOrderDao;
 	}
 	
-	
+	/**
+	 * 骑手接单
+	 * @param riderId
+	 * @param userOrderId
+	 * @return
+	 */
 	public int receiveOrder(String riderId, String userOrderId) {
 		int resultState = 1;
 		try {
@@ -44,7 +62,12 @@ public class RiderOrderService {
 		return resultState;
 	}
 
-
+	
+	/**
+	 * 查询所有骑手订单
+	 * @param riderId
+	 * @return
+	 */
 	public List<RiderOrder> findAll(String riderId) {
 		
 		return riderOrderDao.findRiderOrderByUserId(riderId);

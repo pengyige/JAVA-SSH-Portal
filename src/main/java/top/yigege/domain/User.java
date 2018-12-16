@@ -5,17 +5,43 @@ import java.util.Set;
 
 import org.apache.struts2.json.annotations.JSON;
 
+/**
+ * 
+ * @ClassName:  User   
+ * @Description:用户实体
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:22:17
+ */
 public class User {
+	
+	/**用户id*/
 	private String userId;
+	
+	/**用户token*/
 	private String token;
+	
+	/**用户名*/
 	private String username;
+	
+	/**用户密码*/
 	private String password;
+	
+	/**用户性别*/
 	private int sex;
+	
+	/**用户手机号*/
 	private String tel;
+	
+	/**用户邮箱*/
 	private String email;
+	
+	/**用户地址*/
 	private String address;
+	
+	/**用户类型*/
 	private int type;
 	
+	/**用户订单*/
 	private Set<UserOrder> userOrders = new HashSet<UserOrder>();
 	@JSON(serialize=false)
 	public Set<UserOrder> getUserOrders() {

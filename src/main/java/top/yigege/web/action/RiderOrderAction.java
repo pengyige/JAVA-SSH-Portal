@@ -9,6 +9,13 @@ import top.yigege.service.RiderOrderService;
 import top.yigege.service.RiderService;
 import top.yigege.service.UserOrderService;
 
+/**
+ * 
+ * @ClassName:  RiderOrderAction   
+ * @Description:骑手订单action
+ * @author: yigege
+ * @date:   2018年12月16日 下午12:30:59
+ */
 public class RiderOrderAction extends BaseAction implements ModelDriven<RiderOrder>{
 	private RiderOrderService riderOrderService;
 	public void setRiderOrderService(RiderOrderService riderOrderService) {

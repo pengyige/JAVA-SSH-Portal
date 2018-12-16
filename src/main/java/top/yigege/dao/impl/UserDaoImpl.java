@@ -7,6 +7,13 @@ import org.hibernate.Session;
 import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 
+/**
+ * 
+ * @ClassName:  UserDaoImpl   
+ * @Description:用户Dao实现类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:15:59
+ */
 public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 
 	@Override

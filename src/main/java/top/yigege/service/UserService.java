@@ -4,7 +4,16 @@ import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 import top.yigege.exception.RegisterException;
 
+/**
+ * 
+ * @ClassName:  UserService   
+ * @Description:用户服务类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:45:58
+ */
 public class UserService {
+	
+	/**用户Dao*/
 	private UserDao userDao;
 	public void setUserDao(UserDao userDao) {
 		this.userDao = userDao;

@@ -8,6 +8,14 @@ import org.hibernate.SessionFactory;
 
 import top.yigege.dao.BaseDao;
 
+/**
+ * 
+ * @ClassName:  BaseDaoImpl   
+ * @Description:基础DAO实现类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:11:46   
+ * @param <T>
+ */
 public class BaseDaoImpl<T> implements BaseDao<T> {
 	private Class pclass;
 	private SessionFactory sessionFactory;

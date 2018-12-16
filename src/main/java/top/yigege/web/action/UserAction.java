@@ -8,6 +8,13 @@ import top.yigege.domain.User;
 import top.yigege.service.UserService;
 import top.yigege.util.MD5Util;
 
+/**
+ * 
+ * @ClassName:  UserAction   
+ * @Description:用户action
+ * @author: yigege
+ * @date:   2018年12月16日 下午12:38:35
+ */
 public class UserAction extends BaseAction{
 	private UserService userService;
 	public void setUserService(UserService userService) {

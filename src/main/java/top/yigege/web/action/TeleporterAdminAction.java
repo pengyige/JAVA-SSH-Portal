@@ -18,6 +18,13 @@ import top.yigege.domain.TeleporterAdmin;
 import top.yigege.service.TeleporterAdminService;
 import top.yigege.util.MD5Util;
 
+/**
+ * 
+ * @ClassName:  TeleporterAdminAction   
+ * @Description:传送点管理员action
+ * @author: yigege
+ * @date:   2018年12月16日 下午12:38:20
+ */
 public class TeleporterAdminAction extends BaseAction implements ModelDriven<TeleporterAdmin>,ServletRequestAware,ServletResponseAware{
 	private TeleporterAdminService teleporterAdminService;
 	public void setTeleporterAdminService(TeleporterAdminService teleporterAdminService) {

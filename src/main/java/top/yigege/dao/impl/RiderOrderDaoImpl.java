@@ -9,8 +9,16 @@ import top.yigege.dao.RiderOrderDao;
 import top.yigege.domain.RiderOrder;
 import top.yigege.domain.UserOrder;
 
-public class RiderOrderImpl extends BaseDaoImpl<RiderOrder> implements RiderOrderDao{
+/**
+ * 
+ * @ClassName:  RiderOrderImpl   
+ * @Description:骑手订单DAO实现类
+ * @author: yigege
+ * @date:   2018年12月16日 上午11:12:48
+ */
+public class RiderOrderDaoImpl extends BaseDaoImpl<RiderOrder> implements RiderOrderDao{
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public List<RiderOrder> findRiderOrderByUserId(String riderId) {
 		String hql= "from RiderOrder where rider_order_id = ?";
