@@ -98,7 +98,7 @@
 		<action name="superadmin_*" class="superAdminAction" method="{1}">
 			<interceptor-ref name="defaultStack"></interceptor-ref>
 			
-			<result name=loginSuccess>
+			<result name="loginSuccess">
 					supermanage.jsp
 			</result>
 			
@@ -111,6 +111,12 @@
 			</result>
 		</action>
 		
+		
+		<!-- 系统消息模块 -->
+		<action name="systemMessage_*" class="systemMessageAction" method="{1}">
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+			
+		</action>
 	</package>
 
 </struts>

@@ -16,6 +16,8 @@
      	<property name="type">
      		<column name="type" default="1"></column>
      	</property> 
+     	<property name="createTime" ></property>
+     	
   
      	
      	<!-- 一对多映射 -->

@@ -1,0 +1,17 @@
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">  
+<hibernate-mapping >  
+    <class name="top.yigege.domain.SystemMessage" table="t_system_message">  
+        <id name="messageId" >  
+            <generator class="identity"/>  
+        </id>   
+     	<property name="title"></property>
+     	<property name="content"></property>
+     	<property name="imgPath"></property>
+     	<property name="type"></property>
+     	<property name="createTime"></property>
+     	<property name="state"></property>
+   	
+     	<!-- 多对一 超级管理员与系统消息 -->
+     	<many-to-one name="superAdmin" class="top.yigege.domain.SuperAdmin" column="superAdminId"></many-to-one>
+    </class>  
+</hibernate-mapping>

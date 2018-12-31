@@ -1,5 +1,6 @@
 package top.yigege.domain;
 
+import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,6 +41,9 @@ public class User {
 	
 	/**用户类型*/
 	private int type;
+	
+	/**用户注册时间*/
+	private Date createTime;
 	
 	/**用户订单*/
 	private Set<UserOrder> userOrders = new HashSet<UserOrder>();
@@ -103,6 +107,12 @@ public class User {
 	}
 	public void setType(int type) {
 		this.type = type;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
 	
 	
