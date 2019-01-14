@@ -8,6 +8,7 @@ import org.springframework.http.server.ServerHttpRequest;
 
 import com.opensymphony.xwork2.ModelDriven;
 
+import top.yigege.constants.Constants;
 import top.yigege.domain.SuperAdmin;
 import top.yigege.domain.UserOrder;
 import top.yigege.service.SuperAdminService;
@@ -72,11 +73,11 @@ public class SuperAdminAction extends BaseAction implements ModelDriven<SuperAdm
 		//2.查询超级管理员
 		logger.info("username:"+superAdmin.getUsername()+";password:+"+superAdmin.getPassword());
 		SuperAdmin superAdmin = superAdminService.verifySuperAdmin(this.superAdmin.getUsername(), MD5Util.MD5(this.superAdmin.getPassword()));
-		if(null == superAdmin) {
+		if (null == superAdmin) {
 			request.setAttribute("error", "用户名或密码不正确");
 			return "loginError";
 		}else {
-			request.getSession().setAttribute("superAdmin", superAdmin);
+			request.getSession().setAttribute(Constants.PortalSessionKey.USER_SESSION_KEY, superAdmin);
 			return "loginSuccess";
 		}
 	}

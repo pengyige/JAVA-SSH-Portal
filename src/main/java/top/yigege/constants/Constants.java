@@ -37,5 +37,21 @@ public class Constants {
 		public static final int VALID = 1;
 		public static final int INVALID = -1;
 	}
+	
+	/**
+	 * 
+	 * @ClassName:  PortalSessionKey   
+	 * @Description:保持session中的key
+	 * @author: yigege
+	 * @date:   2019年1月14日 下午9:29:09
+	 */
+	public static interface PortalSessionKey {
+		
+
+		/**session key*/
+		public static final String USER_SESSION_KEY = "top.yigege.session.user";
+		
+		
+	}
 
 }

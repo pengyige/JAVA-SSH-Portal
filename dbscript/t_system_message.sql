@@ -1,0 +1,1 @@
+INSERT INTO `t_system_message`(`messageId`, `title`, `content`, `imgPath`, `type`, `createTime`, `state`, `superAdminId`) VALUES (1, '传送门', '测试', NULL, 1, '2018-12-31', 1, '4028ac8167b68f9a0167b68fa0000000');

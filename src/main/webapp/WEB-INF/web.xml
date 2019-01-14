@@ -46,6 +46,22 @@
 	  </listener> 
 	
 	  
+	  <!-- 编码过滤器 -->
+	  <filter>
+	  	<filter-name>charsetEncodingFilter</filter-name>
+	  	<filter-class>top.yigege.filter.CharsetEncodingFilter</filter-class>
+	  	<init-param>
+	  		<param-name>CharsetEncoding</param-name>
+	  		<param-value>UTF-8</param-value>
+	  	</init-param>
+	  </filter>
+	  
+	  <filter-mapping>
+	  	<filter-name>charsetEncodingFilter</filter-name>
+	  	<url-pattern>/*</url-pattern>
+	  </filter-mapping>
+	  
+	  
 	 <welcome-file-list>
 		<welcome-file>index.html</welcome-file>
 		<welcome-file>index.htm</welcome-file>
