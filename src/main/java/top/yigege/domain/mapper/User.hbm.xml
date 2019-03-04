@@ -17,7 +17,9 @@
      		<column name="type" default="1"></column>
      	</property> 
      	<property name="createTime" ></property>
-     	
+     	<property name="balance" >
+     		<column name="balance" default="0"></column>
+     	</property>
   
      	
      	<!-- 一对多映射 -->

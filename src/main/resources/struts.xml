@@ -6,23 +6,34 @@
 <!-- START SNIPPET: xworkSample -->
 <struts>
 	
-	<package name="portal" extends="struts-default,json-default" namespace="/">
+	<!-- 全局包 -->
+	<package name="globle" namespace="/" extends="struts-default,json-default"> 
+		<global-results>
+		 	<!-- json -->
+			<result name="jsonData" type="json">
+				<param name="root">
+					returnDTO
+				</param>
+			</result>
+		</global-results>
+	</package>
+
+	
+	
+	<package name="portal" extends="globle" namespace="/">
 		<!-- 定义用户登入拦截器 -->
 		<!-- <interceptors> 
 		<interceptor name="FilterInterceptor" class="cn.pengyi.web.interceptor.UserLoginInterceptor"></interceptor> 
 		</interceptors> -->
+		
+
+		
 		<!-- action已由spring管理 -->
 		<!-- 用户模块 -->
 		<action name="user_*" class="userAction" method="{1}">				
 			<!-- 对UserAction使用定义的拦截器 -->
-			<interceptor-ref name="defaultStack"></interceptor-ref>
-			<result name="jsonData" type="json">
-				<param name="root">
-					jsonData
-				</param>
-				<param name="excludeProperties">user.userOrders</param>
-			</result>
-		
+			<interceptor-ref name="defaultStack"></interceptor-ref>		
+			
 			<result name="error">
 					error.jsp
 			</result>
@@ -38,32 +49,20 @@
 		
 		<!-- 用户订单模块  -->
 		<action name="userorder_*" class="userOrderAction" method="{1}">
-			<interceptor-ref name="defaultStack"></interceptor-ref>
-			<result name="jsonData" type="json">
-				<param name="root">
-					jsonData
-				</param>
-			</result>
+			
+			
 		</action>
 		
 		<!-- 传送点模块 -->
 		<action name="teleporter_*" class="teleporterAction" method="{1}">
-			 <interceptor-ref name="defaultStack"></interceptor-ref>
-			 <result name="jsonData" type="json">
-				<param name="root">
-					jsonData
-				</param>
-			</result>
+			 
+		
 		</action>
 		
 		<!-- 传送点管理员模块 -->
 		<action name="teleporterAdmin_*" class="teleporterAdminAction" method="{1}">
-			 <interceptor-ref name="defaultStack"></interceptor-ref>
-			 <result name="jsonData" type="json">
-				<param name="root">
-					jsonData
-				</param>
-			</result>
+			
+			
 			
 			<result name="manage" type="redirect">
 				manage.jsp
@@ -72,49 +71,36 @@
 			<result name="ad_login" type="dispatcher">
 				ad_login.jsp
 			</result>
+			
 		</action>
 		
 		<!-- 骑手模块 -->
 		<action name="rider_*" class="riderAction" method="{1}">
-			<interceptor-ref name="defaultStack"></interceptor-ref>
-			<result name="jsonData" type="json">
-				<param name="root">
-					jsonData
-				</param>
-			</result>
+			
 		</action>
 		
 		<!-- 骑手订单模块  -->
 		<action name="riderorder_*" class="riderOrderAction" method="{1}">
-			<interceptor-ref name="defaultStack"></interceptor-ref>
-			<result name="jsonData" type="json">
-				<param name="root">
-					jsonData
-				</param>
-			</result>
+			
 		</action>
 		
 		<!-- 超级管理员模块 -->
-		<action name="superadmin_*" class="superAdminAction" method="{1}">
-			<interceptor-ref name="defaultStack"></interceptor-ref>
+		<action name="superAdmin_*" class="superAdminAction" method="{1}">
+		
 			
-			<result name="loginSuccess">
-					supermanage.jsp
+			<result name="index">
+					/page/super-admin/superAdminIndex.jsp
 			</result>
 			
 			<result name="toLoginPage">
-				superad_login.jsp
+				/page/super-admin/login/superAdminLogin.jsp
 			</result>
 			
-			<result name="loginError">
-				superad_login.jsp
-			</result>
 		</action>
 		
 		
 		<!-- 系统消息模块 -->
 		<action name="systemMessage_*" class="systemMessageAction" method="{1}">
-			<interceptor-ref name="defaultStack"></interceptor-ref>
 			
 		</action>
 	</package>

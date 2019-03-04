@@ -45,6 +45,9 @@ public class User {
 	/**用户注册时间*/
 	private Date createTime;
 	
+	/**余额*/
+	private Double balance;
+	
 	/**用户订单*/
 	private Set<UserOrder> userOrders = new HashSet<UserOrder>();
 	@JSON(serialize=false)
@@ -114,6 +117,14 @@ public class User {
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	public Double getBalance() {
+		return balance;
+	}
+	public void setBalance(Double balance) {
+		this.balance = balance;
+	}
+	
+	
 	
 	
 }

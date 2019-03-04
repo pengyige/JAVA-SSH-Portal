@@ -13,6 +13,7 @@ import top.yigege.domain.SuperAdmin;
 import top.yigege.domain.UserOrder;
 import top.yigege.service.SuperAdminService;
 import top.yigege.util.MD5Util;
+import top.yigege.util.ReturnDTOUtil;
 
 /**
  * 
@@ -47,6 +48,16 @@ public class SuperAdminAction extends BaseAction implements ModelDriven<SuperAdm
 	}
 	
 	/**
+	 * 跳转到管理首页
+	 * @return
+	 */
+	public String index() {
+		//判断用户是否登入，这里已经在拦截器中进行了判断
+		return "index";
+	}
+
+	
+	/**
 	 * 跳转到登入页面
 	 * @return
 	 */
@@ -59,28 +70,33 @@ public class SuperAdminAction extends BaseAction implements ModelDriven<SuperAdm
 	 * @return
 	 */
 	public String login() {
+		logger.info("管理员开始登入");
+		
 		//1.检验输入参数
 		if(StringUtils.isBlank(superAdmin.getUsername())) {
-			request.setAttribute("error", "用户名不能为空");
-			return "loginError";
+			returnDTO = ReturnDTOUtil.paramError("用户名不能为空");
+			return JSON_DATA;
 		}
 		
 		if(StringUtils.isBlank(superAdmin.getPassword())) {
-			request.setAttribute("error", "密码不能为空");
-			return "loginError";
+			returnDTO = ReturnDTOUtil.paramError("密码不能为空");
+			return JSON_DATA;
 		}
 		
 		//2.查询超级管理员
 		logger.info("username:"+superAdmin.getUsername()+";password:+"+superAdmin.getPassword());
 		SuperAdmin superAdmin = superAdminService.verifySuperAdmin(this.superAdmin.getUsername(), MD5Util.MD5(this.superAdmin.getPassword()));
 		if (null == superAdmin) {
-			request.setAttribute("error", "用户名或密码不正确");
-			return "loginError";
+			returnDTO = ReturnDTOUtil.fail("用户名或密码不正常");
+			return JSON_DATA;
 		}else {
+			//保存登入用户
 			request.getSession().setAttribute(Constants.PortalSessionKey.USER_SESSION_KEY, superAdmin);
-			return "loginSuccess";
+			returnDTO = ReturnDTOUtil.success();
+			return JSON_DATA;
 		}
 	}
+	
 
 	
 }

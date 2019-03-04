@@ -19,6 +19,10 @@
      	<property name="IDNumber"></property>
      	<property name="realName"></property>
      	<property name="address"></property>
+     	<property name="balance" >
+     		<column name="balance" default="0"></column>
+     	</property>
+     	
      	<!-- 一对多映射 -->
      	<set name="riderOrders" inverse="true" cascade="all">
  			<key column="rider_order_id"></key>

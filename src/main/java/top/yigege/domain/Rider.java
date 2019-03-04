@@ -32,6 +32,8 @@ public class Rider {
 	private String  IDNumber;
 	/**骑手地址*/
 	private String address;
+	/**收入*/
+	private Double balance;
 	
 	public String getIDNumber() {
 		return IDNumber;
@@ -155,6 +157,14 @@ public class Rider {
 
 	public void setAddress(String address) {
 		this.address = address;
+	}
+
+	public Double getBalance() {
+		return balance;
+	}
+
+	public void setBalance(Double balance) {
+		this.balance = balance;
 	}
 	
 	

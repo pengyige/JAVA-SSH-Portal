@@ -1,13 +1,21 @@
 package top.yigege.web.action;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import com.opensymphony.xwork2.ActionContext;
 
 import top.yigege.constants.Constants;
 import top.yigege.domain.User;
+import top.yigege.domain.UserOrder;
 import top.yigege.service.UserService;
 import top.yigege.util.MD5Util;
+import top.yigege.util.ReturnDTOUtil;
+import top.yigege.vo.PageVo;
 
 /**
  * 
@@ -284,6 +292,34 @@ public class UserAction extends BaseAction{
 	    	 session.remove("superuser");
 	     
 	     return "superad_login";
+	}
+	
+	/**
+	 * json测试
+	 * @return
+	 */
+	public String testJsonData() {
+		PageVo pageVo = new PageVo();
+		List<User> users = new ArrayList<User>();
+		User user = new User();
+		user.setAddress("test");
+		
+		//创建用户订单
+		UserOrder userOrder = new UserOrder();
+		userOrder.setShipAddress("test");
+		Set<UserOrder> userOrders = new HashSet<UserOrder>();
+		userOrders.add(userOrder);
+		//添加订单
+		
+		user.setUserOrders(userOrders);
+		users.add(user);
+		users.add(user);
+		Map<String,Object> result = new HashMap<String, Object>();
+		result.put("users", users);
+		pageVo.setResults(result);
+		this.returnDTO = ReturnDTOUtil.success(pageVo);
+		
+		return JSON_DATA;
 	}
 	
 }

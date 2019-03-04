@@ -42,6 +42,16 @@ public class ReturnDTOUtil {
         return new ReturnDTO(HttpCodeEnum.FAIL.getCode(), HttpCodeEnum.FAIL.getMessage());
     }
 
+    
+    /**
+     * 操作失败
+     *
+     * @return
+     */
+    public static ReturnDTO fail(Object data) {
+        return new ReturnDTO(HttpCodeEnum.FAIL.getCode(),null ,data);
+    }
+    
     /**
      * 服务器错误
      *

@@ -26,6 +26,7 @@ import top.yigege.util.MD5Util;
  * @date:   2018年12月16日 下午12:38:20
  */
 public class TeleporterAdminAction extends BaseAction implements ModelDriven<TeleporterAdmin>,ServletRequestAware,ServletResponseAware{
+	/**传送点管理员服务层*/
 	private TeleporterAdminService teleporterAdminService;
 	public void setTeleporterAdminService(TeleporterAdminService teleporterAdminService) {
 		this.teleporterAdminService = teleporterAdminService;
@@ -55,7 +56,6 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 		// TODO Auto-generated method stub
 		return this.teleporterAdmin;
 	}
-	
 	
 	//IOC注入serlvedAPI对象
 	private HttpServletRequest request;
@@ -236,6 +236,11 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 		}
 		this.getJsonData().put("state", state);
 		return "jsonData";
+	}
+	
+	public String index() {
+		logger.info("跳转到管理员登入页面");
+		return "ad_login";
 	}
 	
 	
