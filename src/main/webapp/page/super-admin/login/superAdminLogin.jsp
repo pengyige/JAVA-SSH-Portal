@@ -385,7 +385,7 @@
 /**系统管理员登入*/
 var SUPER_ADMIN_LOGIN_URL = "${pageContext.request.contextPath}/superAdmin_login.action";
 /**管理页*/
-var SUPER_ADMIN_INDEX_URL = "${pageContext.request.contextPath}/superAdmin_index.action"
+var SUPER_ADMIN_INDEX_URL = "${pageContext.request.contextPath}/superAdmin_index.action";
 
 function showRegisterForm(){
    $('.loginBox').fadeOut('fast',function(){

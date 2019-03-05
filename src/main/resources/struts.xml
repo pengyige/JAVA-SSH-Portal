@@ -56,6 +56,9 @@
 		<!-- 传送点模块 -->
 		<action name="teleporter_*" class="teleporterAction" method="{1}">
 			 
+			 <result name="intoTeleporterManagerPage" >
+				/page/super-admin/teleporter/teleporterManager.jsp
+			</result>
 		
 		</action>
 		
@@ -95,6 +98,12 @@
 			<result name="toLoginPage">
 				/page/super-admin/login/superAdminLogin.jsp
 			</result>
+			
+			<!-- 总体情况 -->
+			<result name="toGeneralSiuation">
+				/page/super-admin/generalSituation.jsp
+			</result>
+			
 			
 		</action>
 		

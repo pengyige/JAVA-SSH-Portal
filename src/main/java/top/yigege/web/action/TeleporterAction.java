@@ -173,4 +173,15 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 	  
 	}
 	
+	/**
+	 * 进入传送点管理页面
+	 * @return
+	 */
+	public String intoTeleporterManagerPage() {
+		logger.info("进入传送点查询");
+		//查询所有传送点
+		return "intoTeleporterManagerPage";
+	}
+	
+	
 }

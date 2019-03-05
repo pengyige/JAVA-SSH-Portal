@@ -30,6 +30,16 @@ public class UserAction extends BaseAction{
 		this.userService = userService;
 	}
 	
+	
+	/**值对象*/
+	private User user;
+	public User getUser() {
+		return user;
+	}
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 
 	//校验属性
 	private String userId;
@@ -262,38 +272,10 @@ public class UserAction extends BaseAction{
 			this.getJsonData().put("state", Constants.YesOrNo.ERROR);
 		return "jsonData";
 	}
+
 	
 	
-	
-	/**
-	 * 超级管理员登入接口
-	 */
-	public String superAdminLogin() {
-		if(username.equals("pengyi") && password.equals("123456")) {
-			User user = new  User();
-			user.setUsername(username);
-			user.setPassword(password);
-			 ActionContext actionContext = ActionContext.getContext();  
-		        Map session = actionContext.getSession();  
-		        session.put("superuser", user);  
-		        return "admin";
-		}	
-		return "error";
-	}
-	
-	/**
-	 * 超级管理员注销接口
-	 */
-	public String superAdminLogout() {
-		 ActionContext actionContext = ActionContext.getContext();  
-	     Map session = actionContext.getSession();
-	     User user = (User) session.get("superuser");
-	     if(user != null)
-	    	 session.remove("superuser");
-	     
-	     return "superad_login";
-	}
-	
+
 	/**
 	 * json测试
 	 * @return

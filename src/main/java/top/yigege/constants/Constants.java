@@ -1,5 +1,8 @@
 package top.yigege.constants;
 
+import org.apache.commons.io.monitor.FileAlterationListener;
+import org.omg.CORBA.PUBLIC_MEMBER;
+
 /**
  * 
  * @ClassName:  Constants   
@@ -52,6 +55,11 @@ public class Constants {
 		public static final String USER_SESSION_KEY = "top.yigege.session.user";
 		
 		
+	}
+	
+	public static interface SessionValueKey {
+		/**上一次登入时间*/
+		public static final String LAST_LOGIN_TIME = "lastlogintime";
 	}
 
 }

@@ -1,6 +1,9 @@
 package top.yigege.web.action;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
@@ -38,6 +41,7 @@ public class SuperAdminAction extends BaseAction implements ModelDriven<SuperAdm
 	public SuperAdmin getModel() {
 		return superAdmin;
 	}
+	
 	
 	//采用IOC注入servletAPI
 	private HttpServletRequest request;
@@ -90,11 +94,36 @@ public class SuperAdminAction extends BaseAction implements ModelDriven<SuperAdm
 			returnDTO = ReturnDTOUtil.fail("用户名或密码不正常");
 			return JSON_DATA;
 		}else {
+			Date lastLoginTime = superAdmin.getLastLoginTime();
+			//更新用户登入时间
+			superAdmin.setLastLoginTime(new Date());
+			superAdminService.updateSuperAdmin(superAdmin);
 			//保存登入用户
 			request.getSession().setAttribute(Constants.PortalSessionKey.USER_SESSION_KEY, superAdmin);
+			request.getSession().setAttribute(Constants.SessionValueKey.LAST_LOGIN_TIME, lastLoginTime);
 			returnDTO = ReturnDTOUtil.success();
 			return JSON_DATA;
 		}
+	}
+	
+	/**
+	 * 管理员注销
+	 */
+	public String logout() {
+		HttpSession session =  request.getSession();
+		if (null != session && null != session.getAttribute(Constants.PortalSessionKey.USER_SESSION_KEY)) {
+			session.removeAttribute(Constants.PortalSessionKey.USER_SESSION_KEY);
+		}
+		return "toLoginPage";
+	}
+	
+	/**
+	 * 查询总体情况
+	 * @return
+	 */
+	public String queryGeneralSituation() {
+		
+		return "toGeneralSiuation";
 	}
 	
 
