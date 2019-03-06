@@ -4,7 +4,9 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
 
 import top.yigege.dao.BaseDao;
 
@@ -74,6 +76,13 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 				String hql = "from "+pclass.getSimpleName();
 				return (List<T>)(this.sessionFactory.getCurrentSession().createQuery(hql)
 		.list());
+	}
+	
+	public Long getAllCount() {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(pclass);
+        criteria.setProjection(Projections.rowCount());
+        Long count = (Long) criteria.uniqueResult();
+        return count;
 	}
 
 }

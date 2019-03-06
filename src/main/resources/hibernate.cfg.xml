@@ -35,7 +35,10 @@
 		<!-- 超级管理员映射文件 -->
 		<mapping resource="top/yigege/domain/mapper/SuperAdmin.hbm.xml"></mapping>	
 		<!-- 系统消息映射文件 -->
-		<mapping resource="top/yigege/domain/mapper/SystemMessage.hbm.xml"></mapping>	
+		<mapping resource="top/yigege/domain/mapper/SystemMessage.hbm.xml"></mapping>
+		<!--  区域映射文件-->	
+		<mapping resource="top/yigege/domain/mapper/Area.hbm.xml"></mapping>
+
 	</session-factory>
 
 </hibernate-configuration>

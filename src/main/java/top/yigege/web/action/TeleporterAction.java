@@ -10,10 +10,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
 import top.yigege.domain.Teleporter;
+import top.yigege.enums.HttpCodeEnum;
 import top.yigege.json.result.ForTeleporter;
 import top.yigege.service.TeleporterService;
 
@@ -104,25 +106,23 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 	/**
 	 * 查询所有传送点
 	 */
-	public String queryAll() {
-		//1.检查超级管理员是否登入
-		int state;
-		 ActionContext actionContext = ActionContext.getContext();  
-	     Map session = actionContext.getSession(); 
-	     if(!session.containsKey("superuser")) {
-	    	 this.getJsonData().put("state", -1);
-	    	 return "jsonData";
-	     }
-	     
-	     //2.查询所有传送点业务处理
+	public String queryAllByPage() {
+		
+
 	     List<Teleporter> teleporterLists = teleporterService.queryAll();
+	     
+	     Long count = teleporterService.getTeleporterCount();
 	     if(teleporterLists != null) {
+	    	 bootstrapTableDTO.setCode(HttpCodeEnum.OK.getCode());
+	    	 bootstrapTableDTO.setTotal(count.intValue());
 	    	 this.getJsonData().put("total", teleporterLists.size());
 	    	 this.getJsonData().put("rows", teleporterLists);
 	     }else {
-	    	 this.getJsonData().put("state", 0);
+	    	 bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
 	     }
-	     return "jsonData";
+	     
+	     
+	     return BOOTSTRAP_TABLE_JSON_DATA;
 	}
 	
 	

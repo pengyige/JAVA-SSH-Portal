@@ -40,4 +40,10 @@ public interface BaseDao<T> {
 	 * @return
 	 */
 	List<T> findAll();
+	
+	/**
+	 * 返回所有数量
+	 * @return
+	 */
+	Long getAllCount(); 
 }

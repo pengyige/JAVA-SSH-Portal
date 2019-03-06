@@ -188,5 +188,17 @@
    	 <bean id="systemMessageAction" class="top.yigege.web.action.SystemMessageAction" scope="prototype">
    	 	<property name="systemMessageService" ref="systemMessageService"></property>
    	 </bean>
+   	 
+   	 <!-- 区域模块 -->
+   	 <bean id="areaDaoImpl" class="top.yigege.dao.impl.AreaDaoImpl">
+     	<property name="sessionFactory" ref="sessionFactory"></property>
+     </bean>
+     
+     <bean id="areaService" class="top.yigege.service.AreaService"> 
+     	<property name="areaDao" ref="areaDaoImpl"></property>
+     </bean>
    
+   	 <bean id="areaAction" class="top.yigege.web.action.AreaAction" scope="prototype">
+   	 	<property name="areaService" ref="areaService"></property>
+   	 </bean>   
 </beans>

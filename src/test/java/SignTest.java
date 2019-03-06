@@ -26,7 +26,7 @@ public class SignTest {
 		
 		System.out.println("还能走");
 */
-		for (int i = 0 ; i < 10 ; i++) {
+		/*for (int i = 0 ; i < 10 ; i++) {
 			System.out.println(i);
 			try {
 				int a = 1 / 0;
@@ -34,11 +34,15 @@ public class SignTest {
 				
 			}
 			
-		}
+		}*/
 		
 	/*	String test = new String();
 		fun(test);
 		System.out.println(test);*/
+		
+		Integer a = 127;
+		Integer b = 127;
+		System.out.println(a == b);
 	}
 	
 	public static void fun(String temp ) {

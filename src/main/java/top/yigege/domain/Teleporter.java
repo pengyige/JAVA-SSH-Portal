@@ -27,9 +27,30 @@ public class Teleporter {
 	/**备注*/
 	private String remark;
 	
+
+	
 	//传送点与传送点管理员一对一
 	private TeleporterAdmin teleporterAdmin;
 	
+	/**传送点与区域一对一*/
+	private Area area;
+	
+	/**录入人*/
+	private SuperAdmin superAdmin;
+	
+	
+	public SuperAdmin getSuperAdmin() {
+		return superAdmin;
+	}
+	public void setSuperAdmin(SuperAdmin superAdmin) {
+		this.superAdmin = superAdmin;
+	}
+	public Area getArea() {
+		return area;
+	}
+	public void setArea(Area area) {
+		this.area = area;
+	}
 	//传送点与骑手一对多
 	private Set<Rider> riders = new HashSet<Rider>();
 	

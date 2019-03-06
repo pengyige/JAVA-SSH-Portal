@@ -5,12 +5,15 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.io.monitor.FileAlterationListener;
 import org.apache.log4j.Logger;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.aspectj.weaver.patterns.ThisOrTargetAnnotationPointcut;
 
 import com.opensymphony.xwork2.ActionSupport;
+import com.opensymphony.xwork2.util.ResolverUtil.NameEndsWith;
 
+import top.yigege.vo.BootstrapTableDTO;
 import top.yigege.vo.ReturnDTO;
 
 /**
@@ -31,11 +34,17 @@ public class BaseAction extends ActionSupport  implements ServletRequestAware{
 	/**返回的Json对象*/
 	protected ReturnDTO returnDTO = new ReturnDTO();
 	
+	/**bootstrap返回对象*/
+	protected BootstrapTableDTO bootstrapTableDTO = new BootstrapTableDTO();
+	
 	/**request对象*/
 	private HttpServletRequest request;
 	
 	/**返回json数据*/
 	public static final String JSON_DATA = "jsonData";
+	
+	/**返回bootstrap-table数据*/
+	public static final String BOOTSTRAP_TABLE_JSON_DATA = "bootstrapTableData";
 	
 	public Map getJsonData() {
 		return jsonData;
@@ -60,6 +69,12 @@ public class BaseAction extends ActionSupport  implements ServletRequestAware{
 		
 		this.request = request;
 		
+	}
+	public BootstrapTableDTO getBootstrapTableDTO() {
+		return bootstrapTableDTO;
+	}
+	public void setBootstrapTableDTO(BootstrapTableDTO bootstrapTableDTO) {
+		this.bootstrapTableDTO = bootstrapTableDTO;
 	}
 	
 	

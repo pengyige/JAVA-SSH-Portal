@@ -9,12 +9,20 @@
 	<!-- 全局包 -->
 	<package name="globle" namespace="/" extends="struts-default,json-default"> 
 		<global-results>
+		<!-- boostrap-table json -->
+			<result name="bootstrapTableData" type="json">
+				<param name="root">
+					bootstrapTableDTO
+				</param>
+			</result>
 		 	<!-- json -->
 			<result name="jsonData" type="json">
 				<param name="root">
 					returnDTO
 				</param>
 			</result>
+			
+			
 		</global-results>
 	</package>
 
@@ -110,6 +118,11 @@
 		
 		<!-- 系统消息模块 -->
 		<action name="systemMessage_*" class="systemMessageAction" method="{1}">
+			
+		</action>
+		
+		<!-- 区域模块 -->
+		<action name="area_*" class="areaAction" method="{1}">
 			
 		</action>
 	</package>

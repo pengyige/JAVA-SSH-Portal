@@ -14,4 +14,5 @@ import top.yigege.domain.Teleporter;
  */
 public class TeleporterDaoImpl extends BaseDaoImpl<Teleporter> implements TeleporterDao {
 
+	
 }

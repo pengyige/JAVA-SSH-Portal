@@ -64,5 +64,14 @@ public class TeleporterService {
 		return teleporterDao.findAll();
 	}
 	
+	/**
+	 * 返回传送点所有数量
+	 * @return
+	 */
+	public Long getTeleporterCount() {
+		
+		return teleporterDao.getAllCount();
+	}
+	
 
 }
