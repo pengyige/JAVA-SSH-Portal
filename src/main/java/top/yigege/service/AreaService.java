@@ -53,4 +53,22 @@ public class AreaService {
 		
 		return areas;
 	}
+	
+	/**
+	 * 返回所有城市
+	 * @return
+	 */
+	public List<Area> getCities(){
+		
+		return areaDao.getCities();
+	}
+	
+	/**
+	 * 通过id返回区域
+	 * @param id
+	 * @return
+	 */
+	public Area getAreaById(Integer id) {
+		return areaDao.find(id);
+	}
 }

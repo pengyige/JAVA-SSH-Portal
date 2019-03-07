@@ -17,6 +17,7 @@ import top.yigege.domain.Teleporter;
 import top.yigege.domain.TeleporterAdmin;
 import top.yigege.service.TeleporterAdminService;
 import top.yigege.util.MD5Util;
+import top.yigege.util.ReturnDTOUtil;
 
 /**
  * 
@@ -253,5 +254,24 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 			this.request.getSession().removeAttribute("teleporterAdmin");
 		}
 		return "ad_login";
+	}
+	
+	/**
+	 * 查询所有传送点管理员
+	 * @return
+	 */
+	public String queryAllTelporterAdmin() {
+		logger.info("查询所有传送点管理员");
+		List<TeleporterAdmin> teleporterAdmins = null;
+		try {
+			teleporterAdmins = teleporterAdminService.findAll();
+			this.returnDTO = ReturnDTOUtil.success(teleporterAdmins);
+		}catch (Exception e) {
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+			
+		
+		return JSON_DATA;
 	}
 }

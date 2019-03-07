@@ -46,6 +46,12 @@ public class BaseAction extends ActionSupport  implements ServletRequestAware{
 	/**返回bootstrap-table数据*/
 	public static final String BOOTSTRAP_TABLE_JSON_DATA = "bootstrapTableData";
 	
+	/**bootstrap-table 当前页*/
+	public int page;
+	
+	/**bootstrap-table 分页大小*/
+	public int rows;
+	
 	public Map getJsonData() {
 		return jsonData;
 	}
@@ -76,6 +82,26 @@ public class BaseAction extends ActionSupport  implements ServletRequestAware{
 	public void setBootstrapTableDTO(BootstrapTableDTO bootstrapTableDTO) {
 		this.bootstrapTableDTO = bootstrapTableDTO;
 	}
+	public HttpServletRequest getRequest() {
+		return request;
+	}
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		this.page = page;
+	}
+	public int getRows() {
+		return rows;
+	}
+	public void setRows(int rows) {
+		this.rows = rows;
+	}
+	
+	
 	
 	
 }

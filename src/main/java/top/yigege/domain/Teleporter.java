@@ -91,5 +91,16 @@ public class Teleporter {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	@Override
+	public String toString() {
+		return "Teleporter [teleporterId=" + teleporterId + ", createDate=" + createDate + ", address=" + address
+				+ ", remark=" + remark + ", teleporterAdmin=" + teleporterAdmin + ", area=" + area + ", superAdmin="
+				+ superAdmin + ", riders=" + riders + ", getSuperAdmin()=" + getSuperAdmin() + ", getArea()="
+				+ getArea() + ", getRiders()=" + getRiders() + ", getTeleporterAdmin()=" + getTeleporterAdmin()
+				+ ", getTeleporterId()=" + getTeleporterId() + ", getCreateDate()=" + getCreateDate()
+				+ ", getAddress()=" + getAddress() + ", getRemark()=" + getRemark() + "]";
+	}
+	
+	
 	
 }

@@ -39,4 +39,22 @@ public class AreaAction extends BaseAction {
 		
 		return JSON_DATA;
 	}
+	
+	/**
+	 * 获取城市
+	 * @return
+	 */
+	public String getOnlyIncludeCity() {
+		logger.info("获取城市");
+		List<Area> areas = null;
+		try {
+			areas = areaService.getCities();
+			this.returnDTO = ReturnDTOUtil.success(areas);
+		}catch (Exception e) {
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+		
+		return JSON_DATA;
+	}
 }

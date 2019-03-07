@@ -1,0 +1,20 @@
+@charset "UTF-8";
+.float-right {
+	float:right;
+}
+
+.float-left {
+	float:left;
+}
+
+.green {
+	color:green;
+}
+
+.blue {
+	color:blue;
+}
+
+.red {
+	color:red;
+}

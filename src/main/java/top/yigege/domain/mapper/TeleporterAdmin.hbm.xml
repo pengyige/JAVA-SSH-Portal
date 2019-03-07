@@ -15,7 +15,7 @@
      	
      	<!-- 采用一对一双向外键关联 -->
      	<!-- 一个管理员对应一个传送点 -->
-  		<many-to-one name="teleporter" column="admin_porter_Id"  unique="true" lazy="false"/>     
+  		<many-to-one name="teleporter" column="admin_porter_Id"  unique="true" lazy="false" />     
  
     </class>  
 </hibernate-mapping>

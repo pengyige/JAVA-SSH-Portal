@@ -83,6 +83,13 @@ public class TeleporterAdminService {
 		return teleporterAdminDao.telIsExist(tel);
 	}
 	
+	/**
+	 * 通过id返回传送点管理员
+	 * @return
+	 */
+	public TeleporterAdmin getTeleporterAdminById(String id) {
+		return teleporterAdminDao.find(id);
+	}
 	
 
 }

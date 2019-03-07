@@ -1,5 +1,6 @@
 package top.yigege.dao.impl;
 
+import java.io.Serializable;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
@@ -44,7 +45,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 		Type[] types = ptype.getActualTypeArguments();
 		this.pclass = (Class) types[0];
 		
-}
+	}
 	
 	
 	@Override
@@ -66,7 +67,7 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	}
 
 	@Override
-	public T find(String id) {
+	public T find(Serializable id) {
 		return (T)this.sessionFactory.getCurrentSession().get(pclass, id);
 	}
 
@@ -85,4 +86,12 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         return count;
 	}
 
+	
+	@SuppressWarnings("unchecked")
+	public List<T> pageList(int page , int rows) {
+		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(pclass);
+		criteria.setFirstResult((page-1)*rows);
+		criteria.setMaxResults(rows);
+		return (List<T>)criteria.list();
+	}
 }

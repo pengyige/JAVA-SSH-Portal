@@ -1,5 +1,7 @@
 package top.yigege.dao;
 
+import java.util.List;
+
 import top.yigege.domain.Teleporter;
 
 /**
@@ -10,5 +12,7 @@ import top.yigege.domain.Teleporter;
  * @date:   2018年12月16日 上午11:05:33
  */
 public interface TeleporterDao extends BaseDao<Teleporter>{
+
+	
 	
 }

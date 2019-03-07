@@ -8,16 +8,20 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
 import com.alibaba.fastjson.JSONObject;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
+import freemarker.template.utility.StringUtil;
 import top.yigege.domain.Teleporter;
 import top.yigege.enums.HttpCodeEnum;
 import top.yigege.json.result.ForTeleporter;
 import top.yigege.service.TeleporterService;
+import top.yigege.util.ReturnDTOUtil;
+import top.yigege.vo.ReturnDTO;
 
 /**
  * 
@@ -108,15 +112,13 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 	 */
 	public String queryAllByPage() {
 		
-
-	     List<Teleporter> teleporterLists = teleporterService.queryAll();
+	     List<Teleporter> teleporterLists = teleporterService.pageList(page,rows);
 	     
 	     Long count = teleporterService.getTeleporterCount();
 	     if(teleporterLists != null) {
 	    	 bootstrapTableDTO.setCode(HttpCodeEnum.OK.getCode());
 	    	 bootstrapTableDTO.setTotal(count.intValue());
-	    	 this.getJsonData().put("total", teleporterLists.size());
-	    	 this.getJsonData().put("rows", teleporterLists);
+	    	 bootstrapTableDTO.setRows(teleporterLists);
 	     }else {
 	    	 bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
 	     }
@@ -125,6 +127,56 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 	     return BOOTSTRAP_TABLE_JSON_DATA;
 	}
 	
+	
+	/**
+	 * 查询传送点详情
+	 * @return
+	 */
+	public String getTeleporterDetailById() {
+		logger.info("查询传送点详情");
+		if (null == teleporter.getTeleporterId()) {
+			this.returnDTO = ReturnDTOUtil.paramError("传送点id为空");
+			return JSON_DATA;
+		}
+		
+		try {
+			Teleporter returnTeleporter = teleporterService.queryTeleporterById(teleporter.getTeleporterId());
+			if (null != returnTeleporter) {
+				this.returnDTO = ReturnDTOUtil.success(returnTeleporter);
+			}else {
+				this.returnDTO = ReturnDTOUtil.fail(teleporter.getTeleporterId()+"对应的传送点不存在");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.error(e.getMessage());
+		};
+		return JSON_DATA;
+	}
+	
+	
+	/**
+	 * 更新传送点信息
+	 * @return
+	 */
+	public String update() {
+		logger.info("修改传送点信息");
+		logger.info("请求参数"+teleporter.toString());
+		if (null == teleporter.getTeleporterId()) {
+			this.returnDTO = ReturnDTOUtil.paramError("传送点ID不能为空!");
+			return JSON_DATA;
+		}
+		
+		try {
+			teleporterService.updateTelerpoter(teleporter);
+			this.returnDTO = ReturnDTOUtil.success("更新传送点信息成功!");
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+		
+		return JSON_DATA;
+	}
 	
 	/**
 	 * 得到传送点下拉框所对应的JSON数据

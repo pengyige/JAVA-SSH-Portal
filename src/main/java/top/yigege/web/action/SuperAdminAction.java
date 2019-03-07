@@ -91,7 +91,7 @@ public class SuperAdminAction extends BaseAction implements ModelDriven<SuperAdm
 		logger.info("username:"+superAdmin.getUsername()+";password:+"+superAdmin.getPassword());
 		SuperAdmin superAdmin = superAdminService.verifySuperAdmin(this.superAdmin.getUsername(), MD5Util.MD5(this.superAdmin.getPassword()));
 		if (null == superAdmin) {
-			returnDTO = ReturnDTOUtil.fail("用户名或密码不正常");
+			returnDTO = ReturnDTOUtil.fail("用户名或密码不正确");
 			return JSON_DATA;
 		}else {
 			Date lastLoginTime = superAdmin.getLastLoginTime();

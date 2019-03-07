@@ -114,6 +114,8 @@
      
      <bean id="teleporterService" class="top.yigege.service.TeleporterService">
      		<property name="teleporterDao" ref="teleporterDaoImpl"></property>
+     		<property name="areaService" ref="areaService"></property>
+     		<property name="teleporterAdminService" ref="teleporterAdminService"></property>
      </bean>
      
      <bean id="teleporterAction" class="top.yigege.web.action.TeleporterAction" scope="prototype">

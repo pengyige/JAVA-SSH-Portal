@@ -15,5 +15,14 @@ import top.yigege.domain.Area;
  */
 public class AreaDaoImpl extends BaseDaoImpl<Area> implements AreaDao {
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Area> getCities() {
+		List<Area> areas = null;
+		String hql = "from Area a where a.parent_id != 0"; 
+		areas = this.getSessionFactory().getCurrentSession().createQuery(hql).list();
+		return areas;
+	}
+
 	
 }

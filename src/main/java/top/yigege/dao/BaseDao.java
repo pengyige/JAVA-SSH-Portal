@@ -1,4 +1,5 @@
 package top.yigege.dao;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -33,7 +34,7 @@ public interface BaseDao<T> {
 	 * @param id
 	 * @return
 	 */
-	T find(String id);
+	T find(Serializable id);
 	
 	/**
 	 * 返回所有对象
@@ -46,4 +47,12 @@ public interface BaseDao<T> {
 	 * @return
 	 */
 	Long getAllCount(); 
+	
+	/**
+	 * 分页查询
+	 * @param page 当前页
+	 * @param rows 分页大小
+	 * @return
+	 */
+	List<T> pageList(int page , int rows);
 }

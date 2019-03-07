@@ -11,19 +11,19 @@
   
      	
      	<!-- 一个传送点对于一个管理员 -->
-     	<one-to-one name="teleporterAdmin"  property-ref="teleporter" cascade="delete"/>
+     	<one-to-one name="teleporterAdmin"  property-ref="teleporter" cascade="save-update"/>
  
      	 
      	<!-- 采用一对一双向外键关联 -->
      	<!-- 一个传送点对于一个区域 -->
-  		<many-to-one name="area" column="areaId"  unique="true" lazy="false"/>     
+  		<many-to-one name="area" column="areaId"  unique="true" lazy="false" cascade="save-update"/>     
  
- 		<!-- 一个传送点对于一个区域 -->
+ 		<!-- 一个传送点对于一个插入人 -->
   		<many-to-one name="superAdmin" column="inputUserId"  unique="true" lazy="false"/>     
  
      	
      	<!-- 传送点与骑手 一对多 -->
-     	<set name="riders" inverse="true" cascade="all">
+     	<set name="riders" inverse="true" >
  			<key column="teleporter_rider_id"></key>
  			<one-to-many class="top.yigege.domain.Rider"/>    	
      	</set>
