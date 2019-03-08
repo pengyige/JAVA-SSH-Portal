@@ -24,7 +24,7 @@
      	</property>
      	
      	<!-- 一对多映射 -->
-     	<set name="riderOrders" inverse="true" cascade="all">
+     	<set name="riderOrders" inverse="true" >
  			<key column="rider_order_id"></key>
  			<one-to-many class="top.yigege.domain.RiderOrder"/>    	
      	</set>

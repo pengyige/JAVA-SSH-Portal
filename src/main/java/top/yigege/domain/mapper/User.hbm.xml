@@ -23,7 +23,7 @@
   
      	
      	<!-- 一对多映射 -->
-     	<set name="userOrders" inverse="true" cascade="all">
+     	<set name="userOrders" inverse="true" >
  			<key column="user_order_id"></key>
  			<one-to-many class="top.yigege.domain.UserOrder"/>    	
      	</set>

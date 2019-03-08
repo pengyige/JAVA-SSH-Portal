@@ -27,4 +27,11 @@ public interface TeleporterAdminDao extends BaseDao<TeleporterAdmin>{
 	 */
 	boolean telIsExist(String tel);
 
+	/**
+	 * 通过传送点id获取管理员
+	 * @param teleporterId
+	 * @return
+	 */
+	TeleporterAdmin findByTeleporterId(Integer teleporterId);
+
 }

@@ -5,10 +5,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 
+import top.yigege.constants.Constants;
 import top.yigege.dao.BaseDao;
 
 /**
@@ -88,10 +91,19 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 
 	
 	@SuppressWarnings("unchecked")
-	public List<T> pageList(int page , int rows) {
+	public List<T> pageList(int page , int rows,String orderName,int ascOrDesc) {
 		Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(pclass);
 		criteria.setFirstResult((page-1)*rows);
 		criteria.setMaxResults(rows);
+		
+		//排序
+		if (StringUtils.isNotBlank(orderName)) {
+			if (Constants.OrderValue.ASC == ascOrDesc) {
+				criteria.addOrder(Order.asc(orderName));
+			}else {
+				criteria.addOrder(Order.desc(orderName));
+			}
+		}
 		return (List<T>)criteria.list();
 	}
 }

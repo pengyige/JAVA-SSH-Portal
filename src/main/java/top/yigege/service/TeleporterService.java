@@ -3,11 +3,14 @@ package top.yigege.service;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.Criteria;
 
+import top.yigege.constants.Constants;
 import top.yigege.dao.TeleporterDao;
 import top.yigege.domain.Area;
 import top.yigege.domain.Teleporter;
 import top.yigege.domain.TeleporterAdmin;
+import top.yigege.vo.TeleporterQueryCondition;
 
 /**
  * 
@@ -59,18 +62,16 @@ public class TeleporterService {
 	 * 通过对传送点id删除传送点
 	 * @param teleporterId
 	 * @return
+	 * @throws Exception 
 	 */
-	public int deleteTeleporterById(Integer teleporterId) {
-		int resultState = 1;
-		try {
-			Teleporter t = new Teleporter();
-			t.setTeleporterId(teleporterId);
+	public void deleteTeleporterById(Integer teleporterId) throws Exception {
+		
+			Teleporter t = teleporterDao.find(teleporterId);
+			if (null != t.getTeleporterAdmin()) {
+				throw new Exception("此传送点已绑定到管理员为"+t.getTeleporterAdmin().getUsername()+",请先解除绑定");
+			}
 			teleporterDao.delete(t);
-		}catch(Exception e) {
-			resultState = 0;
-			return resultState;
-		}
-		return resultState;
+	
 	}
 
 
@@ -99,9 +100,27 @@ public class TeleporterService {
 	 * @return
 	 */
 	public List<Teleporter> pageList(int page , int rows) {
-		return teleporterDao.pageList(page,rows);
+		return teleporterDao.pageList(page,rows,"teleporterId",Constants.OrderValue.ASC);
 	}
 	
+	/**
+	 * 
+	 * @param page
+	 * @param rows
+	 * @param teleporterQueryCondition
+	 * @return
+	 */
+	public List<Teleporter> pageListByCondition(int page,int rows,TeleporterQueryCondition teleporterQueryCondition) {
+		
+		
+		return teleporterDao.pageListByCondition(page,rows,teleporterQueryCondition);
+		
+	}
+	
+	
+	public Long getTeleporterCountByCondition(TeleporterQueryCondition teleporterQueryCondition) {
+		return teleporterDao.getTeleporterCountByCondition(teleporterQueryCondition);
+	}
 	
 	/**
 	 * 通过id查询传送点
@@ -141,12 +160,8 @@ public class TeleporterService {
 		//管理员是否修改
 		if (null != teleporter.getTeleporterAdmin() && StringUtils.isNotBlank(teleporter.getTeleporterAdmin().getTeleporterAdminId())) {
 			//修改此管理员
-			TeleporterAdmin teleporterAdmin = teleporterAdminService.getTeleporterAdminById(teleporter.getTeleporterAdmin().getTeleporterAdminId());
-			//重新设置映射关系
-			if (null == teleporterAdmin) {
-				throw new Exception(teleporter.getTeleporterAdmin().getTeleporterAdminId()+"传送点管理员不存在");
-			}
-			oldTeleporter.setTeleporterAdmin(teleporterAdmin);
+			teleporterAdminService.bindAdminAndTeleporter(teleporter.getTeleporterAdmin().getTeleporterAdminId(), oldTeleporter);
+			
 		}
 		
 		//更新实体

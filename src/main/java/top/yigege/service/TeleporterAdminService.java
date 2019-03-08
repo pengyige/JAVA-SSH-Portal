@@ -3,6 +3,7 @@ package top.yigege.service;
 import java.util.List;
 
 import top.yigege.dao.TeleporterAdminDao;
+import top.yigege.domain.Teleporter;
 import top.yigege.domain.TeleporterAdmin;
 
 /**
@@ -89,6 +90,67 @@ public class TeleporterAdminService {
 	 */
 	public TeleporterAdmin getTeleporterAdminById(String id) {
 		return teleporterAdminDao.find(id);
+	}
+	
+	/**
+	 * 通过传送点id获取传送点管理员
+	 * @return
+	 */
+	public TeleporterAdmin getTeleporterAdminByTeleporterId(Integer teleporterId) {
+		return teleporterAdminDao.findByTeleporterId(teleporterId);
+	}
+	
+	/**
+	 * 绑定管理员所属传送点
+	 * 一个传送点只能对应一个管理员，反之也是，如要绑定，需先解除
+	 * @param teleporterAdminId 传送点管理员id
+	 * @param teleporter
+	 * @throws Exception 
+	 */
+	public void bindAdminAndTeleporter(String teleporterAdminId,Teleporter teleporter) throws Exception {
+		
+		
+		TeleporterAdmin teleporterAdmin = getTeleporterAdminById(teleporterAdminId);
+		if (null == teleporterAdmin) {
+			throw new Exception(teleporterAdminId+"管理员不存在!");
+		}
+		
+		if (null == teleporter) {
+			throw new Exception("传送点不能为空!");
+		}
+		
+		//判断此管理员是否已经绑定其他传送点
+		if (null != teleporterAdmin.getTeleporter()) {
+			throw new Exception("管理员:"+teleporterAdmin.getUsername()+",已绑定("+"编号:"+teleporterAdmin.getTeleporter().getTeleporterId()+",地址:"+teleporterAdmin.getTeleporter().getAddress()+",请先解除");
+		}
+		
+
+		//判断此传送点是否已绑定
+		if (null != getTeleporterAdminByTeleporterId(teleporter.getTeleporterId())) {
+			throw new Exception("编号:"+teleporter.getTeleporterId()+" 地址:"+teleporter.getAddress()+"已绑定，请先解除");
+		} 
+		
+		//重新设置传送点
+		teleporterAdmin.setTeleporter(teleporter);
+		
+		teleporterAdminDao.update(teleporterAdmin);
+	}
+	
+	/**
+	 * 解除管理员与传送点绑定关系
+	 * @param teleporterAdminId
+	 * @throws Exception 
+	 */
+	public void unBindAdminAndTeleporter(String teleporterAdminId) throws Exception {
+		
+		TeleporterAdmin teleporterAdmin = getTeleporterAdminById(teleporterAdminId);
+		if (null == teleporterAdmin) {
+			throw new Exception(teleporterAdminId+"管理员不存在!");
+		}
+		
+		//外键置为Null
+		teleporterAdmin.setTeleporter(null);
+		teleporterAdminDao.update(teleporterAdmin);
 	}
 	
 

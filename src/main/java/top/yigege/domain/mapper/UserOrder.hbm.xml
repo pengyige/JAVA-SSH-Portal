@@ -18,6 +18,6 @@
 		<property name="longitude"></property>
 		<property name="latitude"></property>
 		<!-- 多的一方，联系人所属用户 -->
-		<many-to-one name="user" class="top.yigege.domain.User" column="user_order_id"></many-to-one>
+		<many-to-one name="user" class="top.yigege.domain.User" column="user_order_id" cascade="none"></many-to-one>
 	</class> 
 </hibernate-mapping>

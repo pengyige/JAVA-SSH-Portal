@@ -48,11 +48,29 @@ public class TeleporterAdminDaoImpl extends BaseDaoImpl<TeleporterAdmin> impleme
 				.setParameter(0, tel)
 				.setParameter(1, password)
 				.list();
-		if(!list.isEmpty()){
+		if(null != list && !list.isEmpty()){
 				resultTeleporterAdmin=(TeleporterAdmin)list.get(0);
 		}
 		return resultTeleporterAdmin;
 		
+	}
+
+
+	/**
+	 * 通过传送点id获取管理员
+	 */
+	@Override
+	public TeleporterAdmin findByTeleporterId(Integer teleporterId) {
+		TeleporterAdmin resultTeleporterAdmin=null;
+		Session session=this.getSessionFactory().getCurrentSession();
+		String hql="from TeleporterAdmin t where t.teleporter.teleporterId = ? ";
+		List list=session.createQuery(hql)
+				.setParameter(0, teleporterId)
+				.list();
+		if(null != list && !list.isEmpty()){
+				resultTeleporterAdmin = (TeleporterAdmin)list.get(0);
+		}
+		return resultTeleporterAdmin;
 	}
 
 

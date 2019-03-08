@@ -52,7 +52,9 @@ public interface BaseDao<T> {
 	 * 分页查询
 	 * @param page 当前页
 	 * @param rows 分页大小
+	 * @param orderName 排序字段
+	 * @param ascOrDesc 0:正序 1倒序
 	 * @return
 	 */
-	List<T> pageList(int page , int rows);
+	List<T> pageList(int page , int rows , String orderName,int ascOrDesc);
 }

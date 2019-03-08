@@ -1,6 +1,8 @@
 package top.yigege.domain;
 
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 
@@ -22,6 +24,21 @@ public class SuperAdmin {
 	
 	/**上次登入时间*/
 	private Date lastLoginTime;
+
+	
+	private Set<SystemMessage> systemMessages = new HashSet<SystemMessage>();
+	
+	public Set<SystemMessage> getSystemMessages() {
+		return systemMessages;
+	}
+
+
+
+	public void setSystemMessages(Set<SystemMessage> systemMessages) {
+		this.systemMessages = systemMessages;
+	}
+
+
 
 	public SuperAdmin() {
 		super();

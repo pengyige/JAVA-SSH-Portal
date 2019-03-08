@@ -61,5 +61,15 @@ public class Constants {
 		/**上一次登入时间*/
 		public static final String LAST_LOGIN_TIME = "lastlogintime";
 	}
+	
+	
+	public static interface OrderValue {
+		
+		/**正序*/
+		public static final int ASC = 0;
+		
+		/**倒序*/
+		public static final int DESC = 1;
+	}
 
 }

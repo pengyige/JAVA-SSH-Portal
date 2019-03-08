@@ -6,6 +6,12 @@
         </id>  
      	<property name="username"  unique-key="true"></property> 
      	<property name="password"></property>  
-     	<property name="lastLoginTime"></property>   	
+     	<property name="lastLoginTime"></property>
+     	
+     	<!-- 一对多映射 -->
+     	<set name="systemMessages" inverse="true" >
+ 			<key column="superAdminId"></key>
+ 			<one-to-many class="top.yigege.domain.SystemMessage"/>    	
+     	</set>   	
     </class>  
 </hibernate-mapping>
