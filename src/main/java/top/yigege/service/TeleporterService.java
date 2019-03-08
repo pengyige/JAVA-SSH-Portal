@@ -1,5 +1,6 @@
 package top.yigege.service;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -8,6 +9,7 @@ import org.hibernate.Criteria;
 import top.yigege.constants.Constants;
 import top.yigege.dao.TeleporterDao;
 import top.yigege.domain.Area;
+import top.yigege.domain.SuperAdmin;
 import top.yigege.domain.Teleporter;
 import top.yigege.domain.TeleporterAdmin;
 import top.yigege.vo.TeleporterQueryCondition;
@@ -45,17 +47,33 @@ public class TeleporterService {
 	/**
 	 * 添加传送点
 	 * @param teleporter
-	 * @return
+	 * @param superAdmin
+	 * @throws Exception
 	 */
-	public int addTeleporter(Teleporter teleporter) {
-		int resultState = 1;
-		try {
-			teleporterDao.save(teleporter);
-		}catch(Exception e) {
-			resultState = 0;
-			return resultState;
+	public void addTeleporter(Teleporter teleporter,SuperAdmin superAdmin) throws Exception {
+		if (null != teleporter) {
+			if (StringUtils.isBlank(teleporter.getAddress())) {
+				throw new Exception("传送点地址不能为空!");
+			}
+			
+			if (null != teleporter.getArea() && null != teleporter.getArea().getId()) {
+				Area area = areaService.getAreaById(teleporter.getArea().getId()); 
+				if (null == area) {
+					throw new Exception(teleporter.getArea().getId()+"区域不存在");
+				}
+				//添加区域
+				teleporter.setArea(area);
+				//设置录入日期
+				teleporter.setCreateDate(new Date());
+				//设置录入人
+				teleporter.setSuperAdmin(superAdmin);
+				teleporterDao.save(teleporter);
+			}else {
+				throw new Exception("区域不能为空!");
+			}
+		}else {
+			throw new Exception("参数错误");
 		}
-		return resultState;
 	}
 	
 	/**

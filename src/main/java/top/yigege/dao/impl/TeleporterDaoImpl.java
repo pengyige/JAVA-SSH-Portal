@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Criteria;
+import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Property;
@@ -38,11 +39,18 @@ public class TeleporterDaoImpl extends BaseDaoImpl<Teleporter> implements Telepo
 			}
 			
 			//地址
+			if (StringUtils.isNotBlank(teleporterQueryCondition.getAddress())) {
+				criteria.add(Restrictions.ilike("address", teleporterQueryCondition.getAddress(),MatchMode.ANYWHERE));
+			}
+			
+			//区域
 			if (StringUtils.isNotBlank(teleporterQueryCondition.getAreas())) {
 				criteria = criteria.createAlias("area", "a");
 				criteria.add(Restrictions.eq("a.id", Integer.parseInt(teleporterQueryCondition.getAreas())));
 
 			}
+			
+			
 			
 			//日期
 			if (null != teleporterQueryCondition.getDate()) {
@@ -66,6 +74,11 @@ public class TeleporterDaoImpl extends BaseDaoImpl<Teleporter> implements Telepo
 			}
 			
 			//地址
+			if (StringUtils.isNotBlank(teleporterQueryCondition.getAddress())) {
+				criteria.add(Restrictions.ilike("address", teleporterQueryCondition.getAddress(),MatchMode.ANYWHERE));
+			}
+			
+			//区域
 			if (StringUtils.isNotBlank(teleporterQueryCondition.getAreas())) {
 				criteria = criteria.createAlias("area", "a");
 				criteria.add(Restrictions.eq("a.id", Integer.parseInt(teleporterQueryCondition.getAreas())));

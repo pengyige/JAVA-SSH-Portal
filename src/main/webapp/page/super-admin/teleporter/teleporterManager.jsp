@@ -49,6 +49,10 @@
        [data-id=queryAreaSelect] {
        	height:30px;
        }
+	   
+	   [data-id=addTeleporterAreaSelect] {
+		   height:30px;
+	   }
     </style>
 </head>
 <body>
@@ -87,24 +91,30 @@
 	                    </span>
 	                </div>
 	                
-	                
-	                 <!-- 区域 -->
-	                 <div  class="form-group" style="margin-top:8px;">
-					 
-					    <label class="col-sm-3 control-label" style="margin-left:8px;">区域</label>
-					    <div class="col-sm-2">
-   							<select  id="queryAreaSelect" class="selectpicker"  data-live-search="true">
-								                           
-							</select>
-							<button class="btn btn-default" id="clearQueryAreaSelectBtn">
-								<span class="glyphicon glyphicon-trash"></span> 清空
-							</button>					    
-					    </div>
-				 	</div>
+	             
 	           
 				 </div>
 				 
-			
+				
+				 <div  class="form-group" >
+					<!-- 区域 -->
+					<label class="col-sm-3 control-label" >区域</label>
+					<div class="col-sm-2">
+						<select  id="queryAreaSelect" class="selectpicker"  data-live-search="true">
+													   
+						</select>
+						<button class="btn btn-default" id="clearQueryAreaSelectBtn">
+							<span class="glyphicon glyphicon-trash"></span> 清空
+						</button>					    
+					</div>
+					
+					 <!-- 地址 -->
+				 	<label class="col-sm-3 control-label">地址</label>
+				    <div class='input-group date col-sm-2' id='datetimepicker1'>
+	                    <input type='text' class="form-control" id="queryAddress"/>
+	                    
+	                </div>
+				</div>
 				
 			  </form>
 			  
@@ -325,6 +335,50 @@
 	</div>
 	
 	
+	<!-- 新增模态框 -->
+	<div class="modal fade" id="addTeleporterDialog" tabindex="-1" role="dialog"  aria-hidden="true">
+	    <div class="modal-dialog">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	                <h4 class="modal-title" id="myModalLabel">新增传送点</h4>
+	            </div>
+	            <div class="modal-body">
+					<form action="#" class="form-horizontal" role="form">
+							  
+						 <!-- 区域 -->
+						 <div class="form-group">
+						    <label class="col-sm-3 control-label" style="margin-left:8px;">区域</label>
+							<div class="col-sm-2">
+								<select  id="addTeleporterAreaSelect" class="selectpicker"  data-live-search="true">
+															   
+								</select>
+													    
+							</div>
+						 </div>
+						 
+						 <!-- 地址 -->
+						 <div class="form-group">
+						    <label class="col-sm-3 control-label">地址</label>
+						    <div class="col-sm-9">
+							  
+						      <input class="form-control" id="addTeleporterAddress" type="text" value="" >
+							  
+						    </div>
+						 </div>
+						 
+						 
+						 
+					</form>
+				</div>
+	            <div class="modal-footer">
+	                <button id="addTeleporterDialogOKBtn" type="button" class="btn btn-primary">保存</button>
+	            </div>
+	        </div><!-- /.modal-content -->
+	    </div><!-- /.modal -->
+	</div>
+
+	
 	<!-- 等待框 -->
 	<div class="modal fade" id="waitDialog">
 	  <div class="modal-dialog modal-sm" style="text-align:center">
@@ -349,7 +403,8 @@ var QUERY_TELEPORTER_ADMIN_URL = "${pageContext.request.contextPath}/teleporterA
 var UPDATE_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_update.action";
 /**删除传送点*/
 var DELETE_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_deleteTeleporter.action";
-
+/**添加传送点*/
+var ADD_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_addTeleporter.action";
 
 /**全局城市*/
 var global_city = null;
@@ -401,6 +456,14 @@ $(function (){
 	
 	$("#clearQueryAreaSelectBtn").click(function (){
 		$('#queryAreaSelect').selectpicker('val','');
+	});
+	
+	$("#addTeleporterBtn").click(function (){
+		$("#addTeleporterDialog").modal();
+	});
+	
+	$("#addTeleporterDialogOKBtn").click(function (){
+		addTeleporter();
 	});
 });
 
@@ -454,10 +517,12 @@ function initMainTable () {
         	var teleporterId = $("#queryTeleporterId").val();
         	var inputDate = $("#datetimepicker1").find("input").val();
         	var area = $("#queryAreaSelect").selectpicker('val');
-            
+            var address = $("#queryAddress").val();
+			
         	temp['teleporterQueryCondition.ids'] = teleporterId;
         	temp['teleporterQueryCondition.date'] = inputDate;
         	temp['teleporterQueryCondition.areas'] = area;
+			temp['teleporterQueryCondition.address'] = address;
             return temp;
         },
         columns: [{
@@ -642,6 +707,19 @@ function initAreaData(){
 			   
 			    $('#queryAreaSelect').selectpicker('refresh'); 
 			    $('#queryAreaSelect').selectpicker('render');
+				
+				//初始化新增区域
+				for (var i = 0 ; i < global_city.length; i++){
+					   var option = $('<option></option>');
+		               option.attr('value', global_city[i].id);
+		               option.text(global_city[i].name);
+		               $('#addTeleporterAreaSelect').append(option);
+					  
+				} 
+				$('#addTeleporterAreaSelect').selectpicker('val','');
+			   
+			    $('#addTeleporterAreaSelect').selectpicker('refresh'); 
+			    $('#addTeleporterAreaSelect').selectpicker('render');
 			   
 			}else {
 				 $.globalMessenger().post({
@@ -659,7 +737,7 @@ function initAreaData(){
                 message: "操作失败",//提示信息
                 type: 'error',//消息类型。error、info、success
                 hideAfter: 5,//多长时间消失
-                showCloseButton:false,//是否显示关闭按钮
+                showCloseButton:true,//是否显示关闭按钮
                 hideOnNavigate: true //是否隐藏导航
 
  			});
@@ -730,7 +808,7 @@ function viewById(id) {
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
 	                hideAfter: 5,//多长时间消失
-	                showCloseButton:false,//是否显示关闭按钮
+	                showCloseButton:true,//是否显示关闭按钮
 	                hideOnNavigate: true //是否隐藏导航
 	
 	 		});
@@ -860,8 +938,8 @@ function editEleporterHandle(id){
 	            $.globalMessenger().post({
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
-	                hideAfter: 2,//多长时间消失
-	                showCloseButton:false,//是否显示关闭按钮
+	                hideAfter: 5,//多长时间消失
+	                showCloseButton:true,//是否显示关闭按钮
 	                hideOnNavigate: true //是否隐藏导航
 	
 	 		});
@@ -893,11 +971,15 @@ function queryTeleporter(){
 	var inputDate = $("#datetimepicker1").find("input").val();
 	console.log("时间:"+$("#datetimepicker1").find("input").val());
 	var area = $("#queryAreaSelect").selectpicker('val');
-
+	var address = $("#queryAddress").val();
+	
+	
+	
 	var requestParam = {
 			"teleporterQueryCondition.ids":	teleporterId,
 			"teleporterQueryCondition.date":inputDate,
 			"teleporterQueryCondition.areas":area,
+			"teleporterQueryCondition.address" : address.trim(),
 			"page":1,
 			"rows":5
 	}
@@ -919,7 +1001,7 @@ function queryTeleporter(){
 	                message: "请求错误",//提示信息
 	                type: 'error',//消息类型。error、info、success
 	                hideAfter: 5,//多长时间消失
-	                showCloseButton:false,//是否显示关闭按钮
+	                showCloseButton:true,//是否显示关闭按钮
 	                hideOnNavigate: true //是否隐藏导航
 	
 	 			});
@@ -931,7 +1013,7 @@ function queryTeleporter(){
                 message: "操作失败",//提示信息
                 type: 'error',//消息类型。error、info、success
                 hideAfter: 5,//多长时间消失
-                showCloseButton:false,//是否显示关闭按钮
+                showCloseButton:true,//是否显示关闭按钮
                 hideOnNavigate: true //是否隐藏导航
 
  			});
@@ -960,8 +1042,8 @@ function updateTeleporter(){
 		$.globalMessenger().post({
             message: "传送点ID不能为空",//提示信息
             type: 'error',//消息类型。error、info、success
-            hideAfter: 3,//多长时间消失
-            showCloseButton:false,//是否显示关闭按钮
+            hideAfter: 5,//多长时间消失
+            showCloseButton:true,//是否显示关闭按钮
             hideOnNavigate: true //是否隐藏导航
 
 		});
@@ -1016,7 +1098,7 @@ function updateTeleporter(){
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
 	                hideAfter: 5,//多长时间消失
-	                showCloseButton:false,//是否显示关闭按钮
+	                showCloseButton:true,//是否显示关闭按钮
 	                hideOnNavigate: true //是否隐藏导航
 	
 	 		});
@@ -1039,7 +1121,7 @@ function deleteTeleporter(){
             message: "传送点ID不能为空!",//提示信息
             type: 'error',//消息类型。error、info、success
             hideAfter: 5,//多长时间消失
-            showCloseButton:false,//是否显示关闭按钮
+            showCloseButton:true,//是否显示关闭按钮
             hideOnNavigate: true //是否隐藏导航
 
 		});
@@ -1090,11 +1172,95 @@ function deleteTeleporter(){
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
 	                hideAfter: 5,//多长时间消失
-	                showCloseButton:false,//是否显示关闭按钮
+	                showCloseButton:true,//是否显示关闭按钮
 	                hideOnNavigate: true //是否隐藏导航
 	
 	 		});
 			$("#waitDialog").modal('hide');
+		}
+	});
+}
+
+/**
+ * 添加传送点
+ */
+function addTeleporter(){
+	//区域
+	var area = $("#addTeleporterAreaSelect").selectpicker('val');
+	//地址
+	var address = $("#addTeleporterAddress").val();
+	
+	if (null == area || "" == area.trim()) {
+		$.globalMessenger().post({
+            message: "区域不能为空!",//提示信息
+            type: 'error',//消息类型。error、info、success
+            hideAfter: 5,//多长时间消失
+            showCloseButton:true,//是否显示关闭按钮
+            hideOnNavigate: true //是否隐藏导航
+
+		});
+		return;
+	}
+	
+	if (null == address || "" == address.trim()) {
+		$.globalMessenger().post({
+            message: "地址不能为空!",//提示信息
+            type: 'error',//消息类型。error、info、success
+            hideAfter: 5,//多长时间消失
+            showCloseButton:true,//是否显示关闭按钮
+            hideOnNavigate: true //是否隐藏导航
+
+		});
+		return;
+	}
+	
+	var requestParam = {
+		"teleporter.address" : address,
+		"teleporter.area.id" : area
+	};
+	
+	$.ajax({
+		url:ADD_TELEPORTER_URL,
+		type:'POST',
+		data:requestParam,
+		dataType:'json',
+		beforeSend:function (){
+			$("#waitDialog").modal();
+		},
+		success:function (result){
+			$("#waitDialog").modal('hide');
+			if (200 == result.code){
+				 $.globalMessenger().post({
+		                message: result.message,//提示信息
+		                type: 'success',//消息类型。error、info、success
+		                hideAfter: 5,//多长时间消失
+		                showCloseButton:true,//是否显示关闭按钮
+		                hideOnNavigate: true //是否隐藏导航
+		
+		 		});
+				//关闭当前对话框
+				$("#addTeleporterDialog").modal('hide');
+			}else {
+				 $.globalMessenger().post({
+		                message: result.message,//提示信息
+		                type: 'error',//消息类型。error、info、success
+		                hideAfter: 5,//多长时间消失
+		                showCloseButton:true,//是否显示关闭按钮
+		                hideOnNavigate: true //是否隐藏导航
+		
+		 		});
+			}
+		},
+		fail:function (){
+			 $("#waitDialog").modal('hide');
+			 $.globalMessenger().post({
+						message: result.message,//提示信息
+						type: 'error',//消息类型。error、info、success
+						hideAfter: 5,//多长时间消失
+						showCloseButton:true,//是否显示关闭按钮
+						hideOnNavigate: true //是否隐藏导航
+		
+				});
 		}
 	});
 }

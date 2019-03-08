@@ -16,6 +16,8 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
 import freemarker.template.utility.StringUtil;
+import top.yigege.constants.Constants;
+import top.yigege.domain.SuperAdmin;
 import top.yigege.domain.Teleporter;
 import top.yigege.enums.HttpCodeEnum;
 import top.yigege.json.result.ForTeleporter;
@@ -77,21 +79,16 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 	 * 添加传送点
 	 */
 	public String addTeleporter() {
-		//1.检查超级管理员是否登入
-		int state;
-		 ActionContext actionContext = ActionContext.getContext();  
-	     Map session = actionContext.getSession(); 
-	     if(!session.containsKey("superuser")) {
-	    	 this.getJsonData().put("state", -1);
-	    	 return "jsonData";
-	     }
-	     
-	     //2.添加传送点业务处理
-	     Date date = new Date();
-	     teleporter.setCreateDate(date);
-	     state = teleporterService.addTeleporter(teleporter);
-	     this.getJsonData().put("state", state);
-		return "jsonData";
+		logger.info("添加传送点");
+	 
+	    try {
+	    	teleporterService.addTeleporter(teleporter,(SuperAdmin)getRequest().getSession().getAttribute(Constants.PortalSessionKey.USER_SESSION_KEY));
+	    	this.returnDTO = ReturnDTOUtil.success(teleporter.getAddress()+"添加成功!");
+	    }catch (Exception e) {
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+		return JSON_DATA;
 	}
 	
 	

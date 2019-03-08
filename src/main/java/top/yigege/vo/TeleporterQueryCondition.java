@@ -19,6 +19,8 @@ public class TeleporterQueryCondition {
 	/**传送点日期*/
 	private Date date;
 	
+	private String address;
+	
 	/**区域*/
 	private String areas;
 
@@ -47,6 +49,16 @@ public class TeleporterQueryCondition {
 	public void setAreas(String areas) {
 		this.areas = areas;
 	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	
+	
 	
 	
 	
