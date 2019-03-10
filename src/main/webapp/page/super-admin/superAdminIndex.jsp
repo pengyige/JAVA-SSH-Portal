@@ -170,9 +170,7 @@
 			        <div id="collapseOne" class="panel-collapse collapse in">
 			            <div class="panel-body">
 			                <div class="list-group">
-							  <a class="list-group-item" href="javascript:;"><i class="fa fa-home fa-fw"></i>&nbsp; 添加传送点</a>
-							  <a class="list-group-item" href="javascript:;"><i class="fa fa-book fa-fw"></i>&nbsp; 修改传送点</a>
-							  <a class="list-group-item" href="javascript:;"><i class="fa fa-pencil fa-fw"></i>&nbsp; 删除传送点</a>
+							
 							  <a class="list-group-item" href="javascript:;" onclick="intoTeleporterManagerPage();"><i class="fa fa-cog fa-fw"></i>&nbsp; 查询传送点</a>
 							</div>
 			            </div>

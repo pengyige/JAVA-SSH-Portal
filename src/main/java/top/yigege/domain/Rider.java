@@ -35,6 +35,17 @@ public class Rider {
 	/**收入*/
 	private Double balance;
 	
+	/**注册日期*/
+	private Date registerDate;
+	
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+
 	public String getIDNumber() {
 		return IDNumber;
 	}

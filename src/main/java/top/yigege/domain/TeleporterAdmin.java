@@ -1,5 +1,7 @@
 package top.yigege.domain;
 
+import java.util.Date;
+
 /**
  * 
  * @ClassName:  TeleporterAdmin   
@@ -23,6 +25,12 @@ public class TeleporterAdmin {
 	
 	/**传送点管理员电话*/
 	private String tel;
+	
+	/**注册时间*/
+	private Date registerDate;
+	
+	/**操作人*/
+	private  SuperAdmin superAdmin;
 	
 	//传送点管理员与传送点一对一
 	private Teleporter teleporter;
@@ -63,5 +71,21 @@ public class TeleporterAdmin {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+	public SuperAdmin getSuperAdmin() {
+		return superAdmin;
+	}
+	public void setSuperAdmin(SuperAdmin superAdmin) {
+		this.superAdmin = superAdmin;
+	}
+	
+	
+	
+	
 	
 }

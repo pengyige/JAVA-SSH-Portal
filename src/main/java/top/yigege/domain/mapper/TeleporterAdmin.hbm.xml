@@ -12,10 +12,14 @@
     		<column name="sex" default="1"></column>
     	</property>
   		<property name="tel"></property>
+  		<property name="registerDate"></property>
      	
      	<!-- 采用一对一双向外键关联 -->
      	<!-- 一个管理员对应一个传送点 -->
   		<many-to-one name="teleporter" column="admin_porter_Id"  unique="true" lazy="false"/>     
- 
+ 		
+ 		<!-- 维护一下由谁录入 -->
+ 		<many-to-one name="superAdmin" column="superAdminId" lazy="false"/>     
+ 		
     </class>  
 </hibernate-mapping>

@@ -52,6 +52,9 @@ public class UserOrder {
 	/**纬度*/
 	private double latitude;
 	
+	/**用户*/
+	private User user;
+	
 	public double getLongitude() {
 		return longitude;
 	}
@@ -68,7 +71,7 @@ public class UserOrder {
 		this.latitude = latitude;
 	}
 
-	private User user;
+	
 
 	public String getUserOrderId() {
 		return userOrderId;

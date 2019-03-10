@@ -8,6 +8,7 @@
      	<property name="username"  unique-key="true"></property>
      	<property name="password"></property>
      	<property name="checkinDate"></property>
+     	<property name="registerDate"></property>
      	<property name="sex">
      		<column name="sex" default="1"></column>
      	</property>
