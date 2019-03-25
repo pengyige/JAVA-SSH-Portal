@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
+import com.alibaba.fastjson.serializer.SerialWriterStringEncoder;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
@@ -272,6 +273,54 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 		}
 			
 		
+		return JSON_DATA;
+	}
+	
+	/**
+	 * 跳转到传送点管理员管理界面
+	 * @return
+	 */
+	public String intoTeleporterAdminManagerPage() {
+		return "intoTeleporterAdminManagerPage";
+	}
+	
+	/**
+	 * 分页查询
+	 * @return
+	 */
+	public String queryAllByPage() {
+		return JSON_DATA;
+	}
+	
+	/**
+	 * 查询传送点管理员详情
+	 * @return
+	 */
+	public String getTeleporterAdminDetailById() {
+		return JSON_DATA;
+	}
+	
+	/**
+	 * 更新传送点管理员
+	 * @return
+	 */
+	public String updateTeleporterAdmin() {
+		return JSON_DATA;
+	}
+	
+	/**
+	 * 删除传送点管理员
+	 * @return
+	 */
+	public String deleteTeleporterAdmin() {
+		return JSON_DATA;
+	}
+	
+	/**
+	 * 添加传送点管理员
+	 * @return
+	 */
+	public String addTeleporterAdmin() {
 		return JSON_DATA;
 	}
 }

@@ -22,7 +22,9 @@
 				</param>
 			</result>
 			
-			
+			<result name="error" type="httpheader">
+		         <param name="error">/page/common/errorPage/404.jsp</param>
+		    </result>
 		</global-results>
 	</package>
 
@@ -42,8 +44,8 @@
 			<!-- 对UserAction使用定义的拦截器 -->
 			<interceptor-ref name="defaultStack"></interceptor-ref>		
 			
-			<result name="error">
-					error.jsp
+			<result name="intoUserManagerPage">
+				/page/super-admin/user/userManager.jsp
 			</result>
 			
 			<result name="admin">
@@ -56,8 +58,10 @@
 		</action>
 		
 		<!-- 用户订单模块  -->
-		<action name="userorder_*" class="userOrderAction" method="{1}">
-			
+		<action name="userOrder_*" class="userOrderAction" method="{1}">
+			<result name="intoOrderManagerPage">
+				/page/super-admin/order/orderManager.jsp
+			</result>
 			
 		</action>
 		
@@ -75,6 +79,10 @@
 			
 			
 			
+			<result name="intoTeleporterAdminManagerPage">
+				/page/super-admin/teleporter-admin/teleporterAdminManager.jsp
+			</result>
+			
 			<result name="manage" type="redirect">
 				manage.jsp
 			</result>
@@ -87,7 +95,9 @@
 		
 		<!-- 骑手模块 -->
 		<action name="rider_*" class="riderAction" method="{1}">
-			
+			<result name="intoRiderManagerPage">
+				/page/super-admin/rider/riderManager.jsp
+			</result>
 		</action>
 		
 		<!-- 骑手订单模块  -->
@@ -118,7 +128,9 @@
 		
 		<!-- 系统消息模块 -->
 		<action name="systemMessage_*" class="systemMessageAction" method="{1}">
-			
+			<result name="intoSystemMessageManagerPage">
+				/page/super-admin/message/messageManager.jsp
+			</result>
 		</action>
 		
 		<!-- 区域模块 -->

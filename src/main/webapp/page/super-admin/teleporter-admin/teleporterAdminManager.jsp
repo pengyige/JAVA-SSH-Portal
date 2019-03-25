@@ -38,7 +38,7 @@
    			 content: "\f021";
         }
         
-       [data-id=areaSelect] {
+       [data-id=queryTeleporterSelect] {
        	height:30px;
        }
        
@@ -433,37 +433,33 @@
 <script>
 var $table;
 /**分页查询传送点管理员*/
-var QUERY_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_queryAllByPage.action";
-/**查看传送点详情*/
-var TELEPORTER_DETAIL_URL = "${pageContext.request.contextPath}/teleporter_getTeleporterDetailById.action";
-/**全部城市*/
-var QUERY_CITY_URL = "${pageContext.request.contextPath}/area_getOnlyIncludeCity.action";
-/**获取全部管理员*/
-var QUERY_TELEPORTER_ADMIN_URL = "${pageContext.request.contextPath}/teleporterAdmin_queryAllTelporterAdmin.action";
-/**更新传送点信息*/
-var UPDATE_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_update.action";
-/**删除传送点*/
-var DELETE_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_deleteTeleporter.action";
-/**添加传送点*/
-var ADD_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_addTeleporter.action";
+var QUERY_TELEPORTER_ADMIN_URL = "${pageContext.request.contextPath}/teleporterAdmin_queryAllByPage.action";
+/**查看传送点管理员详情*/
+var TELEPORTER_ADMIN_DETAIL_URL = "${pageContext.request.contextPath}/teleporterAdmin_getTeleporterAdminDetailById.action";
+/**获取全部传送点*/
+var QUERY_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporter_queryAllTelporter.action";
+/**更新传送点管理员信息*/
+var UPDATE_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporterAdmin_updateTeleporterAdmin.action";
+/**删除传送点管理员*/
+var DELETE_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporterAdmin_deleteTeleporterAdmin.action";
+/**添加传送点管理员*/
+var ADD_TELEPORTER_URL = "${pageContext.request.contextPath}/teleporterAdmin_addTeleporterAdmin.action";
 
-/**全局城市*/
-var global_city = null;
-/**全局管理员*/
-var global_teleporter_admin = null;
+
+/**全局传送点*/
+var global_teleporter = null;
 
 $(function (){
 	//初始化表格
-	initMainTable();
+	//initMainTable();
 	
 	//初始化提示
 	initMessenge();
 	
-	//初始化管理员数据
-	initAdminData();
+	//初始化传送点数据
+	initTeleporterData();
 	
-	//初始化区域
-	initAreaData();
+	
 
 	 
 	$('#datetimepicker1').datetimepicker({
@@ -522,7 +518,7 @@ function initMessenge() {
 function initMainTable () {
     //记录页面bootstrap-table全局变量$table，方便应用
     $table = $('#grid').bootstrapTable({
-        url: QUERY_TELEPORTER_URL,                      //请求后台的URL（*）
+        url: QUERY_TELEPORTER_ADMIN_URL,                      //请求后台的URL（*）
         method: 'GET',                      //请求方式（*）
         //toolbar: '#toolbar',              //工具按钮用哪个容器
         striped: false,                      //是否显示行间隔色
@@ -555,15 +551,15 @@ function initMainTable () {
             };
             
           	//获取查询条件
-        	var teleporterId = $("#queryTeleporterId").val();
+        	var teleporterAdminId = $("#queryTeleporterAdminId").val();
         	var inputDate = $("#datetimepicker1").find("input").val();
-        	var area = $("#queryAreaSelect").selectpicker('val');
-            var address = $("#queryAddress").val();
+        	var teleporter = $("#queryTeleporterSelect").selectpicker('val');
+            var phone = $("#queryPhone").val();
 			
-        	temp['teleporterQueryCondition.ids'] = teleporterId;
-        	temp['teleporterQueryCondition.date'] = inputDate;
-        	temp['teleporterQueryCondition.areas'] = area;
-			temp['teleporterQueryCondition.address'] = address;
+        	temp['teleporterAdminQueryCondition.ids'] = teleporterAdminId;
+        	temp['teleporterAdminQueryCondition.date'] = inputDate;
+        	temp['teleporterAdminQueryCondition.teleporter'] = teleporter;
+			temp['teleporterAdminQueryCondition.phone'] = phone;
             return temp;
         },
         columns: [{
@@ -667,28 +663,35 @@ function actionFormatter(value, row, index) {
 }
 
 /**
- * 获取所有传送点管理员数据
+ * 获取所有传送点数据
  */
-function initAdminData(){
+function initTeleporterData(){
 	$.ajax({
-		url:QUERY_TELEPORTER_ADMIN_URL,
+		url:QUERY_TELEPORTER_URL,
 		type:'POST',
 		dataType:'json',
+		beforeSend:function (){
+			$("#waitDialog").modal();
+		},
 		success:function (result) {
+			$("#waitDialog").modal('hide');
+			
 			if (200 == result.code) {
-				global_teleporter_admin = result.message;
+				global_teleporter = result.message;
 				
-				//初始化管理员区域
-				for (var i = 0 ; i < global_teleporter_admin.length; i++){
+				//初始化传送点区域
+			 	for (var i = 0 ; i < global_teleporter.length; i++){
 					   var option = $('<option></option>');
-					   option.attr('value', global_teleporter_admin[i].teleporterAdminId);
-		               option.text(global_teleporter_admin[i].username+" "+global_teleporter_admin[i].tel);
-		               $('#teleporterAdminSelect').append(option);
+					   option.attr('value', global_teleporter[i].teleporterId);
+		               option.text(global_teleporter[i].address);
+		               $('#queryTeleporterSelect').append(option);
 					  
 				}
+				//默认选中无
+			 	$('#queryTeleporterSelect').selectpicker('val','');
 				
-				$('#teleporterAdminSelect').selectpicker('refresh');  
-			    $('#teleporterAdminSelect').selectpicker('render');
+				$('#queryTeleporterSelect').selectpicker('refresh');  
+			    $('#queryTeleporterSelect').selectpicker('render');
 			}else {
 				$.globalMessenger().post({
 	                message: result.message,//提示信息
@@ -698,79 +701,6 @@ function initAdminData(){
 	                hideOnNavigate: true //是否隐藏导航
 	
 	 			});
-			}
-		}
-	});
-		
-}
-
-/**
- * 初始化区域
- */
-function initAreaData(){
-	$.ajax({
-		url:QUERY_CITY_URL,
-		type:'POST',
-		dataType:'json',
-		beforeSend:function (){
-			$("#waitDialog").modal();
-		},
-		success:function (result){
-			console.log(result);
-			$("#waitDialog").modal('hide');
-			if (200 == result.code){
-				global_city = result.message;
-				
-				//初始化区域
-				for (var i = 0 ; i < global_city.length; i++){
-					   var option = $('<option></option>');
-		               option.attr('value', global_city[i].id);
-		               option.text(global_city[i].name);
-		               
-		               $('#areaSelect').append(option);
-		               
-		              
-				}
-				
-				$('#areaSelect').selectpicker('refresh');  
-			    $('#areaSelect').selectpicker('render');
-			    
-			    //初始化条件区域
-				for (var i = 0 ; i < global_city.length; i++){
-					   var option = $('<option></option>');
-		               option.attr('value', global_city[i].id);
-		               option.text(global_city[i].name);
-		               $('#queryAreaSelect').append(option);
-		               
-					  
-				} 
-				$('#queryAreaSelect').selectpicker('val','');
-			   
-			    $('#queryAreaSelect').selectpicker('refresh'); 
-			    $('#queryAreaSelect').selectpicker('render');
-				
-				//初始化新增区域
-				for (var i = 0 ; i < global_city.length; i++){
-					   var option = $('<option></option>');
-		               option.attr('value', global_city[i].id);
-		               option.text(global_city[i].name);
-		               $('#addTeleporterAreaSelect').append(option);
-					  
-				} 
-				$('#addTeleporterAreaSelect').selectpicker('val','');
-			   
-			    $('#addTeleporterAreaSelect').selectpicker('refresh'); 
-			    $('#addTeleporterAreaSelect').selectpicker('render');
-			   
-			}else {
-				 $.globalMessenger().post({
-		                message: result.message,//提示信息
-		                type: 'error',//消息类型。error、info、success
-		                hideAfter: 5,//多长时间消失
-		                showCloseButton:true,//是否显示关闭按钮
-		                hideOnNavigate: true //是否隐藏导航
-		
-		 		});
 			}
 		},
 		fail:function (){
@@ -785,6 +715,7 @@ function initAreaData(){
 			$("#waitDialog").modal('hide');
 		}
 	});
+		
 }
 
 /**

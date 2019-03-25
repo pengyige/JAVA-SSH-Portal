@@ -190,10 +190,7 @@
 			        <div id="collapseTwo" class="panel-collapse collapse in">
 			            <div class="panel-body">
 			                <div class="list-group">
-							  <a class="list-group-item" href="#"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-book fa-fw"></i>&nbsp; Library</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-pencil fa-fw"></i>&nbsp; Applications</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a>
+							  <a class="list-group-item" href="#" onclick="intoTeleporterAdminManagerPage();"><i class="fa fa-home fa-fw"></i>&nbsp; 查询管理员</a>
 							</div>
 			            </div>
 			        </div>
@@ -213,10 +210,7 @@
 			        <div id="collapseThree" class="panel-collapse collapse in">
 			            <div class="panel-body">
 			                <div class="list-group">
-							  <a class="list-group-item" href="#"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-book fa-fw"></i>&nbsp; Library</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-pencil fa-fw"></i>&nbsp; Applications</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a>
+							  <a class="list-group-item" href="#" onclick="intoSystemMessageManagerPage();"><i class="fa fa-home fa-fw"></i>&nbsp; 查询消息</a>
 							</div>
 			            </div>
 			        </div>
@@ -229,17 +223,14 @@
 			            <h4 class="panel-title">
 			                <a data-toggle="collapse" data-parent="#accordion" 
 			                href="#collapseUser">
-			           			<i class="fa fa-cog"></i> 用户消息</a>
+			           			<i class="fa fa-cog"></i> 用户管理</a>
 			                </a>
 			            </h4>
 			        </div>
 			        <div id="collapseUser" class="panel-collapse collapse in">
 			            <div class="panel-body">
 			                <div class="list-group">
-							  <a class="list-group-item" href="#"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-book fa-fw"></i>&nbsp; Library</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-pencil fa-fw"></i>&nbsp; Applications</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a>
+							  <a class="list-group-item" href="#" onclick="intoUserManagerPage();"><i class="fa fa-home fa-fw"></i>&nbsp; 查询用户</a>
 							</div>
 			            </div>
 			        </div>
@@ -259,10 +250,8 @@
 			        <div id="collapseFive" class="panel-collapse collapse in">
 			            <div class="panel-body">
 			                <div class="list-group">
-							  <a class="list-group-item" href="#"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-book fa-fw"></i>&nbsp; Library</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-pencil fa-fw"></i>&nbsp; Applications</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a>
+							  <a class="list-group-item" href="#" onclick="intoRiderManagerPage();"><i class="fa fa-home fa-fw"></i>&nbsp; 查询骑手</a>
+
 							</div>
 			            </div>
 			        </div>
@@ -281,10 +270,7 @@
 			        <div id="collapseSix" class="panel-collapse collapse in">
 			            <div class="panel-body">
 			                <div class="list-group">
-							  <a class="list-group-item" href="#"><i class="fa fa-home fa-fw"></i>&nbsp; Home</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-book fa-fw"></i>&nbsp; Library</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-pencil fa-fw"></i>&nbsp; Applications</a>
-							  <a class="list-group-item" href="#"><i class="fa fa-cog fa-fw"></i>&nbsp; Settings</a>
+							  <a class="list-group-item" href="#" onclick="intoOrderManagerPage();"><i class="fa fa-home fa-fw"></i>&nbsp; 查询订单</a>
 							</div>
 			            </div>
 			        </div>
@@ -325,8 +311,20 @@
 
 <script>
 var LOGOUT_URL = "${pageContext.request.contextPath}/superAdmin_logout.action";
+/**总体概况*/
 var QUERY_GENERAL_SITUATION_URL = "${pageContext.request.contextPath}/superAdmin_queryGeneralSituation.action";
+/**传送点入口*/
 var TELEPORTER_MANAGER_URL = "${pageContext.request.contextPath}/teleporter_intoTeleporterManagerPage.action";
+/**传送点管理员入口*/
+var TELEPORTER_ADMIN_MANAGER_URL = "${pageContext.request.contextPath}/teleporterAdmin_intoTeleporterAdminManagerPage.action";
+/**系统消息入口*/
+var MESSAGE_MANAGER_URL = "${pageContext.request.contextPath}/systemMessage_intoSystemMessageManagerPage.action";
+/**用户管理*/
+var USER_MANAGER_URL = "${pageContext.request.contextPath}/user_intoUserManagerPage.action";
+/**骑手管理*/
+var RIDER_MANAGER_URL = "${pageContext.request.contextPath}/rider_intoRiderManagerPage.action";
+/**订单管理*/
+var ORDER_MANAGER_URL = "${pageContext.request.contextPath}/userOrder_intoOrderManagerPage.action";
 
 $(function() {
 	$("#logout").click(function (){
@@ -355,4 +353,41 @@ $(function() {
 function intoTeleporterManagerPage() {
 	$("#iframe").attr("src",TELEPORTER_MANAGER_URL);
 }
+
+/**
+ * 查询管理员
+ */
+function intoTeleporterAdminManagerPage() {
+	$("#iframe").attr("src",TELEPORTER_ADMIN_MANAGER_URL);
+}
+
+/**
+ * 查询系统消息
+ */
+function intoSystemMessageManagerPage() {
+	$("#iframe").attr("src",MESSAGE_MANAGER_URL);
+}
+
+/**
+ * 查询用户
+ */
+function intoUserManagerPage() {
+	$("#iframe").attr("src",USER_MANAGER_URL);
+}
+
+/**
+ * 查询骑手
+ */
+function intoRiderManagerPage() {
+	$("#iframe").attr("src",RIDER_MANAGER_URL);
+}
+
+/**
+ * 查询订单
+ */
+function intoOrderManagerPage() {
+	$("#iframe").attr("src",ORDER_MANAGER_URL);
+}
+
+
 </script>

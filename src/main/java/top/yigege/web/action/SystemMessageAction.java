@@ -38,4 +38,12 @@ public class SystemMessageAction extends BaseAction{
 		}
 		
 	}
+	
+	/**
+	 * 跳转到系统消息管理页面
+	 * @return
+	 */
+	public String intoSystemMessageManagerPage() {
+		return "intoSystemMessageManagerPage";
+	}
 }

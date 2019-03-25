@@ -60,7 +60,7 @@ public class LoginFilter implements Filter{
 		String uriPath = HttpUriUtil.getUriPath(uri);
 		//空地址请求
 		if (uriPath.equals("/")) {
-			httpServletResponse.sendRedirect(ADMIN_LOGIN_URL);
+			httpServletResponse.sendRedirect(SUPER_ADMIN_LOGIN_URL);
 			return;
 		}
 		//3. 得到后缀

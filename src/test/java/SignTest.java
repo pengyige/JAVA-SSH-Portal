@@ -1,3 +1,4 @@
+import com.alibaba.druid.pool.GetConnectionTimeoutException;
 import com.sun.accessibility.internal.resources.accessibility;
 
 /**
@@ -40,10 +41,24 @@ public class SignTest {
 		fun(test);
 		System.out.println(test);*/
 		
-		Integer a = 127;
+		/*Integer a = 127;
 		Integer b = 127;
 		System.out.println(a == b);
+		
+		
+		if (null == testLong()) {
+			System.out.println("no problem");
+		}*/
+		
+		//公式71（5）+75（7）-72（6）-80（7.3.2）-100(7.5)
+		
+		
+
 	}
+	
+	public static Long testLong() {
+		return null;
+	} 
 	
 	public static void fun(String temp ) {
 		temp = "10";

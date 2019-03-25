@@ -382,4 +382,12 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		return "jsonData";
 	}
 	
+	/**
+	 * 跳转到骑手管理
+	 * @return
+	 */
+	public String intoRiderManagerPage() {
+		return "intoRiderManagerPage";
+	}
+	
 }

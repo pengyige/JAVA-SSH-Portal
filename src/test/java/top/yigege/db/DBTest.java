@@ -18,7 +18,10 @@ public class DBTest {
 	@Test	
 	public void test() {
 		
-		assertNotNull(HibernateUtil.getSession());
+		//assertNotNull(HibernateUtil.getSession());
+		/*for (int i = 0 ; i < 4; i++) {
+			System.out.println((int)();
+		}*/
 	}
 
 }

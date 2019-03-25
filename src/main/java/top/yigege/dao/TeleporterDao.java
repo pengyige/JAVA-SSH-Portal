@@ -14,9 +14,20 @@ import top.yigege.vo.TeleporterQueryCondition;
  */
 public interface TeleporterDao extends BaseDao<Teleporter>{
 
-	
+	/**
+	 * 分页查询
+	 * @param page
+	 * @param rows
+	 * @param teleporterQueryCondition
+	 * @return
+	 */
 	List<Teleporter> pageListByCondition(int page, int rows, TeleporterQueryCondition teleporterQueryCondition);
 
+	/**
+	 * 分页查询总数量
+	 * @param teleporterQueryCondition
+	 * @return
+	 */
 	Long getTeleporterCountByCondition(TeleporterQueryCondition teleporterQueryCondition);
 
 	

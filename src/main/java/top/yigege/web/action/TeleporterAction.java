@@ -252,5 +252,23 @@ public class TeleporterAction extends BaseAction implements ModelDriven<Teleport
 		return "intoTeleporterManagerPage";
 	}
 	
+	/**
+	 * 查询所有可用传送点
+	 * @return
+	 */
+	public String queryAllTelporter() {
+		logger.info("===查询所有传送点===");
+		try {
+			List<Teleporter> teleporters = teleporterService.queryAll();
+			this.returnDTO = ReturnDTOUtil.success(teleporters);
+		}catch (Exception e) {
+			logger.info("===查询传送点失败==="+e.getMessage());
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+		
+		return JSON_DATA;
+	}
+	
 	
 }

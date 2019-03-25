@@ -273,7 +273,13 @@ public class UserAction extends BaseAction{
 		return "jsonData";
 	}
 
-	
+	/**
+	 * 跳转到用户管理页面
+	 * @return
+	 */
+	public String intoUserManagerPage() {
+		return "intoUserManagerPage";
+	}
 	
 
 	/**

@@ -180,4 +180,12 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		this.getJsonData().put("state", state);
 		return "jsonData";
 	}
+	
+	/**
+	 * 跳转到用户订单管理
+	 * @return
+	 */
+	public String intoOrderManagerPage() {
+		return "intoOrderManagerPage";
+	}
 }

@@ -22,5 +22,10 @@ public class Log4jTest {
 		System.out.println("a");
 		logger.info("test");
 	}
+	
+	@Test
+	public void testCeil() {
+		System.out.println(Math.ceil(1/50.0));
+	}
 
 }
