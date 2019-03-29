@@ -1,6 +1,9 @@
 package top.yigege.dao;
 
 import top.yigege.domain.SystemMessage;
+import top.yigege.vo.SystemMessageQueryCondition;
+
+import java.util.List;
 
 /**
  * 
@@ -11,4 +14,19 @@ import top.yigege.domain.SystemMessage;
  */
 public interface SystemMessageDao extends BaseDao<SystemMessage>{
 
+    /**
+     * 分页查询
+     * @param page
+     * @param rows
+     * @param systemMessageQueryCondition
+     * @return
+     */
+    List<SystemMessage> pageListByCondition(int page, int rows, SystemMessageQueryCondition systemMessageQueryCondition);
+
+    /**
+     * 分页查询总数
+     * @param systemMessageQueryCondition
+     * @return
+     */
+    Long getTeleporterAdminCountByCondition(SystemMessageQueryCondition systemMessageQueryCondition);
 }

@@ -1,6 +1,9 @@
 package top.yigege.dao;
 
 import top.yigege.domain.TeleporterAdmin;
+import top.yigege.vo.TeleporterAdminQueryCondition;
+
+import java.util.List;
 
 /**
  * 
@@ -34,4 +37,19 @@ public interface TeleporterAdminDao extends BaseDao<TeleporterAdmin>{
 	 */
 	TeleporterAdmin findByTeleporterId(Integer teleporterId);
 
+	/**
+	 * 分页查询
+	 * @param page
+	 * @param rows
+	 * @param teleporterAdminQueryCondition
+	 * @return
+	 */
+	List<TeleporterAdmin> pageListByCondition(int page, int rows, TeleporterAdminQueryCondition teleporterAdminQueryCondition);
+
+	/**
+	 * 获取分页总数
+	 * @param teleporterAdminQueryCondition
+	 * @return
+	 */
+	Long getTeleporterAdminCountByCondition(TeleporterAdminQueryCondition teleporterAdminQueryCondition);
 }

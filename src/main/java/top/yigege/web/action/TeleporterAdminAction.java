@@ -7,6 +7,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 import org.apache.struts2.interceptor.ServletResponseAware;
 
@@ -14,11 +15,17 @@ import com.alibaba.fastjson.serializer.SerialWriterStringEncoder;
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ModelDriven;
 
+import top.yigege.constants.Constants;
+import top.yigege.domain.SuperAdmin;
 import top.yigege.domain.Teleporter;
 import top.yigege.domain.TeleporterAdmin;
+import top.yigege.enums.HttpCodeEnum;
 import top.yigege.service.TeleporterAdminService;
 import top.yigege.util.MD5Util;
 import top.yigege.util.ReturnDTOUtil;
+import top.yigege.vo.BootstrapTableDTO;
+import top.yigege.vo.ReturnDTO;
+import top.yigege.vo.TeleporterAdminQueryCondition;
 
 /**
  * 
@@ -34,7 +41,20 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 		this.teleporterAdminService = teleporterAdminService;
 	}
 
+	/**传送点管理员VO*/
 	private TeleporterAdmin teleporterAdmin = new TeleporterAdmin();
+
+	/**传送点管理员查询条件VO*/
+	private TeleporterAdminQueryCondition teleporterAdminQueryCondition;
+
+	public TeleporterAdminQueryCondition getTeleporterAdminQueryCondition() {
+		return teleporterAdminQueryCondition;
+	}
+
+	public void setTeleporterAdminQueryCondition(TeleporterAdminQueryCondition teleporterAdminQueryCondition) {
+		this.teleporterAdminQueryCondition = teleporterAdminQueryCondition;
+	}
+
 	public TeleporterAdmin getTeleporterAdmin() {
 		return teleporterAdmin;
 	}
@@ -76,61 +96,9 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	}
 	
 	
-	/**
-	 * 添加传送点管理员
-	 * @return
-	 */
-	public String add() {
-		//1.检查超级管理员是否登入
-		int state;
-		 ActionContext actionContext = ActionContext.getContext();  
-	     Map session = actionContext.getSession(); 
-	     if(!session.containsKey("superuser")) {
-	    	 this.getJsonData().put("state", -1);
-	    	 return "jsonData";
-	     }
-	     
-	     if(teleporterAdmin.getPassword() == null || teleporterAdmin.getPassword().trim() == "") 
-	     {
-	    	 teleporterAdmin.setPassword(MD5Util.MD5(teleporterAdmin.getTel()));
-	     }else {
-	    	 teleporterAdmin.setPassword(MD5Util.MD5(teleporterAdmin.getPassword()));
-	     }
-	     
-	     if(teleporterAdmin.getSex() == 0) {
-	    	 teleporterAdmin.setSex(1);
-	     }
 
-	     //2.添加管理员业务处理
-	     Teleporter teleporter = new Teleporter();
-	     teleporter.setTeleporterId(teleporter_admin_Id);
-	     this.teleporterAdmin.setTeleporter(teleporter);
-	     state = teleporterAdminService.addAdmin(this.teleporterAdmin);
-	     this.getJsonData().put("state", state);
-		return "jsonData";
-	}
 	
-	
-	/**
-	 * 删除传送点管理员
-	 */
-	public String deleteAdmin() {
-		//1.检查超级管理员是否登入
-		int state;
-		 ActionContext actionContext = ActionContext.getContext();  
-	     Map session = actionContext.getSession(); 
-	     if(!session.containsKey("superuser")) {
-	    	 this.getJsonData().put("state", -1);
-	    	 return "jsonData";
-	     }
-	     
-	     
-	     //2.删除管理员业务处理
-	     state = teleporterAdminService.deleteAdmin(this.teleporterAdmin);
-	     this.getJsonData().put("state", state);
-		return "jsonData";
-	}
-	
+
 	
 	/**
 	 * 查询所有管理员
@@ -289,7 +257,28 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	 * @return
 	 */
 	public String queryAllByPage() {
-		return JSON_DATA;
+		logger.info("分页查询所有传送点管理员");
+
+		try {
+			List<TeleporterAdmin> teleporterAdmins = teleporterAdminService.pageListByCondition(page,rows,teleporterAdminQueryCondition);
+
+			Long count = teleporterAdminService.getTeleporterAdminCountByCondition(teleporterAdminQueryCondition);
+			if(teleporterAdmins != null) {
+				bootstrapTableDTO.setCode(HttpCodeEnum.OK.getCode());
+				bootstrapTableDTO.setTotal(count.intValue());
+				bootstrapTableDTO.setRows(teleporterAdmins);
+			}else {
+				bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+				bootstrapTableDTO.setMessage(HttpCodeEnum.INVALID_REQUEST.getMessage());
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+			bootstrapTableDTO.setMessage(e.getMessage());
+		}
+
+
+		return BOOTSTRAP_TABLE_JSON_DATA;
 	}
 	
 	/**
@@ -297,6 +286,23 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	 * @return
 	 */
 	public String getTeleporterAdminDetailById() {
+		logger.info("查询传送点管理员详情");
+		if (null == teleporterAdmin.getTeleporterAdminId()) {
+			this.returnDTO = ReturnDTOUtil.paramError("传送点管理员id为空");
+			return JSON_DATA;
+		}
+
+		try {
+			TeleporterAdmin returnTeleporterAdmin = teleporterAdminService.getTeleporterAdminById(teleporterAdmin.getTeleporterAdminId());
+			if (null != returnTeleporterAdmin) {
+				this.returnDTO = ReturnDTOUtil.success(returnTeleporterAdmin);
+			}else {
+				this.returnDTO = ReturnDTOUtil.fail(teleporterAdmin.getTeleporterAdminId()+"对应的传送点不存在");
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.error(e.getMessage());
+		};
 		return JSON_DATA;
 	}
 	
@@ -305,7 +311,23 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	 * @return
 	 */
 	public String updateTeleporterAdmin() {
-		return JSON_DATA;
+	    logger.info("更新传送点管理员");
+	    String returnMessage = teleporterAdminService.modifyTeleporterAdminValid(teleporterAdmin);
+	    if (returnMessage.length() > 0) {
+	        returnDTO = ReturnDTOUtil.paramError(returnMessage);
+	        return JSON_DATA;
+        }
+
+        try {
+            teleporterAdminService.updateTeleporterAdmin(teleporterAdmin);
+            returnDTO = ReturnDTOUtil.success(teleporterAdmin.getUsername()+"传送点管理员信息更新成功");
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("更新传送点管理员失败,失败原因:"+e.getMessage());
+            returnDTO = ReturnDTOUtil.fail(e.getMessage());
+        }
+
+        return JSON_DATA;
 	}
 	
 	/**
@@ -313,6 +335,21 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	 * @return
 	 */
 	public String deleteTeleporterAdmin() {
+		logger.info("删除传送点管理员");
+		if (StringUtils.isBlank(teleporterAdmin.getTeleporterAdminId())) {
+			returnDTO = ReturnDTOUtil.paramError("传送点管理员ID不能为空");
+			return JSON_DATA;
+		}
+
+
+		try {
+			teleporterAdminService.deleteAdmin(teleporterAdmin);
+			returnDTO = ReturnDTOUtil.success("删除成功");
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("删除管理员失败,失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
 		return JSON_DATA;
 	}
 	
@@ -321,6 +358,43 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	 * @return
 	 */
 	public String addTeleporterAdmin() {
+		logger.info("开始登记管理员");
+		String returnMessage = teleporterAdminService.validTeleporterAdminData(teleporterAdmin);
+		if (returnMessage.length() > 0 ) {
+			returnDTO = ReturnDTOUtil.paramError(returnMessage);
+			return JSON_DATA;
+		}
+
+		try {
+			teleporterAdminService.addAdmin(teleporterAdmin,(SuperAdmin)request.getSession().getAttribute(Constants.PortalSessionKey.USER_SESSION_KEY));
+			returnDTO = ReturnDTOUtil.success(teleporterAdmin.getUsername()+"登记成功");
+		}catch (Exception e) {
+			e.printStackTrace();;
+			logger.info("登记管理员失败，失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
 		return JSON_DATA;
 	}
+
+    /**
+     * 解绑传送点
+     * @return
+     */
+    public String unBindTeleporter() {
+        logger.info("解除传送点绑定");
+        if (StringUtils.isBlank(teleporterAdmin.getTeleporterAdminId())) {
+            this.returnDTO = ReturnDTOUtil.paramError("管理员ID不能为空");
+            return JSON_DATA;
+        }
+
+        try {
+           TeleporterAdmin returnTeleporterAdmin = teleporterAdminService.unBindAdminAndTeleporter(teleporterAdmin.getTeleporterAdminId());
+           this.returnDTO =  ReturnDTOUtil.success(returnTeleporterAdmin);
+        }catch (Exception e) {
+            logger.info(e.getMessage());
+            e.printStackTrace();
+            this.returnDTO = ReturnDTOUtil.fail(e.getMessage());
+        }
+	    return JSON_DATA;
+    }
 }

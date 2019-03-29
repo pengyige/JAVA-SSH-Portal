@@ -13,14 +13,13 @@ public class TeleporterAdmin {
 	
 	/**传送点管理员id*/
 	private String teleporterAdminId;
-	
 	/**传送点管理员姓名*/
 	private String username;
 	
 	/**传送点管理员密码*/
 	private String password;
 	
-	/**传送点管理员性别*/
+	/**传送点管理员性别 1男;0女*/
 	private int sex;
 	
 	/**传送点管理员电话*/
@@ -83,9 +82,5 @@ public class TeleporterAdmin {
 	public void setSuperAdmin(SuperAdmin superAdmin) {
 		this.superAdmin = superAdmin;
 	}
-	
-	
-	
-	
-	
+
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import top.yigege.dao.SystemMessageDao;
 import top.yigege.domain.SystemMessage;
+import top.yigege.vo.SystemMessageQueryCondition;
 
 /**
  * 
@@ -28,5 +29,24 @@ public class SystemMessageService {
 		//获取系统消息
 		return systemMessageDao.findAll();
 	}
-	
+
+	/**
+	 * 分页查询总数
+	 * @param systemMessageQueryCondition
+	 * @return
+	 */
+    public Long getTeleporterAdminCountByCondition(SystemMessageQueryCondition systemMessageQueryCondition) {
+		return systemMessageDao.getTeleporterAdminCountByCondition(systemMessageQueryCondition);
+    }
+
+	/**
+	 * 分页查询
+	 * @param page
+	 * @param rows
+	 * @param systemMessageQueryCondition
+	 * @return
+	 */
+	public List<SystemMessage> pageListByCondition(int page, int rows, SystemMessageQueryCondition systemMessageQueryCondition) {
+		return systemMessageDao.pageListByCondition(page,rows,systemMessageQueryCondition);
+	}
 }

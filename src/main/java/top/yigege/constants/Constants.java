@@ -3,6 +3,8 @@ package top.yigege.constants;
 import org.apache.commons.io.monitor.FileAlterationListener;
 import org.omg.CORBA.PUBLIC_MEMBER;
 
+import static top.yigege.constants.Constants.MessageType.*;
+
 /**
  * 
  * @ClassName:  Constants   
@@ -19,7 +21,7 @@ public class Constants {
 	 * @author: yigege
 	 * @date:   2018年12月16日 下午1:25:53
 	 */
-	public static interface YesOrNo {
+	public  interface YesOrNo {
 		/**成功状态*/
 		public static final int YES = 1;
 		/**失败状态*/
@@ -35,7 +37,7 @@ public class Constants {
 	 * @author: yigege
 	 * @date:   2018年12月16日 下午1:30:16
 	 */
-	public static interface ValidOrInvalid {
+	public interface ValidOrInvalid {
 		
 		public static final int VALID = 1;
 		public static final int INVALID = -1;
@@ -48,7 +50,7 @@ public class Constants {
 	 * @author: yigege
 	 * @date:   2019年1月14日 下午9:29:09
 	 */
-	public static interface PortalSessionKey {
+	public  interface PortalSessionKey {
 		
 
 		/**session key*/
@@ -56,20 +58,60 @@ public class Constants {
 		
 		
 	}
-	
-	public static interface SessionValueKey {
+
+	/**
+	 * SessionKey
+	 */
+	public  interface SessionValueKey {
 		/**上一次登入时间*/
 		public static final String LAST_LOGIN_TIME = "lastlogintime";
 	}
-	
-	
-	public static interface OrderValue {
+
+
+	/**
+	 * 排序
+	 */
+	public  interface OrderValue {
 		
 		/**正序*/
 		public static final int ASC = 0;
 		
 		/**倒序*/
 		public static final int DESC = 1;
+	}
+
+
+	/**
+	 * 消息类型
+	 */
+	public static  class   MessageType {
+
+		/**传送点*/
+		public static	Long PORTAL = 1l;
+
+		/**用户端*/
+		public static	Long USER = 2l;
+
+		/**骑手端*/
+		public static	Long RIDER = 3l;
+
+		/**所有*/
+		public static	Long ALL = 4l;
+
+
+		public static String getName(Long key) {
+			String value = "";
+			switch (key.intValue()) {
+				case 1 :value = "传送点";break;
+				case 2 :value = "用户端";break;
+				case 3 :value = "骑手端";break;
+				case 4 :value = "全部";break;
+				default:break;
+			}
+			return value;
+		}
+
+
 	}
 
 }

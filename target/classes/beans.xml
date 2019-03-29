@@ -48,14 +48,14 @@
 			<tx:method name="update*"/>
 			<tx:method name="delete*"/>
 			<tx:method name="find*" read-only="true"/>
-			<tx:method name="*"/>
+			<tx:method name="*" rollback-for="java.lang.Exception"/>
 		</tx:attributes>
 	</tx:advice> 
 
 		<!-- 配置aop -->
  	<aop:config>
 		<!-- 切点(真正要增强的方法) -->
-		<aop:pointcut expression="execution(* top.yigege.service.*.*(..))" id="cut"/>
+		<aop:pointcut expression="execution(* top.yigege.service.*.*(..))" id="cut" />
 		<!-- 切面 -->
 		<aop:advisor advice-ref="txAdvice" pointcut-ref="cut" />
 	</aop:config> 
@@ -130,6 +130,7 @@
      
      <bean id="teleporterAdminService" class="top.yigege.service.TeleporterAdminService">
      		<property name="teleporterAdminDao" ref="teleporterAdminDaoImpl"></property>
+		 	<property name="teleporterDao" ref="teleporterDaoImpl"></property>
      </bean>
      
      <bean id="teleporterAdminAction" class="top.yigege.web.action.TeleporterAdminAction" scope="prototype">

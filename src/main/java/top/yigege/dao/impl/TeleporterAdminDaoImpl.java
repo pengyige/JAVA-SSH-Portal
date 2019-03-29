@@ -2,12 +2,21 @@ package top.yigege.dao.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 
+import org.hibernate.criterion.MatchMode;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import top.yigege.dao.TeleporterAdminDao;
 import top.yigege.domain.TeleporterAdmin;
 import top.yigege.domain.User;
+import top.yigege.util.DateUtil;
 import top.yigege.util.MD5Util;
+import top.yigege.util.TypeConvertUtil;
+import top.yigege.vo.TeleporterAdminQueryCondition;
 
 /**
  * 
@@ -20,7 +29,7 @@ public class TeleporterAdminDaoImpl extends BaseDaoImpl<TeleporterAdmin> impleme
 
 	/*
 	 * author:mengyue
-	 * 判断用户是否存在
+	 * 判断用户手机号是否存在
 	 */
 	public boolean telIsExist(String tel) {
 		Session session = this.getSessionFactory().getCurrentSession();
@@ -73,6 +82,78 @@ public class TeleporterAdminDaoImpl extends BaseDaoImpl<TeleporterAdmin> impleme
 		return resultTeleporterAdmin;
 	}
 
+	@Override
+	public List<TeleporterAdmin> pageListByCondition(int page, int rows, TeleporterAdminQueryCondition teleporterAdminQueryCondition) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(TeleporterAdmin.class);
+		criteria.setFirstResult((page-1)*rows);
+		criteria.setMaxResults(rows);
+
+
+		if (null != teleporterAdminQueryCondition) {
+			//编号
+			if (StringUtils.isNotBlank(teleporterAdminQueryCondition.getIds())) {
+				criteria.add(Restrictions.in("teleporterAdminId", teleporterAdminQueryCondition.getIds().split(",")));
+			}
+
+			//手机号,模糊匹配
+			if (StringUtils.isNotBlank(teleporterAdminQueryCondition.getPhone())) {
+				criteria.add(Restrictions.ilike("tel", teleporterAdminQueryCondition.getPhone(), MatchMode.ANYWHERE));
+			}
+
+			//传送点
+			if (StringUtils.isNotBlank(teleporterAdminQueryCondition.getTeleporter())) {
+				criteria = criteria.createAlias("teleporter", "t");
+				criteria.add(Restrictions.eq("t.id", Integer.parseInt(teleporterAdminQueryCondition.getTeleporter())));
+
+			}
+
+
+
+			//注册日期
+			if (null != teleporterAdminQueryCondition.getDate()) {
+				criteria.add(Restrictions.between("registerDate",teleporterAdminQueryCondition.getDate(), DateUtil.getNextDay(teleporterAdminQueryCondition.getDate())));
+			}
+		}
+
+		//排序
+		criteria.addOrder(Order.asc("teleporterAdminId"));
+		return (List<TeleporterAdmin>)criteria.list();
+	}
+
+	@Override
+	public Long getTeleporterAdminCountByCondition(TeleporterAdminQueryCondition teleporterAdminQueryCondition) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(TeleporterAdmin.class);
+		criteria.setProjection(Projections.rowCount());
+		if (null != teleporterAdminQueryCondition) {
+			//编号
+			if (StringUtils.isNotBlank(teleporterAdminQueryCondition.getIds())) {
+				criteria.add(Restrictions.in("teleporterAdminId", teleporterAdminQueryCondition.getIds().split(",")));
+			}
+
+			//手机号,模糊匹配
+			if (StringUtils.isNotBlank(teleporterAdminQueryCondition.getPhone())) {
+				criteria.add(Restrictions.ilike("tel", teleporterAdminQueryCondition.getPhone(), MatchMode.ANYWHERE));
+			}
+
+			//传送点
+			if (StringUtils.isNotBlank(teleporterAdminQueryCondition.getTeleporter())) {
+				criteria = criteria.createAlias("teleporter", "t");
+				criteria.add(Restrictions.eq("t.id", Integer.parseInt(teleporterAdminQueryCondition.getTeleporter())));
+
+			}
+
+
+
+			//注册日期
+			if (null != teleporterAdminQueryCondition.getDate()) {
+				criteria.add(Restrictions.between("registerDate",teleporterAdminQueryCondition.getDate(), DateUtil.getNextDay(teleporterAdminQueryCondition.getDate())));
+			}
+		}
+
+		//排序
+		criteria.addOrder(Order.asc("teleporterAdminId"));
+		return (Long) criteria.uniqueResult();
+	}
 
 
 }

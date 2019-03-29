@@ -18,8 +18,20 @@ public class BootstrapTableDTO {
 	
 	/**数据*/
 	private List rows;
-	
+
+	/**返回码，传送门使用*/
 	private int code;
+
+	/**消息，传送门使用*/
+	private Object message;
+
+	public Object getMessage() {
+		return message;
+	}
+
+	public void setMessage(Object message) {
+		this.message = message;
+	}
 
 	public int getTotal() {
 		return total;

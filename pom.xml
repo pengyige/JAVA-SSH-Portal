@@ -18,9 +18,22 @@
         </configuration>
       </plugin>
     </plugins>
+     <!--包含其他java类下的文件-->
+   <resources>
+       <resource>
+           <directory>src/main/java</directory>
+            <excludes>
+                <exclude>**/*.java</exclude>
+            </excludes>
+       </resource>
+       <resource>
+           <directory>src/main/resources</directory>
+           <includes> <include>**/*.* </include> </includes>
+       </resource>
+   </resources>
   </build>
-  <dependencies>
-	 <!-- Struts2的核心包 -->  
+   <dependencies>
+      <!-- Struts2的核心包 -->
     <dependency>  
         <groupId>org.apache.struts</groupId>  
         <artifactId>struts2-core</artifactId>  

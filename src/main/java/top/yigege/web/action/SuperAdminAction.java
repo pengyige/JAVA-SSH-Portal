@@ -75,33 +75,40 @@ public class SuperAdminAction extends BaseAction implements ModelDriven<SuperAdm
 	 */
 	public String login() {
 		logger.info("管理员开始登入");
-		
-		//1.检验输入参数
-		if(StringUtils.isBlank(superAdmin.getUsername())) {
-			returnDTO = ReturnDTOUtil.paramError("用户名不能为空");
-			return JSON_DATA;
-		}
-		
-		if(StringUtils.isBlank(superAdmin.getPassword())) {
-			returnDTO = ReturnDTOUtil.paramError("密码不能为空");
-			return JSON_DATA;
-		}
-		
-		//2.查询超级管理员
-		logger.info("username:"+superAdmin.getUsername()+";password:+"+superAdmin.getPassword());
-		SuperAdmin superAdmin = superAdminService.verifySuperAdmin(this.superAdmin.getUsername(), MD5Util.MD5(this.superAdmin.getPassword()));
-		if (null == superAdmin) {
-			returnDTO = ReturnDTOUtil.fail("用户名或密码不正确");
-			return JSON_DATA;
-		}else {
-			Date lastLoginTime = superAdmin.getLastLoginTime();
-			//更新用户登入时间
-			superAdmin.setLastLoginTime(new Date());
-			superAdminService.updateSuperAdmin(superAdmin);
-			//保存登入用户
-			request.getSession().setAttribute(Constants.PortalSessionKey.USER_SESSION_KEY, superAdmin);
-			request.getSession().setAttribute(Constants.SessionValueKey.LAST_LOGIN_TIME, lastLoginTime);
-			returnDTO = ReturnDTOUtil.success();
+
+		try {
+			//1.检验输入参数
+			if(StringUtils.isBlank(superAdmin.getUsername())) {
+				returnDTO = ReturnDTOUtil.paramError("用户名不能为空");
+				return JSON_DATA;
+			}
+
+			if(StringUtils.isBlank(superAdmin.getPassword())) {
+				returnDTO = ReturnDTOUtil.paramError("密码不能为空");
+				return JSON_DATA;
+			}
+
+			//2.查询超级管理员
+			logger.info("username:"+superAdmin.getUsername()+";password:+"+superAdmin.getPassword());
+			SuperAdmin superAdmin = superAdminService.verifySuperAdmin(this.superAdmin.getUsername(), MD5Util.MD5(this.superAdmin.getPassword()));
+			if (null == superAdmin) {
+				returnDTO = ReturnDTOUtil.fail("用户名或密码不正确");
+				return JSON_DATA;
+			}else {
+				Date lastLoginTime = superAdmin.getLastLoginTime();
+				//更新用户登入时间
+				superAdmin.setLastLoginTime(new Date());
+				superAdminService.updateSuperAdmin(superAdmin);
+				//保存登入用户
+				request.getSession().setAttribute(Constants.PortalSessionKey.USER_SESSION_KEY, superAdmin);
+				request.getSession().setAttribute(Constants.SessionValueKey.LAST_LOGIN_TIME, lastLoginTime);
+				returnDTO = ReturnDTOUtil.success();
+				return JSON_DATA;
+			}
+		}catch (Exception e) {
+			logger.info("登入失败，失败原因:"+e.getMessage());
+			e.printStackTrace();
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
 			return JSON_DATA;
 		}
 	}
