@@ -12,9 +12,11 @@ import com.tencent.xinge.XingeApp;
 
 import top.yigege.domain.Rider;
 import top.yigege.domain.TeleporterAdmin;
+import top.yigege.enums.HttpCodeEnum;
 import top.yigege.service.RiderService;
 import top.yigege.util.MD5Util;
 import top.yigege.util.XingeUtil;
+import top.yigege.vo.RiderQueryCondition;
 
 /**
  * 
@@ -58,6 +60,16 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	}
 	public void setRider(Rider rider) {
 		this.rider = rider;
+	}
+
+	/**查询条件对象*/
+	private RiderQueryCondition riderQueryCondition = new RiderQueryCondition();
+	public RiderQueryCondition getRiderQueryCondition() {
+		return riderQueryCondition;
+	}
+
+	public void setRiderQueryCondition(RiderQueryCondition riderQueryCondition) {
+		this.riderQueryCondition = riderQueryCondition;
 	}
 
 	@Override
@@ -244,34 +256,7 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		this.getJsonData().put("state", state);
 		return "jsonData";
 	}
-	
-	
-	
-	/**
-	 * 查询所有骑手
-	 * @return
-	 */
-	public String findAll() {
-		//1.判断管理员是否登入
-		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) request.getSession().getAttribute("teleporterAdmin");
-		if(teleporterAdmin == null) {
-			this.getJsonData().put("state", -1);
-			return "jsonData";
-		}
-		
-		//2.查询所有骑手业务处理
-		try {
-			List<Rider> riderLists = riderService.findAll();
-			this.getJsonData().put("state", 1);
-			this.getJsonData().put("result", riderLists);
-		}catch(Exception e) {
-			this.getJsonData().put("state", 0);
-			return "jsonData";
-		}
-		return "jsonData";
-	}
-	
-	
+
 	/**
 	 * 通过传送点查询骑手信息
 	 */
@@ -389,5 +374,35 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	public String intoRiderManagerPage() {
 		return "intoRiderManagerPage";
 	}
-	
+
+
+	/**
+	 * 分页查询所有骑手
+	 * @return
+	 */
+	public String queryAllByPage() {
+		logger.info("分页查询所有骑手");
+
+		try {
+			List<Rider> riders = riderService.pageListByCondition(page,rows,riderQueryCondition);
+
+			Long count = riderService.getCountByCondition(riderQueryCondition);
+			if(riders != null) {
+				bootstrapTableDTO.setCode(HttpCodeEnum.OK.getCode());
+				bootstrapTableDTO.setTotal(count.intValue());
+				bootstrapTableDTO.setRows(riders);
+			}else {
+				bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+				bootstrapTableDTO.setMessage(HttpCodeEnum.INVALID_REQUEST.getMessage());
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+			bootstrapTableDTO.setMessage(e.getMessage());
+		}
+
+
+		return BOOTSTRAP_TABLE_JSON_DATA;
+	}
+
 }

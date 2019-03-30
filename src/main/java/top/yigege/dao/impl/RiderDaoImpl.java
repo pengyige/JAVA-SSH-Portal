@@ -3,10 +3,17 @@ package top.yigege.dao.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
+import top.yigege.util.DateUtil;
+import top.yigege.vo.RiderQueryCondition;
 
 /**
  * @ClassName:  RiderDaoImpl   
@@ -109,6 +116,50 @@ public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 				.setParameter(0, teleporterId)
 				.list();
 		return list;
+	}
+
+	@Override
+	public List<Rider> pageLicstByCondition(int page, int rows, RiderQueryCondition riderQueryCondition) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(Rider.class);
+		criteria.setFirstResult((page-1)*rows);
+		criteria.setMaxResults(rows);
+
+
+		if (null != riderQueryCondition) {
+			//编号
+			if (StringUtils.isNotBlank(riderQueryCondition.getIds())) {
+				criteria.add(Restrictions.in("riderId", riderQueryCondition.getIds().split(",")));
+			}
+
+			//注册日期
+			if (null != riderQueryCondition.getDate()) {
+				criteria.add(Restrictions.between("registerDate",riderQueryCondition.getDate(), DateUtil.getNextDay(riderQueryCondition.getDate())));
+			}
+		}
+
+		//排序
+		criteria.addOrder(Order.desc("riderId"));
+		return (List<Rider>)criteria.list();
+	}
+
+	@Override
+	public Long getCountByCondition(RiderQueryCondition riderQueryCondition) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(Rider.class);
+		criteria.setProjection(Projections.rowCount());
+		if (null != riderQueryCondition) {
+			//编号
+			if (StringUtils.isNotBlank(riderQueryCondition.getIds())) {
+				criteria.add(Restrictions.in("riderId", riderQueryCondition.getIds().split(",")));
+			}
+
+			//注册日期
+			if (null != riderQueryCondition.getDate()) {
+				criteria.add(Restrictions.between("registerDate",riderQueryCondition.getDate(), DateUtil.getNextDay(riderQueryCondition.getDate())));
+			}
+		}
+		//排序
+		criteria.addOrder(Order.desc("riderId"));
+		return (Long) criteria.uniqueResult();
 	}
 
 }

@@ -4,6 +4,7 @@ import java.util.List;
 
 import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
+import top.yigege.vo.RiderQueryCondition;
 
 /**
  * 
@@ -160,5 +161,12 @@ public class RiderService {
 		// TODO Auto-generated method stub
 		return riderDao.findRidersByTeleproter(teleporterId);
 	}
-	
+
+    public List<Rider> pageListByCondition(int page, int rows, RiderQueryCondition riderQueryCondition) {
+		return riderDao.pageLicstByCondition(page,rows,riderQueryCondition);
+    }
+
+	public Long getCountByCondition(RiderQueryCondition riderQueryCondition) {
+		return riderDao.getCountByCondition(riderQueryCondition);
+	}
 }

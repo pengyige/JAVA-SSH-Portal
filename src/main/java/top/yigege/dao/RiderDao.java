@@ -3,6 +3,7 @@ package top.yigege.dao;
 import java.util.List;
 
 import top.yigege.domain.Rider;
+import top.yigege.vo.RiderQueryCondition;
 
 /**
  * 
@@ -61,4 +62,7 @@ public interface RiderDao extends BaseDao<Rider>{
 	 */
 	List<Rider> findRidersByTeleproter(String teleporterId);
 
+    List<Rider> pageLicstByCondition(int page, int rows, RiderQueryCondition riderQueryCondition);
+
+	Long getCountByCondition(RiderQueryCondition riderQueryCondition);
 }
