@@ -4,6 +4,7 @@ import java.util.List;
 
 import top.yigege.dao.UserOrderDao;
 import top.yigege.domain.UserOrder;
+import top.yigege.vo.OrderQueryCondition;
 
 /**
  * 
@@ -93,5 +94,25 @@ public class UserOrderService {
 	 */
 	public List findAll() {
 		return userOrderDao.findAll();
+	}
+
+	/**
+	 * 分页获取所有订单
+	 * @param page
+	 * @param rows
+	 * @param orderQueryCondition
+	 * @return
+	 */
+	public List<UserOrder> pageListByCondition(int page, int rows, OrderQueryCondition orderQueryCondition) {
+		return userOrderDao.pageListByCondition(page,rows,orderQueryCondition);
+	}
+
+	/**
+	 * 分页获取所有订单数量
+	 * @param orderQueryCondition
+	 * @return
+	 */
+	public Long getCountByCondition(OrderQueryCondition orderQueryCondition) {
+		return userOrderDao.getCountByCondition(orderQueryCondition);
 	}
 }

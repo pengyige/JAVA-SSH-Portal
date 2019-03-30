@@ -4,6 +4,7 @@ import top.yigege.constants.Constants;
 import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 import top.yigege.exception.RegisterException;
+import top.yigege.vo.OrderQueryCondition;
 import top.yigege.vo.UserQueryCondition;
 
 import java.util.List;
@@ -172,4 +173,6 @@ public class UserService {
 	public Long getTeleporterAdminCountByCondition(UserQueryCondition userQueryCondition) {
 		return userDao.getTeleporterAdminCountByCondition(userQueryCondition);
 	}
+
+
 }

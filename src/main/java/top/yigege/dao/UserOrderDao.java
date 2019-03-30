@@ -3,6 +3,7 @@ package top.yigege.dao;
 import java.util.List;
 
 import top.yigege.domain.UserOrder;
+import top.yigege.vo.OrderQueryCondition;
 
 /**
  * 
@@ -29,4 +30,20 @@ public interface UserOrderDao extends BaseDao<UserOrder>{
 	 */
 	int updateState(String userOrderId, String userOrderState);
 
+	/**
+	 * 分页获取所有订单
+	 * @param page
+	 * @param rows
+	 * @param orderQueryCondition
+	 * @return
+	 */
+    List<UserOrder> pageListByCondition(int page, int rows, OrderQueryCondition orderQueryCondition);
+
+
+	/**
+	 * 分页获取所有数量
+	 * @param orderQueryCondition
+	 * @return
+	 */
+	Long getCountByCondition(OrderQueryCondition orderQueryCondition);
 }

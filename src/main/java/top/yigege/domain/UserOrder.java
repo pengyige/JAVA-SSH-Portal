@@ -44,7 +44,7 @@ public class UserOrder {
 	private String remark;
 	
 	/**订单状态*/
-	private String state;
+	private int state;
 	
 	/**经度*/
 	private double longitude;
@@ -145,15 +145,14 @@ public class UserOrder {
 		this.payment = payment;
 	}
 
-	public String getState() {
+	public int getState() {
 		return state;
 	}
 
-	public void setState(String state) {
+	public void setState(int state) {
 		this.state = state;
 	}
 
-	@JSON(serialize=false)
 	public User getUser() {
 		return user;
 	}

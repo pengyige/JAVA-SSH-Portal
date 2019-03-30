@@ -9,13 +9,18 @@ import java.util.Random;
 import com.opensymphony.xwork2.ModelDriven;
 import com.tencent.xinge.XingeApp;
 
+import top.yigege.constants.Constants;
 import top.yigege.domain.Rider;
 import top.yigege.domain.User;
 import top.yigege.domain.UserOrder;
+import top.yigege.enums.HttpCodeEnum;
 import top.yigege.service.RiderService;
 import top.yigege.service.UserOrderService;
 import top.yigege.service.UserService;
+import top.yigege.util.ReturnDTOUtil;
 import top.yigege.util.XingeUtil;
+import top.yigege.vo.OrderQueryCondition;
+import top.yigege.vo.TypeVO;
 
 /**
  * 
@@ -39,6 +44,17 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 	private RiderService riderService;
 	public void setRiderService(RiderService riderService) {
 		this.riderService = riderService;
+	}
+
+	/**订单查询条件*/
+	private OrderQueryCondition orderQueryCondition = new OrderQueryCondition();
+
+	public OrderQueryCondition getOrderQueryCondition() {
+		return orderQueryCondition;
+	}
+
+	public void setOrderQueryCondition(OrderQueryCondition orderQueryCondition) {
+		this.orderQueryCondition = orderQueryCondition;
 	}
 
 	//通过属性封装获取参数
@@ -100,57 +116,13 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		return "jsonData";
 	}
 	
-	
-	
-	/**
-	 *用户订单查询 
-	 */
-	public String query() {
-		//1.校验token
-		int state;
-		if(userService.validateToken(token) == -1) {
-			this.getJsonData().put("state", -1);
-			return "jsonData";
-		}
-		//2.获取用户订单业务逻辑处理
-		try {
-			List<UserOrder> userOrderLists = userOrderService.findUserOrderByUserId(userId,this.userOrder.getState());
-			this.getJsonData().put("state", 1);
-			this.getJsonData().put("userOrders", userOrderLists);
-		}catch(Exception e) {
-			this.getJsonData().put("state", 0);
-			return "jsonData";
-		}
-		
-		return "jsonData";
-	}
-	
-	
-	/**
-	 * 获取所有订单
-	 * @return
-	 */
-	public String getAllOrders() {
-		try {
-			@SuppressWarnings("unchecked")
-			List<UserOrder> userOrderLists = userOrderService.findAll();
-			this.getJsonData().put("state", 1);
-			this.getJsonData().put("userOrders", userOrderLists);
-		}catch(Exception e) {
-			this.getJsonData().put("state", 0);
-			return "jsonData";
-		}
-		
-		return "jsonData";
-	}
-	
-	
+
 	
 	/**
 	 * 修改用户订单状态
 	 */
 	public String updateState() {
-		//1.校验token
+	/*	//1.校验token
 		int state;
 		if(userService.validateToken(token) == -1) {
 			this.getJsonData().put("state", -1);
@@ -160,7 +132,8 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		//2.更新订单状态
 	    state = userOrderService.updateUserOrderState(this.userOrder.getUserOrderId(),userOrder.getState());
 	    this.getJsonData().put("state", state);
-	    return "jsonData";
+	    return "jsonData";*/
+	return  JSON_DATA;
 	}
 	
 	
@@ -187,5 +160,52 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 	 */
 	public String intoOrderManagerPage() {
 		return "intoOrderManagerPage";
+	}
+
+	/**
+	 * 分页查询所有订单
+	 * @return
+	 */
+	public String queryAllByPage() {
+		logger.info("分页查询所有订单");
+
+		try {
+			List<UserOrder> orders = userOrderService.pageListByCondition(page,rows,orderQueryCondition);
+
+			Long count = userOrderService.getCountByCondition(orderQueryCondition);
+			if(orders != null) {
+				bootstrapTableDTO.setCode(HttpCodeEnum.OK.getCode());
+				bootstrapTableDTO.setTotal(count.intValue());
+				bootstrapTableDTO.setRows(orders);
+			}else {
+				bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+				bootstrapTableDTO.setMessage(HttpCodeEnum.INVALID_REQUEST.getMessage());
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+			bootstrapTableDTO.setMessage(e.getMessage());
+		}
+
+
+		return BOOTSTRAP_TABLE_JSON_DATA;
+	}
+
+	/**
+	 * 返回所有订单状态
+	 * @return
+	 */
+	public String getAllOrderType() {
+		logger.info("查询所有订单状态");
+		TypeVO[] typeVO =  new TypeVO[5];
+
+		typeVO[0] = new TypeVO(Constants.OrderState.WAIT, Constants.OrderState.getName((Constants.OrderState.WAIT)));
+		typeVO[1] = new TypeVO(Constants.OrderState.ALREADY_RECEIVER, Constants.OrderState.getName((Constants.OrderState.ALREADY_RECEIVER)));
+		typeVO[2] = new TypeVO(Constants.OrderState.ALREADY_PICK, Constants.OrderState.getName((Constants.OrderState.ALREADY_PICK)));
+		typeVO[3] = new TypeVO(Constants.OrderState.ALREADY_ARRIVER, Constants.OrderState.getName((Constants.OrderState.ALREADY_ARRIVER)));
+		typeVO[4] = new TypeVO(Constants.OrderState.CANCEL, Constants.OrderState.getName((Constants.OrderState.CANCEL)));
+
+		returnDTO = ReturnDTOUtil.success(typeVO);
+		return JSON_DATA;
 	}
 }

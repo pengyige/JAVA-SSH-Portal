@@ -135,4 +135,41 @@ public class Constants {
 			return value;
 		}
 	}
+
+	/**
+	 * 订单状态
+	 */
+	public static class OrderState {
+
+		/**待接单*/
+		public static final Long WAIT = 1L;
+
+		/**已接单*/
+		public static final Long ALREADY_RECEIVER = 2L;
+
+		/**已取货*/
+		public static final Long ALREADY_PICK = 3L;
+
+		/**已送达*/
+		public static final Long ALREADY_ARRIVER = 4L;
+
+		/**已取消*/
+		public static final Long CANCEL = 5L;
+
+
+		public static  String getName(Long key) {
+			String value = "";
+			switch (key.intValue()) {
+				case 1 :value = "待接单";break;
+				case 2 :value = "已接单";break;
+				case 3 :value = "已取货";break;
+				case 4 :value = "已送达";break;
+				case 5 :value = "已取消";break;
+
+				default:break;
+			}
+			return value;
+		}
+
+	}
 }
