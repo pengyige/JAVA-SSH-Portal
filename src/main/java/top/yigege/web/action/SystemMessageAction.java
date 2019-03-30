@@ -6,8 +6,10 @@ import java.util.Map;
 
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import top.yigege.constants.Constants;
 import top.yigege.domain.MessageType;
+import top.yigege.domain.SuperAdmin;
 import top.yigege.domain.SystemMessage;
 import top.yigege.enums.HttpCodeEnum;
 import top.yigege.service.SystemMessageService;
@@ -33,6 +35,9 @@ public class SystemMessageAction extends BaseAction{
 	private SystemMessage message = new SystemMessage();
 	public void setMessage(SystemMessage message) {
 		this.message = message;
+	}
+	public SystemMessage getMessage() {
+		return message;
 	}
 
 	/**查询对象*/
@@ -101,7 +106,24 @@ public class SystemMessageAction extends BaseAction{
 	 * @return
 	 */
 	public String getMessageDetailById() {
+		logger.info("获取消息详细信息");
+		if (null == message.getMessageId()) {
+			this.returnDTO = ReturnDTOUtil.paramError("消息ID为空");
+			return JSON_DATA;
+		}
 
+		try {
+			SystemMessage returnSystemMessage = systemMessageService.getSystemMessageById(message.getMessageId());
+			if (null != returnSystemMessage) {
+				this.returnDTO = ReturnDTOUtil.success(returnSystemMessage);
+			}else {
+				this.returnDTO = ReturnDTOUtil.fail(message.getMessageId()+"对应的消息不存在");
+			}
+		}catch (Exception e) {
+			logger.info("获取消息信息失败,失败原因:"+e.getMessage());
+			e.printStackTrace();
+			this.returnDTO = ReturnDTOUtil.error(e.getMessage());
+		};
 		return JSON_DATA;
 	}
 
@@ -111,6 +133,22 @@ public class SystemMessageAction extends BaseAction{
 	 * @return
 	 */
 	public String updateMessage() {
+		logger.info("修改消息");
+		String returnMessage = systemMessageService.checkMessageData(message);
+		if (returnMessage.length() > 0) {
+			returnDTO = ReturnDTOUtil.paramError(returnMessage);
+			return JSON_DATA;
+		}
+
+		try {
+			systemMessageService.updateMessage(message);
+			returnDTO = ReturnDTOUtil.success(message.getTitle()+"消息更新成功");
+		} catch (Exception e) {
+			e.printStackTrace();
+			logger.info("更新消息失败,失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+
 		return JSON_DATA;
 	}
 
@@ -119,6 +157,21 @@ public class SystemMessageAction extends BaseAction{
 	 * @return
 	 */
 	public String deleteMessage() {
+		logger.info("删除消息");
+		if (null == message.getMessageId()) {
+			returnDTO = ReturnDTOUtil.paramError("消息ID不能为空");
+			return JSON_DATA;
+		}
+
+
+		try {
+			systemMessageService.deleteMessage(message);
+			returnDTO = ReturnDTOUtil.success("删除成功");
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("删除管理员失败,失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
 		return JSON_DATA;
 	}
 
@@ -127,6 +180,21 @@ public class SystemMessageAction extends BaseAction{
 	 * @return
 	 */
 	public String addMessage() {
+		logger.info("开始添加消息");
+		String returnMessage = systemMessageService.checkMessageData(message);
+		if (returnMessage.length() > 0 ) {
+			returnDTO = ReturnDTOUtil.paramError(returnMessage);
+			return JSON_DATA;
+		}
+
+		try {
+			systemMessageService.addMessage(message,(SuperAdmin)request.getSession().getAttribute(Constants.PortalSessionKey.USER_SESSION_KEY));
+			returnDTO = ReturnDTOUtil.success(message.getTitle()+"添加成功");
+		}catch (Exception e) {
+			e.printStackTrace();;
+			logger.info("添加消息失败，失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
 		return JSON_DATA;
 	}
 }

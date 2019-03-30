@@ -107,8 +107,6 @@ public class TeleporterAdminDaoImpl extends BaseDaoImpl<TeleporterAdmin> impleme
 
 			}
 
-
-
 			//注册日期
 			if (null != teleporterAdminQueryCondition.getDate()) {
 				criteria.add(Restrictions.between("registerDate",teleporterAdminQueryCondition.getDate(), DateUtil.getNextDay(teleporterAdminQueryCondition.getDate())));
@@ -116,7 +114,7 @@ public class TeleporterAdminDaoImpl extends BaseDaoImpl<TeleporterAdmin> impleme
 		}
 
 		//排序
-		criteria.addOrder(Order.asc("teleporterAdminId"));
+		criteria.addOrder(Order.asc("userId"));
 		return (List<TeleporterAdmin>)criteria.list();
 	}
 

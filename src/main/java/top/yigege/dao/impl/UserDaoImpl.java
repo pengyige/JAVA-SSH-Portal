@@ -2,10 +2,17 @@ package top.yigege.dao.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
+import top.yigege.util.DateUtil;
+import top.yigege.vo.UserQueryCondition;
 
 /**
  * 
@@ -108,6 +115,64 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		}
 
 		return resultUser;
+	}
+
+	@Override
+	public List<User> pageListByCondition(int page, int rows, UserQueryCondition userQueryCondition) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(User.class);
+		criteria.setFirstResult((page-1)*rows);
+		criteria.setMaxResults(rows);
+
+
+		if (null != userQueryCondition) {
+			//编号
+			if (StringUtils.isNotBlank(userQueryCondition.getIds())) {
+				criteria.add(Restrictions.in("userId", userQueryCondition.getIds().split(",")));
+			}
+
+			//类型
+			if (0 != userQueryCondition.getType()) {
+
+				criteria.add(Restrictions.eq("type",userQueryCondition.getType()));
+
+			}
+
+			//注册日期
+			if (null != userQueryCondition.getDate()) {
+				criteria.add(Restrictions.between("createTime",userQueryCondition.getDate(), DateUtil.getNextDay(userQueryCondition.getDate())));
+			}
+		}
+
+		//排序
+		criteria.addOrder(Order.desc("userId"));
+		return (List<User>)criteria.list();
+	}
+
+	@Override
+	public Long getTeleporterAdminCountByCondition(UserQueryCondition userQueryCondition) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(User.class);
+		criteria.setProjection(Projections.rowCount());
+		if (null != userQueryCondition) {
+			//编号
+			if (StringUtils.isNotBlank(userQueryCondition.getIds())) {
+				criteria.add(Restrictions.in("userId", userQueryCondition.getIds().split(",")));
+			}
+
+			//类型
+			if (0 != userQueryCondition.getType()) {
+
+				criteria.add(Restrictions.eq("type",userQueryCondition.getType()));
+
+			}
+
+			//注册日期
+			if (null != userQueryCondition.getDate()) {
+				criteria.add(Restrictions.between("createTime",userQueryCondition.getDate(), DateUtil.getNextDay(userQueryCondition.getDate())));
+			}
+		}
+		//排序
+		criteria.addOrder(Order.desc("userId"));
+		return (Long) criteria.uniqueResult();
 	}
 
 

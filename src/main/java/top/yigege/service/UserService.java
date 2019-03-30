@@ -4,6 +4,9 @@ import top.yigege.constants.Constants;
 import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 import top.yigege.exception.RegisterException;
+import top.yigege.vo.UserQueryCondition;
+
+import java.util.List;
 
 /**
  * 
@@ -149,7 +152,24 @@ public class UserService {
 		
 		return userDao.findUserByTel(tel);
 	}
-	
-	
-	
+
+	/**
+	 * 分页查询所有用户
+	 * @param page
+	 * @param rows
+	 * @param userQueryCondition
+	 * @return
+	 */
+	public List<User> pageListByCondition(int page, int rows, UserQueryCondition userQueryCondition) {
+		return userDao.pageListByCondition(page,rows,userQueryCondition);
+	}
+
+	/**
+	 * 分页查询所有用户总数
+	 * @param userQueryCondition
+	 * @return
+	 */
+	public Long getTeleporterAdminCountByCondition(UserQueryCondition userQueryCondition) {
+		return userDao.getTeleporterAdminCountByCondition(userQueryCondition);
+	}
 }

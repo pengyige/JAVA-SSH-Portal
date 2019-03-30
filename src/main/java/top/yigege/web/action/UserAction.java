@@ -9,13 +9,21 @@ import java.util.Set;
 
 import com.opensymphony.xwork2.ActionContext;
 
+import org.apache.commons.lang.StringUtils;
 import top.yigege.constants.Constants;
 import top.yigege.domain.User;
 import top.yigege.domain.UserOrder;
+import top.yigege.enums.HttpCodeEnum;
 import top.yigege.service.UserService;
 import top.yigege.util.MD5Util;
 import top.yigege.util.ReturnDTOUtil;
+import top.yigege.util.ValidatorUtil;
 import top.yigege.vo.PageVo;
+import top.yigege.vo.TypeVO;
+import top.yigege.vo.UserQueryCondition;
+
+import static top.yigege.constants.Constants.UserType.BUSINESS;
+import static top.yigege.constants.Constants.UserType.NORMAL;
 
 /**
  * 
@@ -32,7 +40,7 @@ public class UserAction extends BaseAction{
 	
 	
 	/**值对象*/
-	private User user;
+	private User user = new User();
 	public User getUser() {
 		return user;
 	}
@@ -40,119 +48,21 @@ public class UserAction extends BaseAction{
 		this.user = user;
 	}
 
+	/**查询条件*/
+	private UserQueryCondition userQueryCondition;
+	public UserQueryCondition getUserQueryCondition() {
+		return userQueryCondition;
+	}
+	public void setUserQueryCondition(UserQueryCondition userQueryCondition) {
+		this.userQueryCondition = userQueryCondition;
+	}
 
-	//校验属性
-	private String userId;
-	private String token;
-	private String username;
-	private String password;
-	private int sex;
-	private String tel;
-	private String email;
-	private String address;
-	private int type;
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
-	public String getToken() {
-		return token;
-	}
-	public void setToken(String token) {
-		this.token = token;
-	}
-	public String getUsername() {
-		return username;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public int getSex() {
-		return sex;
-	}
-	public void setSex(int sex) {
-		this.sex = sex;
-	}
-	public String getTel() {
-		return tel;
-	}
-	public void setTel(String tel) {
-		this.tel = tel;
-	}
-	public String getEmail() {
-		return email;
-	}
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	public String getAddress() {
-		return address;
-	}
-	public void setAddress(String address) {
-		this.address = address;
-	}
-	public int getType() {
-		return type;
-	}
-	public void setType(int type) {
-		this.type = type;
-	}
-	
-	
 	/**
 	 * 修改用户
 	 * @return
 	 */
 	public String updateUser() {
-		//1.首先执行校验，失败后返回"input"
-		
-		//校验成功后
-		User user = new User();
-		user.setUserId(userId);
-		user.setToken(token);
-	
-		int resultState;
-		//1.判断token是否有效
-		resultState =userService.validateToken(token);
-		if(resultState == -1) {
-			this.getJsonData().put("state", Constants.ValidOrInvalid.INVALID);
-			return "jsonData";
-		}
-		//获取数据库中用户所有信息,根据传入参数进行update
-		user = userService.findUserById(userId);
-		if(username != null && !username.trim().equals("")) {
-			//1.判断用户是否存在
-			 if(userService.nameIsExist(username) == 1) {
-				 this.getJsonData().put("state",-2);
-				 return "jsonData";
-			 }
-			user.setUsername(username);
-		}
-		if(password!= null && !password.trim().equals("")) 
-			user.setPassword(MD5Util.MD5(password));
-		if(type != 0) 
-			user.setType(type);
-		if(sex != 0) 
-			user.setSex(sex);
-		if(password!= null && !password.trim().equals(""))
-			user.setEmail(email);
-		if(address != null && !address.trim().equals(""))
-			user.setAddress(address);
-		if(tel != null && !tel.trim().equals(""))
-			user.setTel(tel);
-				
-		//更新用户
-	    resultState = userService.updateUserService(user);
-	    this.getJsonData().put("state",resultState);
-		return "jsonData";
+		return  JSON_DATA;
 	}
 	
 	
@@ -162,19 +72,7 @@ public class UserAction extends BaseAction{
 	 * @return
 	 */
 	public String register() {
-		
-		User user = new User();
-		user.setUsername(tel);
-		user.setTel(tel);
-		user.setSex(1);
-		user.setType(1);
-		if(userService.telIsRegister(tel)) {
-			this.getJsonData().put("state", Constants.YesOrNo.NO);
-			return "jsonData";
-		}
-		int resultState = userService.registerUser(user);
-		this.getJsonData().put("state",resultState);
-		return "jsonData";
+		return  JSON_DATA;
 	}
 	
 	
@@ -182,16 +80,28 @@ public class UserAction extends BaseAction{
 	 * 用户密码登入
 	 */
 	public String login() {
-		User user  = new User();
-		if(tel != null && !tel.trim().equals(""))
-			user.setTel(tel);
-		if(password != null && !password.trim().equals(""))
-			user.setPassword(MD5Util.MD5(password));
-		
-		//检查手机号是否被注册
+		logger.info("用户开始登入");
+
+		//1.校验参数合法性
+		if (StringUtils.isBlank(user.getTel())) {
+			returnDTO = ReturnDTOUtil.paramError("手机号不能为空");
+			return JSON_DATA;
+		}else {
+			if (!ValidatorUtil.isMobile(user.getTel())) {
+				returnDTO = ReturnDTOUtil.paramError(user.getTel()+"非法");
+				return JSON_DATA;
+			}
+		}
+
+		if (StringUtils.isBlank(user.getPassword())) {
+			returnDTO = ReturnDTOUtil.paramError("密码不能为空");
+			return JSON_DATA;
+		}
+
+		//2.检查手机号是否被注册
 		if(!userService.telIsRegister(user.getTel())) {
-			this.getJsonData().put("state",Constants.YesOrNo.NO);
-			return "jsonData";
+			returnDTO = ReturnDTOUtil.fail(user.getTel()+"已经被注册");
+			return JSON_DATA;
 		}
 		
 		//检查手机号和密码是否匹配
@@ -204,21 +114,42 @@ public class UserAction extends BaseAction{
 			userService.updateUserToken(resultUser.getUserId(), token);
 			resultUser.setToken(token);
 			
-			this.getJsonData().put("state", Constants.YesOrNo.YES);
-			this.getJsonData().put("user", resultUser);
+			returnDTO = ReturnDTOUtil.success(resultUser);
 		
 		}else {
-			this.getJsonData().put("state", Constants.YesOrNo.ERROR);
+			returnDTO = ReturnDTOUtil.fail("手机号或密码不正确");
 		}
 			
-		return "jsonData";
+		return  JSON_DATA;
 	}
 	
 	/**
 	 * 用户手机登入
 	 */
 	public String loginByTel() {
-		User user = userService.findUserByTel(tel);
+		//1.校验参数合法性
+		if (StringUtils.isBlank(user.getTel())) {
+			returnDTO = ReturnDTOUtil.paramError("手机号不能为空");
+			return JSON_DATA;
+		}else {
+			if (!ValidatorUtil.isMobile(user.getTel())) {
+				returnDTO = ReturnDTOUtil.paramError(user.getTel()+"非法");
+				return JSON_DATA;
+			}
+		}
+
+		//2.这里还是需要验证码，写死1234
+		String code = request.getParameter("code");
+		if (StringUtils.isBlank(code)) {
+			returnDTO = ReturnDTOUtil.paramError("验证码不能为空");
+			return JSON_DATA;
+		}else {
+			if (!code.equals("1234")) {
+				returnDTO = ReturnDTOUtil.fail("验证不正确");
+			}
+		}
+
+		User returnUser = userService.findUserByTel(user.getTel());
 		if(user != null) {
 			//设置相应的token
 			long currentTime  = System.currentTimeMillis();
@@ -226,14 +157,11 @@ public class UserAction extends BaseAction{
 			userService.updateUserToken(user.getUserId(), token);
 			user.setToken(token);
 			
-			this.getJsonData().put("state", Constants.YesOrNo.YES);
-			this.getJsonData().put("user",user);
-			
-			
+			returnDTO = ReturnDTOUtil.success(returnUser);
 		}else {
-			this.getJsonData().put("state", Constants.YesOrNo.ERROR);
+			returnDTO = ReturnDTOUtil.fail("手机号不正确");
 		}
-		return "jsonData";
+		return JSON_DATA;
 	}
 	
 	
@@ -242,20 +170,29 @@ public class UserAction extends BaseAction{
 	 * 用户名是否存在
 	 */
 	public String nameIsExist() {
+		if (StringUtils.isBlank(user.getUsername())) {
+			returnDTO = ReturnDTOUtil.paramError("用户名不能为空");
+			return  JSON_DATA;
+		}
+
+		int state = userService.nameIsExist(user.getUsername());
+		returnDTO = ReturnDTOUtil.success(state);
 		
-		int state = userService.nameIsExist(username);
-		this.getJsonData().put("state", state);
-		
-		return "jsonData";
+		return JSON_DATA;
 	}
 	
 	/**
 	 * 注销用户
 	 */
 	public String logout() {
-		int state = userService.clearUserToken(token);
-		this.getJsonData().put("state", state);
-		return "jsonData";
+		if (StringUtils.isBlank(user.getToken())) {
+			returnDTO = ReturnDTOUtil.paramError("token不能为空");
+			return  JSON_DATA;
+		}
+
+		int state = userService.clearUserToken(user.getToken());
+		returnDTO = ReturnDTOUtil.success(state);
+		return JSON_DATA;
 	}
 	
 	
@@ -263,14 +200,14 @@ public class UserAction extends BaseAction{
 	 * 手机号是否已注册
 	 */
 	public String telIsExist() {
-		User user = userService.findUserByTel(tel);
-		if(user != null) {
-			this.getJsonData().put("state", Constants.YesOrNo.YES);
-			this.getJsonData().put("result", user);
+		User returnUser = userService.findUserByTel(user.getTel());
+		if(returnUser != null) {
+			returnDTO = ReturnDTOUtil.success(Constants.YesOrNo.YES);
 		}
-		else
-			this.getJsonData().put("state", Constants.YesOrNo.ERROR);
-		return "jsonData";
+		else {
+			returnDTO = ReturnDTOUtil.success(Constants.YesOrNo.NO);
+		}
+		return JSON_DATA;
 	}
 
 	/**
@@ -280,7 +217,52 @@ public class UserAction extends BaseAction{
 	public String intoUserManagerPage() {
 		return "intoUserManagerPage";
 	}
-	
+
+	/**
+	 * 分页查询所有用户
+	 * @return
+	 */
+	public String queryAllByPage() {
+		logger.info("分页查询所有用户");
+
+		try {
+			List<User> users = userService.pageListByCondition(page,rows,userQueryCondition);
+
+			Long count = userService.getTeleporterAdminCountByCondition(userQueryCondition);
+			if(users != null) {
+				bootstrapTableDTO.setCode(HttpCodeEnum.OK.getCode());
+				bootstrapTableDTO.setTotal(count.intValue());
+				bootstrapTableDTO.setRows(users);
+			}else {
+				bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+				bootstrapTableDTO.setMessage(HttpCodeEnum.INVALID_REQUEST.getMessage());
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+			bootstrapTableDTO.setMessage(e.getMessage());
+		}
+
+
+		return BOOTSTRAP_TABLE_JSON_DATA;
+	}
+
+	/**
+	 * 返回所有用户类型
+	 * @return
+	 */
+	public String queryAllUserType() {
+		logger.info("获取所有用户消息");
+		TypeVO[] typeVO = new TypeVO[2];
+
+
+		typeVO[0] = new TypeVO(NORMAL,Constants.UserType.getName(NORMAL));
+
+		typeVO[1] = new TypeVO(BUSINESS,Constants.UserType.getName(BUSINESS));
+
+		returnDTO = ReturnDTOUtil.success(typeVO);
+		return JSON_DATA;
+	}
 
 	/**
 	 * json测试

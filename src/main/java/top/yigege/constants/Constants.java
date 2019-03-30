@@ -114,4 +114,25 @@ public class Constants {
 
 	}
 
+
+	/**
+	 * 用户类型
+	 */
+	public static class UserType {
+		/**普通用户*/
+		public static final Long NORMAL = 1L;
+
+		/**商业用户*/
+		public static final Long BUSINESS = 2L;
+
+		public static  String getName(Long key) {
+			String value = "";
+			switch (key.intValue()) {
+				case 1 :value = "普通用户";break;
+				case 2 :value = "商业用户";break;
+				default:break;
+			}
+			return value;
+		}
+	}
 }

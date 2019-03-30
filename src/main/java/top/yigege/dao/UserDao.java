@@ -1,6 +1,9 @@
 package top.yigege.dao;
 
 import top.yigege.domain.User;
+import top.yigege.vo.UserQueryCondition;
+
+import java.util.List;
 
 /**
  * 
@@ -58,6 +61,21 @@ public interface UserDao extends BaseDao<User>{
 	 * @return
 	 */
 	public User findUserByTel(String tel);
-	
-	
+
+
+	/**
+	 * 分页查询所有用户
+	 * @param page
+	 * @param rows
+	 * @param userQueryCondition
+	 * @return
+	 */
+    List<User> pageListByCondition(int page, int rows, UserQueryCondition userQueryCondition);
+
+	/**
+	 * 分页查询所有用户数量
+	 * @param userQueryCondition
+	 * @return
+	 */
+	Long getTeleporterAdminCountByCondition(UserQueryCondition userQueryCondition);
 }

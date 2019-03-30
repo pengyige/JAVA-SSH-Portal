@@ -38,7 +38,7 @@ public class BaseAction extends ActionSupport  implements ServletRequestAware{
 	protected BootstrapTableDTO bootstrapTableDTO = new BootstrapTableDTO();
 	
 	/**request对象*/
-	private HttpServletRequest request;
+	protected HttpServletRequest request;
 	
 	/**返回json数据*/
 	public static final String JSON_DATA = "jsonData";
