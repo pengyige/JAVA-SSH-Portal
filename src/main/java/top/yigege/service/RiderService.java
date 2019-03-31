@@ -5,6 +5,7 @@ import java.util.List;
 import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
 import top.yigege.vo.RiderQueryCondition;
+import top.yigege.vo.TypeVO;
 
 /**
  * 
@@ -169,4 +170,12 @@ public class RiderService {
 	public Long getCountByCondition(RiderQueryCondition riderQueryCondition) {
 		return riderDao.getCountByCondition(riderQueryCondition);
 	}
+
+	/**
+	 * 查询骑手注册数量
+	 * @return
+	 */
+    public TypeVO[] queryRiderRegisterCountByTime() {
+		return riderDao.getRiderRegisterCountByTime();
+    }
 }

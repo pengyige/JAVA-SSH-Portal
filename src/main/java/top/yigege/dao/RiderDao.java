@@ -4,6 +4,7 @@ import java.util.List;
 
 import top.yigege.domain.Rider;
 import top.yigege.vo.RiderQueryCondition;
+import top.yigege.vo.TypeVO;
 
 /**
  * 
@@ -65,4 +66,6 @@ public interface RiderDao extends BaseDao<Rider>{
     List<Rider> pageLicstByCondition(int page, int rows, RiderQueryCondition riderQueryCondition);
 
 	Long getCountByCondition(RiderQueryCondition riderQueryCondition);
+
+    TypeVO[] getRiderRegisterCountByTime();
 }

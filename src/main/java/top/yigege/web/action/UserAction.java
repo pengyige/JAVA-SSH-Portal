@@ -264,6 +264,43 @@ public class UserAction extends BaseAction{
 		return JSON_DATA;
 	}
 
+
+	/**
+	 * 查询总数
+	 * @return
+	 */
+	public String queryTotalCount() {
+		logger.info("开始查询总数");
+		try {
+			returnDTO = ReturnDTOUtil.success(userService.getTotalCount());
+		}catch (Exception e) {
+			e.printStackTrace();;
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+	}
+		return JSON_DATA;
+	}
+
+
+	/**
+	 * 查询最近一周用户注册数量
+	 * @return
+	 */
+	public String queryRecentUserRegisterCount() {
+		logger.info("查询最近一周用户注册数量");
+
+		try {
+			TypeVO[] typeVOS =  userService.queryUserRegisterCountByTime();
+			returnDTO = ReturnDTOUtil.success(typeVOS);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("查询用户注册数量失败，失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+
+		return JSON_DATA;
+
+	}
+
 	/**
 	 * json测试
 	 * @return

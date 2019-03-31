@@ -5,6 +5,7 @@ import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 import top.yigege.exception.RegisterException;
 import top.yigege.vo.OrderQueryCondition;
+import top.yigege.vo.TypeVO;
 import top.yigege.vo.UserQueryCondition;
 
 import java.util.List;
@@ -174,5 +175,19 @@ public class UserService {
 		return userDao.getTeleporterAdminCountByCondition(userQueryCondition);
 	}
 
+	/**
+	 * 获取总数
+	 * @return
+	 */
+	public Long[] getTotalCount() {
+		return userDao.getPortalCount();
+	}
 
+	/**
+	 * 获取用户注册数量
+	 * @return
+	 */
+    public TypeVO[] queryUserRegisterCountByTime() {
+    	return userDao.getUserRegisterCountByTime();
+    }
 }

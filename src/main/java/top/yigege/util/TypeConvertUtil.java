@@ -27,4 +27,18 @@ public class TypeConvertUtil {
 	    return ints;
 	}
 
+
+	/**
+	 * double转为long
+	 * @param arrs
+	 * @return
+	 */
+	public static Long[] DoubleToLong(Double[] arrs) {
+		Long[] longs = new Long[arrs.length];
+		for (int i = 0 ; i < arrs.length; i++) {
+			longs[i] = Long.valueOf(arrs[i].intValue());
+		}
+
+		return longs;
+	}
 }

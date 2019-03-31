@@ -114,7 +114,7 @@ public class TeleporterAdminDaoImpl extends BaseDaoImpl<TeleporterAdmin> impleme
 		}
 
 		//排序
-		criteria.addOrder(Order.asc("userId"));
+		criteria.addOrder(Order.asc("teleporterAdminId"));
 		return (List<TeleporterAdmin>)criteria.list();
 	}
 

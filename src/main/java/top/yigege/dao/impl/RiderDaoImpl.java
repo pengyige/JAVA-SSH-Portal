@@ -14,6 +14,7 @@ import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
 import top.yigege.util.DateUtil;
 import top.yigege.vo.RiderQueryCondition;
+import top.yigege.vo.TypeVO;
 
 /**
  * @ClassName:  RiderDaoImpl   
@@ -160,6 +161,23 @@ public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 		//排序
 		criteria.addOrder(Order.desc("riderId"));
 		return (Long) criteria.uniqueResult();
+	}
+
+	@Override
+	public TypeVO[] getRiderRegisterCountByTime() {
+		Session session = this.getSessionFactory().getCurrentSession();
+		String querySql = "select  date_format(u.registerDate,'%Y-%m-%d') ,count(*) count  from t_rider u where u.registerDate BETWEEN  CURDATE() -7  and NOW() GROUP BY u.registerDate\n";
+		List result = session.createSQLQuery(querySql).list();
+		if (null != result && result.size() > 0 ) {
+			TypeVO[] typeVOS = new TypeVO[result.size()];
+			for (int i = 0 ; i < result.size(); i++) {
+				Object[] object = (Object[])((Object[])result.get(i));
+				typeVOS[i] = new TypeVO(Long.parseLong(object[1].toString()),object[0].toString());
+			}
+			return typeVOS;
+		}else {
+			return null;
+		}
 	}
 
 }

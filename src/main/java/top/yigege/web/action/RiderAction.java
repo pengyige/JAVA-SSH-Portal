@@ -15,8 +15,10 @@ import top.yigege.domain.TeleporterAdmin;
 import top.yigege.enums.HttpCodeEnum;
 import top.yigege.service.RiderService;
 import top.yigege.util.MD5Util;
+import top.yigege.util.ReturnDTOUtil;
 import top.yigege.util.XingeUtil;
 import top.yigege.vo.RiderQueryCondition;
+import top.yigege.vo.TypeVO;
 
 /**
  * 
@@ -405,4 +407,23 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		return BOOTSTRAP_TABLE_JSON_DATA;
 	}
 
+
+	/**
+	 * 查询骑手注册数量
+	 * @return
+	 */
+	public String queryRecentRiderRegisterCount() {
+		logger.info("查询最近一周骑手注册数量");
+
+		try {
+			TypeVO[] typeVOS =  riderService.queryRiderRegisterCountByTime();
+			returnDTO = ReturnDTOUtil.success(typeVOS);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("查询骑手注册数量失败，失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+
+		return JSON_DATA;
+	}
 }

@@ -1,6 +1,7 @@
 package top.yigege.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
@@ -12,6 +13,8 @@ import org.hibernate.criterion.Restrictions;
 import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 import top.yigege.util.DateUtil;
+import top.yigege.util.TypeConvertUtil;
+import top.yigege.vo.TypeVO;
 import top.yigege.vo.UserQueryCondition;
 
 /**
@@ -175,5 +178,51 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao {
 		return (Long) criteria.uniqueResult();
 	}
 
+
+	public Long[] getPortalCount() {
+		Session session = this.getSessionFactory().getCurrentSession();
+		String querySql = "select count(*)  from t_user\n" +
+				"union ALL\n" +
+				"select count(*)  FROM t_rider\n" +
+				"union ALL\n" +
+				"select count(*)  from t_teleporter\n" +
+				"union ALL\n" +
+				"select count(*)  FROM t_teleporter_admin\n" +
+				"union ALL\n" +
+				"select count(*)  FROM t_superadmin\n" +
+				"union ALL\n" +
+				"select count(*)  FROM t_user_order\n" +
+				"union ALL\n" +
+				"select count(*)  FROM t_rider_order\n" +
+				"union ALL\n" +
+				"select ifnull(sum(userOrder.payment),0)  FROM t_user_order userOrder where userOrder.state = 4\n" +
+				"union ALL\n" +
+				"select count(*)  FROM t_system_message m where m.type = 2\n" +
+				"union ALL\n" +
+				"select count(*)  FROM t_system_message ";
+
+		List<Double> counts = session.createSQLQuery(querySql).list();
+		Double[] countDouble = counts.toArray(new Double[counts.size()]);
+
+	    return TypeConvertUtil.DoubleToLong(countDouble);
+	}
+
+
+	@Override
+	public TypeVO[] getUserRegisterCountByTime() {
+		Session session = this.getSessionFactory().getCurrentSession();
+		String querySql = "select  date_format(u.createTime,'%Y-%m-%d') ,count(*) count  from t_user u where u.createTime BETWEEN  CURDATE() -7  and NOW() GROUP BY u.createTime\n";
+		List result = session.createSQLQuery(querySql).list();
+		if (null != result && result.size() > 0 ) {
+			TypeVO[] typeVOS = new TypeVO[result.size()];
+			for (int i = 0 ; i < result.size(); i++) {
+				Object[] object = (Object[])((Object[])result.get(i));
+				typeVOS[i] = new TypeVO(Long.parseLong(object[1].toString()),object[0].toString());
+			}
+			return typeVOS;
+		}else {
+			return null;
+		}
+	}
 
 }
