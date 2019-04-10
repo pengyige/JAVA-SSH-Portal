@@ -140,7 +140,7 @@ public class TeleporterAdminService {
 	 * @param teleporter
 	 * @throws Exception 
 	 */
-	public void bindAdminAndTeleporter(String teleporterAdminId,Teleporter teleporter) throws Exception {
+	public void doBindAdminAndTeleporter(String teleporterAdminId,Teleporter teleporter) throws Exception {
 		
 		
 		TeleporterAdmin teleporterAdmin = getTeleporterAdminById(teleporterAdminId);
@@ -153,15 +153,17 @@ public class TeleporterAdminService {
 		}
 		
 		//判断此管理员是否已经绑定其他传送点
-		if (null != teleporterAdmin.getTeleporter()) {
-			throw new Exception("管理员:"+teleporterAdmin.getUsername()+",已绑定("+"编号:"+teleporterAdmin.getTeleporter().getTeleporterId()+",地址:"+teleporterAdmin.getTeleporter().getAddress()+",请先解除");
+		if (null != teleporterAdmin.getTeleporter() && (!teleporterAdmin.getTeleporter().getTeleporterId().equals(teleporter.getTeleporterId()))) {
+			throw new Exception("管理员:"+teleporterAdmin.getUsername()+",已绑定("+"编号【"+teleporterAdmin.getTeleporter().getTeleporterId()+"】,地址【"+teleporterAdmin.getTeleporter().getAddress()+"】,请先解除");
 		}
 		
 
-		//判断此传送点是否已绑定
-		if (null != getTeleporterAdminByTeleporterId(teleporter.getTeleporterId())) {
-			throw new Exception("编号:"+teleporter.getTeleporterId()+" 地址:"+teleporter.getAddress()+"已绑定，请先解除");
-		} 
+		//判断此传送点是否已绑定其他管理员
+		TeleporterAdmin tempTeleporterAdmin =  getTeleporterAdminByTeleporterId(teleporter.getTeleporterId());
+		if (null != tempTeleporterAdmin && (!tempTeleporterAdmin.getTeleporterAdminId().equals(teleporterAdmin.getTeleporterAdminId()))) {
+			throw new Exception("编号:"+teleporter.getTeleporterId()+" 地址:"+teleporter.getAddress()+"已绑定(编号【"+tempTeleporterAdmin.getTeleporterAdminId()+"】，姓名【"+tempTeleporterAdmin.getUsername()+"】，请先解除");
+
+		}
 		
 		//重新设置传送点
 		teleporterAdmin.setTeleporter(teleporter);
@@ -175,7 +177,7 @@ public class TeleporterAdminService {
      * @return 解绑后的实体
      * @throws Exception
      */
-	public TeleporterAdmin unBindAdminAndTeleporter(String teleporterAdminId) throws Exception {
+	public TeleporterAdmin doUnBindAdminAndTeleporter(String teleporterAdminId) throws Exception {
 		
 		TeleporterAdmin teleporterAdmin = getTeleporterAdminById(teleporterAdminId);
 		if (null == teleporterAdmin) {
@@ -254,6 +256,12 @@ public class TeleporterAdminService {
 		//性别
 		updateTeleporterAdmin.setSex(teleporterAdmin.getSex());
 
+		//传送点是否更新
+		if (null == teleporterAdmin.getTeleporter() || null == teleporterAdmin.getTeleporter().getTeleporterId()) {
+		//	throw  new Exception("传送点不能为空!");
+		}else {
+			doBindAdminAndTeleporter(teleporterAdmin.getTeleporterAdminId(),teleporterDao.find(teleporterAdmin.getTeleporter().getTeleporterId()));
+		}
 		teleporterAdminDao.update(updateTeleporterAdmin);
 
     }

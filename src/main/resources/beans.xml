@@ -44,11 +44,16 @@
  	<tx:advice id="txAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
 			<!-- 匹配服务类中方法 -->
-			<tx:method name="save*"/>
-			<tx:method name="update*"/>
-			<tx:method name="delete*"/>
 			<tx:method name="find*" read-only="true"/>
-			<tx:method name="*" rollback-for="java.lang.Exception"/>
+			<tx:method name="query*"  read-only="true"/>
+			<tx:method name="get*"  read-only="true"/>
+
+			<tx:method name="save*"  rollback-for="java.lang.Exception"/>
+			<tx:method name="add*" rollback-for="java.lang.Exception"/>
+			<tx:method name="update*" rollback-for="java.lang.Exception"/>
+			<tx:method name="delete*" rollback-for="java.lang.Exception"/>
+
+			<tx:method name="do*" rollback-for="java.lang.Exception"/>
 		</tx:attributes>
 	</tx:advice> 
 

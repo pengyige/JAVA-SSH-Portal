@@ -60,7 +60,7 @@ public class LoginFilter implements Filter{
 		String uriPath = HttpUriUtil.getUriPath(uri);
 		//空地址请求
 		if (uriPath.equals("/")) {
-			httpServletResponse.sendRedirect(SUPER_ADMIN_LOGIN_URL);
+			httpServletResponse.sendRedirect(ADMIN_LOGIN_URL);
 			return;
 		}
 		//3. 得到后缀
@@ -112,7 +112,8 @@ public class LoginFilter implements Filter{
 		resourceList.add(".class"); 
 		resourceList.add(".jar"); 
 		resourceList.add(".app"); 
-		resourceList.add(".map"); 
+		resourceList.add(".map");
+		resourceList.add(".websocket");
 		
 		//2. 初始排除的url
 		excludedUri = new ArrayList<String>();

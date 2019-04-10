@@ -1,3 +1,6 @@
+/**全局变量*/
+var LOCATION_WEB_SOCKET = "ws://127.0.0.1:8080/portal/locationWebSocket.websocket";
+
 /************提升框架************/
 /***
  * 初始提示框

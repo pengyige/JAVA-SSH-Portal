@@ -172,4 +172,14 @@ public class Constants {
 		}
 
 	}
+
+
+	/**
+	 * cookie
+	 */
+	public  interface CookieKey {
+		String KEY_COOK_TEL = "cook_tel";
+
+		String KEY_COOK_PASSWORD = "cook_password";
+	}
 }

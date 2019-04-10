@@ -6,6 +6,7 @@ import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
 import top.yigege.vo.RiderQueryCondition;
 import top.yigege.vo.TypeVO;
+import top.yigege.web.socket.LocationWebSocket;
 
 /**
  * 
@@ -178,4 +179,17 @@ public class RiderService {
     public TypeVO[] queryRiderRegisterCountByTime() {
 		return riderDao.getRiderRegisterCountByTime();
     }
+
+	/**
+	 * 骑手位置改变
+	 * @param longitudeStr
+	 * @param latitudeStr
+	 * @param riderIdStr
+	 */
+	public void changeLocation(String longitudeStr, String latitudeStr, String riderIdStr) {
+		double logitude = Double.valueOf(longitudeStr);
+		double latitude = Double.valueOf(latitudeStr);
+
+		LocationWebSocket.changeRiderLocation(logitude,latitude,riderIdStr);
+	}
 }

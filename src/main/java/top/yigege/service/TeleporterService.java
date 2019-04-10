@@ -178,8 +178,11 @@ public class TeleporterService {
 		//管理员是否修改
 		if (null != teleporter.getTeleporterAdmin() && StringUtils.isNotBlank(teleporter.getTeleporterAdmin().getTeleporterAdminId())) {
 			//修改此管理员
-			teleporterAdminService.bindAdminAndTeleporter(teleporter.getTeleporterAdmin().getTeleporterAdminId(), oldTeleporter);
-			
+			try {
+			teleporterAdminService.doBindAdminAndTeleporter(teleporter.getTeleporterAdmin().getTeleporterAdminId(), oldTeleporter);
+			}catch (Exception e) {
+				throw  new Exception(e.getMessage());
+			}
 		}
 		
 		//更新实体

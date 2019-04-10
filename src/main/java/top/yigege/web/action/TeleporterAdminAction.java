@@ -130,47 +130,36 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	 * @return
 	 */
 	public String login() {
-		
-		/*TeleporterAdmin teleporterAdmin = teleporterAdminService.adminLogin(this.teleporterAdmin);
-		if(teleporterAdmin != null) {
-			 ActionContext actionContext = ActionContext.getContext();  
-		     Map session = actionContext.getSession();  
-		     session.put("admin", teleporterAdmin); 
-		     this.getJsonData().put("state", 1);
-		     this.getJsonData().put("result",teleporterAdmin);
-		}else {
-			this.getJsonData().put("state", 0);
-		}*/
-		
+
 		 //检查手机号是否存在
-		 boolean flag=teleporterAdminService.telIsExist(teleporterAdmin.getTel());
+		 boolean flag = teleporterAdminService.telIsExist(teleporterAdmin.getTel());
 		 if(flag){
 			 	teleporterAdmin=teleporterAdminService.loginByPass(teleporterAdmin.getTel(),MD5Util.MD5(teleporterAdmin.getPassword()));	
 			 	if(teleporterAdmin!=null){
-			 		((HttpServletRequest)request).getSession().setAttribute("teleporterAdmin", teleporterAdmin);
+			 		((HttpServletRequest)request).getSession().setAttribute(Constants.PortalSessionKey.USER_SESSION_KEY, teleporterAdmin);
 			 		//  登录成功
-			 		Cookie cookie_tel=new Cookie("cookie_tel",teleporterAdmin.getTel());
+			 		Cookie cookie_tel=new Cookie(Constants.CookieKey.KEY_COOK_TEL,teleporterAdmin.getTel());
 			 		cookie_tel.setMaxAge(12*60*30);
-			 		Cookie cookie_password=new Cookie("cookie_password",teleporterAdmin.getPassword());
+			 		Cookie cookie_password=new Cookie(Constants.CookieKey.KEY_COOK_PASSWORD,teleporterAdmin.getPassword());
 			 		cookie_password.setMaxAge(12*60*30);
 			 		//发送两个cookie
 			 		response.addCookie(cookie_tel);
 			 		response.addCookie(cookie_password);
 			 		//重定向到登录后的主页
-			 		return "manage";
+			 		returnDTO = ReturnDTOUtil.success();
 			 	}
 			 	else{
 			 		
 			 		//密码错误返回给JSP页面
-			 		 request.setAttribute("error","用户名或密码错误！");
-			 		return "ad_login";
+			 		returnDTO = ReturnDTOUtil.fail("用户名或密码错误！");
 			 	}
 			 
 		 }else{
 			 //账号不存在 返回给JSP页面
-			 request.setAttribute("error", "该手机号未注册");
-				return "ad_login";
+			 returnDTO = ReturnDTOUtil.fail("该手机号未注册");
 		 }
+
+		 return JSON_DATA;
 	}
 
 	
@@ -209,20 +198,25 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 	}
 	
 	public String index() {
-		logger.info("跳转到管理员登入页面");
-		return "ad_login";
+		logger.info("跳转到管理员管理页面");
+		return "intoTeleporterAdminManagerPage";
 	}
 	
-	
+
+	public String queryGeneralSituation() {
+		logger.info("传送点总体概况");
+		return "intoGeneralSituation";
+	}
+
 	/**
 	 * 管理员注销
 	 */
 	public String logout() {
 		//1.检查管理员是否登入
-		if(this.request.getSession().getAttribute("teleporterAdmin") != null) {
-			this.request.getSession().removeAttribute("teleporterAdmin");
+		if(this.request.getSession().getAttribute(Constants.PortalSessionKey.USER_SESSION_KEY) != null) {
+			this.request.getSession().removeAttribute(Constants.PortalSessionKey.USER_SESSION_KEY);
 		}
-		return "ad_login";
+		return "intoTeleporterAdminLoginPage";
 	}
 	
 	/**
@@ -388,7 +382,7 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
         }
 
         try {
-           TeleporterAdmin returnTeleporterAdmin = teleporterAdminService.unBindAdminAndTeleporter(teleporterAdmin.getTeleporterAdminId());
+           TeleporterAdmin returnTeleporterAdmin = teleporterAdminService.doUnBindAdminAndTeleporter(teleporterAdmin.getTeleporterAdminId());
            this.returnDTO =  ReturnDTOUtil.success(returnTeleporterAdmin);
         }catch (Exception e) {
             logger.info(e.getMessage());

@@ -80,16 +80,24 @@
 			
 			
 			<result name="intoTeleporterAdminManagerPage">
-				/page/super-admin/teleporter-admin/teleporterAdminManager.jsp
+				/page/admin/adminIndex.jsp
 			</result>
-			
+
+			<!--总体概况-->
+			<result name="intoGeneralSituation">
+				/page/admin/generalSituation.jsp
+			</result>
+
+
+			<!--登入-->
+			<result name="intoTeleporterAdminLoginPage" type="redirect">
+				/page/admin/login/adminLogin.jsp
+			</result>
+
 			<result name="manage" type="redirect">
 				manage.jsp
 			</result>
-			
-			<result name="ad_login" type="dispatcher">
-				ad_login.jsp
-			</result>
+
 			
 		</action>
 		

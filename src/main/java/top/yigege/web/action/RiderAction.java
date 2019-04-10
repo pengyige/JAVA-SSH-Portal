@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.struts2.interceptor.ServletRequestAware;
 
 import com.opensymphony.xwork2.ModelDriven;
@@ -423,6 +424,37 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 			logger.info("查询骑手注册数量失败，失败原因:"+e.getMessage());
 			returnDTO = ReturnDTOUtil.fail(e.getMessage());
 		}
+
+		return JSON_DATA;
+	}
+
+
+	/**
+	 * 传送点移动更新
+	 * @return
+	 */
+	public String riderMoveLocationUpdate() {
+		String longitudeStr = request.getParameter("longitude");
+		String latitudeStr = request.getParameter("latitude");
+		String riderIdStr = request.getParameter("riderId");
+
+		if (StringUtils.isBlank(longitudeStr)) {
+			returnDTO = ReturnDTOUtil.paramError("经度不能为空");
+			return JSON_DATA;
+		}
+
+		if (StringUtils.isBlank(latitudeStr)) {
+			returnDTO = ReturnDTOUtil.paramError("纬度不能为空");
+			return JSON_DATA;
+		}
+
+		if (StringUtils.isBlank(riderIdStr)) {
+			returnDTO = ReturnDTOUtil.paramError("骑手ID不能为空");
+			return  JSON_DATA;
+		}
+
+
+		riderService.changeLocation(longitudeStr,latitudeStr,riderIdStr);
 
 		return JSON_DATA;
 	}
