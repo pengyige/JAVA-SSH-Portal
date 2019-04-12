@@ -14,7 +14,8 @@
 	<link href="${pageContext.request.contextPath}/asserts/css/messenger/messenger-theme-ice.css" rel="stylesheet" type="text/css"/>
 	<link href="${pageContext.request.contextPath}/asserts/css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
 
-	
+
+	<script src="${pageContext.request.contextPath}/asserts/js/common.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/asserts/js/jquery/jquery-3.3.1.min.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap/bootstrap.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-table/bootstrap-table.js" type="text/javascript"></script>
@@ -26,7 +27,10 @@
 	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-select/defaults-zh_CN.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
-		
+
+
+	<script type="text/javascript" src="http://api.map.baidu.com/library/CurveLine/1.5/src/CurveLine.min.js"></script>
+	<script type="text/javascript"  src="http://api.map.baidu.com/api?v=2.0&ak=eKfSoepxBKNA7eHrIqtPDmMYIukGaaiG"></script>
 	<style>
         @font-face {
             font-family: 'Glyphicons Halflings';
@@ -424,7 +428,11 @@ $(function (){
 	//初始化区域
 	initAreaData();
 
-	 
+	//自动补全
+	loadMapAutoCommplete("addTeleporterAddress");
+	loadMapAutoCommplete("editAddress");
+
+
 	$('#datetimepicker1').datetimepicker({
 	     format : 'yyyy-mm-dd',
 	     language : 'zh-CN'

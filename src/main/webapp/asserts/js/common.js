@@ -73,3 +73,14 @@ function sexFormatter(value) {
 
     return '<div  style="color: ' + color + '">' + value + '</div>';
 }
+
+
+/*********百度地图*********/
+/**
+ * 自动完成
+ */
+function loadMapAutoCommplete(inputId) {
+    var ac = new BMap.Autocomplete({
+        "input":inputId
+    });
+}

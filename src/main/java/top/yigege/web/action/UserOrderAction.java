@@ -60,6 +60,7 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 	//通过属性封装获取参数
 	private String userId;
 	private String token;
+
 	public String getUserId() {
 		return userId;
 	}
@@ -206,6 +207,45 @@ public class UserOrderAction extends BaseAction implements ModelDriven<UserOrder
 		typeVO[4] = new TypeVO(Constants.OrderState.CANCEL, Constants.OrderState.getName((Constants.OrderState.CANCEL)));
 
 		returnDTO = ReturnDTOUtil.success(typeVO);
+		return JSON_DATA;
+	}
+
+	/**
+	 * 返回所有未接单的订单
+	 * @return
+	 */
+	public String queryUnReceiveOrder() {
+		logger.info("查询所有未接单的订单");
+
+		try {
+			List<UserOrder> userOrders = userOrderService.queryUnReceiveOrder();
+			returnDTO = ReturnDTOUtil.success(userOrders);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("查询所有未接单的订单失败"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+		return  JSON_DATA;
+	}
+
+
+	/**
+	 * 人工派单
+	 * @return
+	 */
+	public String dispacherOrder() {
+		logger.info("开始派单");
+		String userOrderId = this.getRequest().getParameter("userOrderId");
+		String riderId = this.getRequest().getParameter("riderId");
+
+		try {
+			userOrderService.doDispacherOrder(userOrderId,riderId);
+			returnDTO = ReturnDTOUtil.success("订单编号【"+userOrderId+"】,派送成功");
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("开始派单,失败原因"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
 		return JSON_DATA;
 	}
 }

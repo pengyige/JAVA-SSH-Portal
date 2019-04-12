@@ -274,7 +274,7 @@
 			},
 			onLoadError: function () {
 				$.globalMessenger().post({
-					user: "数据加载失败",//提示信息
+					message: "数据加载失败",//提示信息
 					type: 'info',//消息类型。error、info、success
 					hideAfter: 5,//多长时间消失
 					showCloseButton:true,//是否显示关闭按钮
@@ -382,7 +382,7 @@
 					$("#grid").bootstrapTable('load',result);
 				}else {
 					$.globalMessenger().post({
-						user: result.message,//提示信息
+						message: result.message,//提示信息
 						type: 'error',//消息类型。error、info、success
 						hideAfter: 5,//多长时间消失
 						showCloseButton:true,//是否显示关闭按钮

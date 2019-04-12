@@ -4,6 +4,7 @@ import java.util.List;
 
 import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
+import top.yigege.domain.Teleporter;
 import top.yigege.vo.RiderQueryCondition;
 import top.yigege.vo.TypeVO;
 import top.yigege.web.socket.LocationWebSocket;
@@ -159,7 +160,7 @@ public class RiderService {
 	 * @param teleporterId
 	 * @return
 	 */
-	public List<Rider> findRidersByTeleproter(String teleporterId) {
+	public List<Rider> findRidersByTeleproter(Integer teleporterId) {
 		// TODO Auto-generated method stub
 		return riderDao.findRidersByTeleproter(teleporterId);
 	}
@@ -192,4 +193,14 @@ public class RiderService {
 
 		LocationWebSocket.changeRiderLocation(logitude,latitude,riderIdStr);
 	}
+
+	/**
+	 * 根据穿点查询骑手
+	 * @param teleporter
+	 * @return
+	 */
+    public List<Rider> queryRiderByTeleporter(Teleporter teleporter) {
+
+    	return riderDao.findRidersByTeleproter(teleporter.getTeleporterId());
+    }
 }

@@ -92,7 +92,9 @@
 <body>
 
 	<%
-	 TeleporterAdmin teleporterAdmin = (TeleporterAdmin)(request.getSession().getAttribute("top.yigege.session.user")); %>
+	 TeleporterAdmin teleporterAdmin = (TeleporterAdmin)(request.getSession().getAttribute("top.yigege.session.user"));
+
+	%>
 	
 	<nav class="navbar navbar-inverse" style="margin-bottom:0;border-radius:0;">
 	  <div class="container-fluid">
@@ -107,14 +109,13 @@
 		  		<span class="glyphicon  glyphicon-off" aria-hidden="true"></span> 注销</button>
 		    </p>
 		   
-		    <!-- 时间 -->
-	<%--	   	<div class="navbar-text running-text time">
-		   		时间  <span style="padding:0 10px;">|</span> <span class="glyphicon glyphicon-time"></span>
+		    <!-- 传送点 -->
+		   	<div class="navbar-text running-text time">
+		   		当前传送点  <span style="padding:0 10px;">|</span> <span class="glyphicon glyphicon-map-marker"></span>
 
-<fmt:formatDate value="${lastlogintime}" pattern="yyyy-MM-dd hh:mm:ss"/>
+				<span id="teleporterAddress"><%=teleporterAdmin.getTeleporter().getAddress()%></span>
 
-
-		   	</div>--%>
+		   	</div>
 		   
 		   <!-- 头像 -->
 		    <div class="navbar-text pic-div">
@@ -232,7 +233,7 @@
 </body>
 
 <script>
-var LOGOUT_URL = "${pageContext.request.contextPath}/superAdmin_logout.action";
+var LOGOUT_URL = "${pageContext.request.contextPath}/teleporterAdmin_logout.action";
 /**总体概况*/
 var QUERY_GENERAL_SITUATION_URL = "${pageContext.request.contextPath}/teleporterAdmin_queryGeneralSituation.action";
 /**传送点入口*/

@@ -61,7 +61,7 @@ public interface RiderDao extends BaseDao<Rider>{
 	 * @param teleporterId
 	 * @return
 	 */
-	List<Rider> findRidersByTeleproter(String teleporterId);
+	List<Rider> findRidersByTeleproter(Integer teleporterId);
 
     List<Rider> pageLicstByCondition(int page, int rows, RiderQueryCondition riderQueryCondition);
 

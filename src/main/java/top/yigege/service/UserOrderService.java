@@ -2,6 +2,8 @@ package top.yigege.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+import top.yigege.constants.Constants;
 import top.yigege.dao.UserOrderDao;
 import top.yigege.domain.UserOrder;
 import top.yigege.vo.OrderQueryCondition;
@@ -114,5 +116,32 @@ public class UserOrderService {
 	 */
 	public Long getCountByCondition(OrderQueryCondition orderQueryCondition) {
 		return userOrderDao.getCountByCondition(orderQueryCondition);
+	}
+
+	/**
+	 * 查询所有待接待订单
+	 * @return
+	 */
+    public List<UserOrder> queryUnReceiveOrder() {
+
+		return userOrderDao.findUserOrderByStatus(Constants.OrderState.WAIT);
+    }
+
+	/**
+	 *  派单
+	 * @param userOrderId
+	 * @param riderId
+	 */
+	public void doDispacherOrder(String userOrderId, String riderId) throws Exception {
+		if (StringUtils.isBlank(userOrderId)) {
+			throw  new Exception("用户订单ID不能为空");
+		}
+
+		if (StringUtils.isBlank(riderId)) {
+			throw new Exception("骑手ID不能为空");
+		}
+
+		//通过腾讯信鸽派单
+
 	}
 }

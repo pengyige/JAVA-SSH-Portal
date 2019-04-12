@@ -46,4 +46,11 @@ public interface UserOrderDao extends BaseDao<UserOrder>{
 	 * @return
 	 */
 	Long getCountByCondition(OrderQueryCondition orderQueryCondition);
+
+	/**
+	 * 通过状态查询订单
+	 * @param wait
+	 * @return
+	 */
+	List<UserOrder> findUserOrderByStatus(Long wait);
 }

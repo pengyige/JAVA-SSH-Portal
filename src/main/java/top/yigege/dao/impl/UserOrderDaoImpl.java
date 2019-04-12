@@ -98,5 +98,12 @@ public class UserOrderDaoImpl extends BaseDaoImpl<UserOrder> implements UserOrde
 		return (Long) criteria.uniqueResult();
 	}
 
+	@Override
+	public List<UserOrder> findUserOrderByStatus(Long wait) {
+		Criteria criteria = this.getSessionFactory().getCurrentSession().createCriteria(UserOrder.class);
+		criteria.add(Restrictions.eq("state",wait.intValue()));
+		return (List<UserOrder>) criteria.list();
+	}
+
 
 }

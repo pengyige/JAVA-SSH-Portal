@@ -136,6 +136,12 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 		 if(flag){
 			 	teleporterAdmin=teleporterAdminService.loginByPass(teleporterAdmin.getTel(),MD5Util.MD5(teleporterAdmin.getPassword()));	
 			 	if(teleporterAdmin!=null){
+			 		if ( null == teleporterAdmin.getTeleporter()) {
+						returnDTO = ReturnDTOUtil.fail("您还没有绑定传送点，请先绑定");
+						return JSON_DATA;
+					}
+
+
 			 		((HttpServletRequest)request).getSession().setAttribute(Constants.PortalSessionKey.USER_SESSION_KEY, teleporterAdmin);
 			 		//  登录成功
 			 		Cookie cookie_tel=new Cookie(Constants.CookieKey.KEY_COOK_TEL,teleporterAdmin.getTel());
@@ -196,10 +202,14 @@ public class TeleporterAdminAction extends BaseAction implements ModelDriven<Tel
 		this.getJsonData().put("state", state);
 		return "jsonData";
 	}
-	
+
+	/**
+	 * 传送点管理员管理界面
+	 * @return
+	 */
 	public String index() {
 		logger.info("跳转到管理员管理页面");
-		return "intoTeleporterAdminManagerPage";
+		return "intoTeleporterAdminIndexPage";
 	}
 	
 

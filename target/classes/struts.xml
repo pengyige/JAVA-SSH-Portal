@@ -76,20 +76,31 @@
 		
 		<!-- 传送点管理员模块 -->
 		<action name="teleporterAdmin_*" class="teleporterAdminAction" method="{1}">
-			
-			
-			
-			<result name="intoTeleporterAdminManagerPage">
-				/page/super-admin/teleporter-admin/teleporterAdminManager.jsp
+
+
+			<result name="intoTeleporterAdminIndexPage">
+				/page/admin/adminIndex.jsp
 			</result>
-			
+
+			<result name="intoTeleporterAdminManagerPage">
+				/page/super-admin/teleporter-admin/teleporterAdminManage.jsp
+			</result>
+
+			<!--总体概况-->
+			<result name="intoGeneralSituation">
+				/page/admin/generalSituation.jsp
+			</result>
+
+
+			<!--登入-->
+			<result name="intoTeleporterAdminLoginPage" type="redirect">
+				/page/admin/login/adminLogin.jsp
+			</result>
+
 			<result name="manage" type="redirect">
 				manage.jsp
 			</result>
-			
-			<result name="ad_login" type="dispatcher">
-				ad_login.jsp
-			</result>
+
 			
 		</action>
 		

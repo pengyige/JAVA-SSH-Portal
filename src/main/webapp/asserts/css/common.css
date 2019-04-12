@@ -18,3 +18,9 @@
 .red {
 	color:red;
 }
+
+.tangram-suggestion-main {z-index: 9999999999;}
+
+#waitDialog{
+	z-index: 88888888;
+}
