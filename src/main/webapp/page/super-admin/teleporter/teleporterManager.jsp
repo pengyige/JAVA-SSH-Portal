@@ -740,7 +740,7 @@ function initAreaData(){
 		 		});
 			}
 		},
-		fail:function (){
+		error:function (){
             $.globalMessenger().post({
                 message: "操作失败",//提示信息
                 type: 'error',//消息类型。error、info、success
@@ -811,7 +811,7 @@ function viewById(id) {
 			}
 			
 		},
-		fail:function (){
+		error:function (){
 	            $.globalMessenger().post({
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
@@ -942,7 +942,7 @@ function editEleporterHandle(id){
 			}
 			
 		},
-		fail:function (){
+		error:function (){
 	            $.globalMessenger().post({
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
@@ -1015,7 +1015,7 @@ function queryTeleporter(){
 	 			});
 			}
 		},
-		fail:function (){
+		error:function (){
 			$("#waitDialog").modal('hide');
 			$.globalMessenger().post({
                 message: "操作失败",//提示信息
@@ -1101,7 +1101,7 @@ function updateTeleporter(){
 			}
 			
 		},
-		fail:function (){
+		error:function (){
 	         $.globalMessenger().post({
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
@@ -1175,7 +1175,7 @@ function deleteTeleporter(){
 			}
 			
 		},
-		fail:function (){
+		error:function (){
 	         $.globalMessenger().post({
 	                message: "操作失败",//提示信息
 	                type: 'error',//消息类型。error、info、success
@@ -1259,7 +1259,7 @@ function addTeleporter(){
 		 		});
 			}
 		},
-		fail:function (){
+		error:function (){
 			 $("#waitDialog").modal('hide');
 			 $.globalMessenger().post({
 						message: result.message,//提示信息

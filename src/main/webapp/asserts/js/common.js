@@ -22,7 +22,6 @@ function sendRequestBeforeHandle() {
  * 网络请求失败处理
  */
 function sendRequestFailHandle() {
-        console.log("error");
         $("#waitDialog").modal('hide');
         $.globalMessenger().post({
             message: "操作失败",//提示信息

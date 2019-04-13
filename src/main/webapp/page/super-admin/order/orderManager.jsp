@@ -444,7 +444,7 @@
 					});
 				}
 			},
-			fail:function () {
+			error:function () {
 				sendRequestFailHandle()
 			}
 		});

@@ -109,6 +109,10 @@
 			<result name="intoRiderManagerPage">
 				/page/super-admin/rider/riderManager.jsp
 			</result>
+
+			<result name="intoRiderManagerPageForTeleporterAdmin">
+				/page/admin/rider/riderManager.jsp
+			</result>
 		</action>
 		
 		<!-- 骑手订单模块  -->

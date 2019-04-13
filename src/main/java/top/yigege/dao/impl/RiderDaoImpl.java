@@ -136,6 +136,12 @@ public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 			if (null != riderQueryCondition.getDate()) {
 				criteria.add(Restrictions.between("registerDate",riderQueryCondition.getDate(), DateUtil.getNextDay(riderQueryCondition.getDate())));
 			}
+
+			//传送点
+			if (null != riderQueryCondition.getTeleporterId()) {
+				criteria = criteria.createAlias("teleporter", "t");
+				criteria.add(Restrictions.eq("t.teleporterId", riderQueryCondition.getTeleporterId()));
+			}
 		}
 
 		//排序
@@ -156,6 +162,12 @@ public class RiderDaoImpl extends BaseDaoImpl<Rider> implements RiderDao{
 			//注册日期
 			if (null != riderQueryCondition.getDate()) {
 				criteria.add(Restrictions.between("registerDate",riderQueryCondition.getDate(), DateUtil.getNextDay(riderQueryCondition.getDate())));
+			}
+
+			//传送点
+			if (null != riderQueryCondition.getTeleporterId()) {
+				criteria = criteria.createAlias("teleporter", "t");
+				criteria.add(Restrictions.eq("t.teleporterId", riderQueryCondition.getTeleporterId()));
 			}
 		}
 		//排序

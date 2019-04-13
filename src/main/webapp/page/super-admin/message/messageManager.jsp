@@ -789,7 +789,7 @@
 					});
 				}
 			},
-			fail:function (){
+			error:function (){
 				$.globalMessenger().post({
 					message: "操作失败",//提示信息
 					type: 'error',//消息类型。error、info、success
@@ -866,7 +866,7 @@
 				}
 
 			},
-			fail:function (){
+			error:function (){
 				sendRequestFailHandle();
 			}
 		});
@@ -962,7 +962,7 @@
 				}
 
 			},
-			fail:function (){
+			error:function (){
 				sendRequestFailHandle();
 			}
 		});
@@ -1021,7 +1021,7 @@
 					});
 				}
 			},
-			fail:function () {
+			error:function () {
 				sendRequestFailHandle()
 			}
 		});
@@ -1123,7 +1123,7 @@
 				}
 
 			},
-			fail:function () {
+			error:function () {
 				sendRequestFailHandle();
 			}
 		});
@@ -1187,7 +1187,7 @@
 				}
 
 			},
-			fail:function () {
+			error:function () {
 				sendRequestFailHandle();
 			}
 		});
@@ -1271,7 +1271,7 @@
 					});
 				}
 			},
-			fail:function () {
+			error:function () {
 				sendRequestFailHandle()
 			}
 		});

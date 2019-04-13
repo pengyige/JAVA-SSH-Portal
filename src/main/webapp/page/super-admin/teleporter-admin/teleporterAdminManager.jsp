@@ -735,7 +735,7 @@ function initTeleporterData(){
 	 			});
 			}
 		},
-		fail:function (){
+		error:function (){
             $.globalMessenger().post({
                 message: "操作失败",//提示信息
                 type: 'error',//消息类型。error、info、success
@@ -819,7 +819,7 @@ function viewById(id) {
 			}
 			
 		},
-		fail:function (){
+		error:function (){
 	           sendRequestFailHandle();
 		}
 	});
@@ -915,7 +915,7 @@ function editEleporterAdminHandle(id){
 			}
 			
 		},
-		fail:function (){
+		error:function (){
 	           sendRequestFailHandle();
 		}
 	});
@@ -993,7 +993,7 @@ function unBindTeleporter() {
             }
 
         },
-        fail:function () {
+        error:function () {
             sendRequestFailHandle()
         }
 
@@ -1041,7 +1041,7 @@ function queryTeleporterAdmin(){
 	 			});
 			}
 		},
-		fail:function () {
+		error:function () {
 			sendRequestFailHandle()
 		}
 	});
@@ -1119,7 +1119,7 @@ function updateTeleporterAdmin(){
 			}
 			
 		},
-		fail:function () {
+		error:function () {
             sendRequestFailHandle();
         }
 	});
@@ -1183,7 +1183,7 @@ function deleteTeleporterAdmin(){
 			}
 			
 		},
-		fail:function () {
+		error:function () {
 			sendRequestFailHandle();
 		}
 	});
@@ -1277,7 +1277,7 @@ function addTeleporterAdmin(){
 		 		});
 			}
 		},
-		fail:function () {
+		error:function () {
 			sendRequestFailHandle()
 		}
 	});

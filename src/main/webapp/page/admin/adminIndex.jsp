@@ -218,7 +218,7 @@
 	      <div class="modal-body">
 	        <form>
 	       	<div class="form-group">
-	            <label for="message-text" class="control-label">确定要退出系统吗？</label>
+	            <label class="control-label">确定要退出系统吗？</label>
 	          </div>
 	        </form>
 	      </div>
@@ -236,16 +236,9 @@
 var LOGOUT_URL = "${pageContext.request.contextPath}/teleporterAdmin_logout.action";
 /**总体概况*/
 var QUERY_GENERAL_SITUATION_URL = "${pageContext.request.contextPath}/teleporterAdmin_queryGeneralSituation.action";
-/**传送点入口*/
-var TELEPORTER_MANAGER_URL = "${pageContext.request.contextPath}/teleporter_intoTeleporterManagerPage.action";
-/**传送点管理员入口*/
-var TELEPORTER_ADMIN_MANAGER_URL = "${pageContext.request.contextPath}/teleporterAdmin_intoTeleporterAdminManagerPage.action";
-/**系统消息入口*/
-var MESSAGE_MANAGER_URL = "${pageContext.request.contextPath}/systemMessage_intoSystemMessageManagerPage.action";
-/**用户管理*/
-var USER_MANAGER_URL = "${pageContext.request.contextPath}/user_intoUserManagerPage.action";
+
 /**骑手管理*/
-var RIDER_MANAGER_URL = "${pageContext.request.contextPath}/rider_intoRiderManagerPage.action";
+var RIDER_MANAGER_URL = "${pageContext.request.contextPath}/rider_intoRiderManagerPageForTeleporterAdmin.action";
 /**订单管理*/
 var ORDER_MANAGER_URL = "${pageContext.request.contextPath}/userOrder_intoOrderManagerPage.action";
 
@@ -270,33 +263,7 @@ $(function() {
 	
 });
 
-/**
- * 查询传送点
- */
-function intoTeleporterManagerPage() {
-	$("#iframe").attr("src",TELEPORTER_MANAGER_URL);
-}
 
-/**
- * 查询管理员
- */
-function intoTeleporterAdminManagerPage() {
-	$("#iframe").attr("src",TELEPORTER_ADMIN_MANAGER_URL);
-}
-
-/**
- * 查询系统消息
- */
-function intoSystemMessageManagerPage() {
-	$("#iframe").attr("src",MESSAGE_MANAGER_URL);
-}
-
-/**
- * 查询用户
- */
-function intoUserManagerPage() {
-	$("#iframe").attr("src",USER_MANAGER_URL);
-}
 
 /**
  * 查询骑手

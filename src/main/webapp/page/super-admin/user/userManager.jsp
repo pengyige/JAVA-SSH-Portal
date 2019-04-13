@@ -400,7 +400,7 @@
 					});
 				}
 			},
-			fail:function (){
+			error:function (){
 				$("#waitDialog").modal('hide');
 				$.globalMessenger().post({
 					message: "操作失败",//提示信息
@@ -456,7 +456,7 @@
 					});
 				}
 			},
-			fail:function () {
+			error:function () {
 				sendRequestFailHandle()
 			}
 		});

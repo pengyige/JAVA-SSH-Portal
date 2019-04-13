@@ -2,9 +2,12 @@ package top.yigege.service;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import top.yigege.dao.RiderDao;
 import top.yigege.domain.Rider;
 import top.yigege.domain.Teleporter;
+import top.yigege.util.ValidatorUtil;
+import top.yigege.util.VerifyIdCardHelper;
 import top.yigege.vo.RiderQueryCondition;
 import top.yigege.vo.TypeVO;
 import top.yigege.web.socket.LocationWebSocket;
@@ -16,8 +19,9 @@ import top.yigege.web.socket.LocationWebSocket;
  * @author: yigege
  * @date:   2018年12月16日 上午11:30:06
  */
-public class RiderService {
-	
+public class RiderService extends BaseService{
+
+
 	/**骑手Dao*/
 	private RiderDao riderDao;
 	public void setRiderDao(RiderDao riderDao) {
@@ -55,8 +59,17 @@ public class RiderService {
 	 * @param tel
 	 * @return
 	 */
-	public Rider findRiderByTel(String tel) {
-		
+	public Rider findRiderByTel(String tel) throws Exception {
+		//校验手机号
+		if (!ValidatorUtil.isMobile(tel)) {
+			throw  new Exception("手机号非法");
+		}
+
+		//手机号是否已注册
+		if (!telIsRegister(tel)) {
+			throw  new Exception(tel+"手机号未注册");
+		}
+
 		return riderDao.findRiderByTel(tel);
 	}
 	
@@ -76,21 +89,26 @@ public class RiderService {
 		return state;
 		
 	}
-	
+
 	/**
 	 * 骑手登记
-	 * @param teleporterId
-	 * @param riderId
-	 * @return
+	 * @param rider
+	 * @param teleporter
 	 */
-	public int riderCheckin(String teleporterId, String riderId) {
-		int state = 1;
+	public void riderCheckin(Rider rider,Teleporter teleporter) {
+		/*int state = 1;
 		try {
 			riderDao.checkIn(teleporterId,riderId);
 		}catch(Exception e){
 			state = 0;
 		}
-		return state;
+		return state;*/
+		//验证实名认证
+		if (VerifyIdCardHelper.sendVerfidyIdCardRequest(rider.getIDNumber(),rider.getRealName())){
+			logger.info("认证成功");
+		}else {
+			logger.info("认证失败");
+		}
 	}
 	
 	/**
@@ -203,4 +221,35 @@ public class RiderService {
 
     	return riderDao.findRidersByTeleproter(teleporter.getTeleporterId());
     }
+
+	/**
+	 * 校验登记信息
+	 * @param rider
+	 */
+	public void validateCheckInData(Rider rider,Teleporter teleporter) throws Exception {
+		if (!(null != teleporter && teleporter.getTeleporterId() != null)) {
+			throw new Exception("登记的传送点不能为空");
+		}
+
+		//手机号
+		if (StringUtils.isBlank(rider.getTel())) {
+			throw new Exception("手机号不能为空");
+		}else {
+			if (!telIsRegister(rider.getTel())) {
+				throw new Exception(rider.getTel()+"还未注册，请先注册");
+			}
+		}
+
+		//判断是否在其他传送点登记
+		Rider returnRider = findRiderByTel(rider.getTel());
+		if (null != returnRider.getTeleporter()) {
+			throw  new Exception(rider.getTel()+"已在传送点【"+returnRider.getTeleporter().getAddress()+"】登记，请先到该传送点进行注销");
+		}
+
+		//判断该传送点是否已登记
+		if (returnRider.getTeleporter().getTeleporterId().equals(teleporter.getTeleporterId())) {
+			throw new Exception(rider.getTel()+"已登记");
+		}
+
+	}
 }

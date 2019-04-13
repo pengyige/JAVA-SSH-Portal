@@ -116,7 +116,7 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	 * 骑手手机号登入
 	 */
 	public String loginByTel() {
-		//1.校验手机号是否存在
+		/*//1.校验手机号是否存在
 		Rider resultRider = riderService.findRiderByTel(rider.getTel());
 		
 	
@@ -138,96 +138,15 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		}else {
 			this.getJsonData().put("state", -1);
 		}
-		return "jsonData";
+		return "jsonData";*/
+		return JSON_DATA;
 	}
 	
 	
-	/**
-	 * 更新骑手信息
-	 */
-	public String update() {	
-		int resultState;
-		//1.判断token是否有效
-		resultState =riderService.validateToken(rider.getToken());
-		if(resultState == -1) {
-			this.getJsonData().put("state", -1);
-			return "jsonData";
-		}
-		//获取数据库中骑手所有信息,根据传入参数进行update
-		Rider tempRider = riderService.findRiderById(rider.getRiderId());
-		if(rider.getUsername() != null && !rider.getUsername().trim().equals("")) {
-			tempRider.setUsername(rider.getUsername());
-		}
-		if(rider.getPassword()!= null && !rider.getPassword().trim().equals("")) 
-			tempRider.setPassword(MD5Util.MD5(rider.getPassword()));
-		if(rider.getSex() != 0)
-			tempRider.setSex(rider.getSex());
-		if(rider.getTel() != null && !rider.getTel().trim().equals(""))
-			tempRider.setTel(rider.getTel());
-		if(rider.getDeviceToken() != null && !rider.getDeviceToken().trim().equals(""))
-			tempRider.setDeviceToken(rider.getDeviceToken());
-		if(rider.getRiderState() != 0)
-			tempRider.setRiderState(rider.getRiderState());
-		
-		//更新骑手
-	    resultState = riderService.updateRiderService(tempRider);
-	    this.getJsonData().put("state",resultState);
+
 	
-	
-	
-		return "jsonData";
-	}
-	
-	
-	/**
-	 * 骑手是否登入
-	 */
-	public String isCheckin() {
-		int resultState;
-		//1.判断token是否有效
-		resultState =riderService.validateToken(rider.getToken());
-		if(resultState == -1) {
-			this.getJsonData().put("state", -1);
-			return "jsonData";
-		}
-		
-		Rider tempRider = riderService.findRiderByTel(rider.getTel());
-		if(tempRider.getCheckinDate() == null) {
-			this.getJsonData().put("state", 0);
-		}else {
-			this.getJsonData().put("state", 1);
-		}
-		
-		return "jsonData";
-	}
-	
-	
-	
-	/**
-	 * 骑手传送点登记
-	 */
-	public String checkin() {
-		//1.判断管理员是否登入
-		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) request.getSession().getAttribute("teleporterAdmin");
-		if(teleporterAdmin == null) {
-			this.getJsonData().put("state", -1);
-			return "jsonData";
-		}
-		
-		//2.判断骑手是否已经登记
-		Rider tempRider = riderService.findRiderById(this.rider.getRiderId());
-		if(tempRider.getTeleporter() != null) {
-			this.getJsonData().put("state", -2);
-			return "jsonData";
-		}
-		
-		//3.登记业务处理
-		int state = 1;
-		state = riderService.riderCheckin(teleporterId,this.rider.getRiderId());
-		this.getJsonData().put("state", state);
-		return "jsonData";
-	}
-	
+
+
 	
 	/**
 	 * 骑手注销登记
@@ -324,35 +243,21 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 	}
 	
 	
-	/**
-	 * 向骑士推送订单
-	 */
-	public String pushOrder() {
-		Rider tempRider = riderService.findRiderByTel(rider.getTel());
-		//开始推送到骑手端
-		/*  //1.查询当前骑手状态为开始接单的deviceToken
-		List<Rider> ridersList = riderService.findAll();
-		List<String> deviceTokensList = new ArrayList<String>();
-		for(int i = 0 ; i < ridersList.size(); i++) {
-			if(ridersList.get(i).getRiderState() == 2) {
-				deviceTokensList.add(ridersList.get(i).getDeviceToken());
-			}
-		}
-		
-		//随机推送
-		int index = (int) (Math.random()*deviceTokensList.size());*/
-		
-		XingeApp.pushTokenAndroid(XingeUtil.APPID,XingeUtil.SECRETKEY, "您有新的用户订单("+userOrderId+")", "传送门",tempRider.getDeviceToken());
-		this.getJsonData().put("state", 1);
-		return "jsonData";
-	}
-	
+
 	/**
 	 * 跳转到骑手管理
 	 * @return
 	 */
 	public String intoRiderManagerPage() {
 		return "intoRiderManagerPage";
+	}
+
+	/**
+	 * 跳转到骑手管理(传送点管理员)
+	 * @return
+	 */
+	public String intoRiderManagerPageForTeleporterAdmin() {
+		return "intoRiderManagerPageForTeleporterAdmin";
 	}
 
 
@@ -450,6 +355,79 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.info("查询当前传送点可派单骑手,失败原因"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+		return JSON_DATA;
+	}
+
+	/**
+	 * 分页查询所有当前传送点下骑手
+	 * @return
+	 */
+	public String queryAllByPageAndTeleporter() {
+		logger.info("");
+
+		try {
+			TeleporterAdmin teleporterAdmin = (TeleporterAdmin) this.request.getSession().getAttribute(Constants.PortalSessionKey.USER_SESSION_KEY);
+			riderQueryCondition.setTeleporterId(teleporterAdmin.getTeleporter().getTeleporterId());
+
+			List<Rider> riders = riderService.pageListByCondition(page,rows,riderQueryCondition);
+
+			Long count = riderService.getCountByCondition(riderQueryCondition);
+			if(riders != null) {
+				bootstrapTableDTO.setCode(HttpCodeEnum.OK.getCode());
+				bootstrapTableDTO.setTotal(count.intValue());
+				bootstrapTableDTO.setRows(riders);
+			}else {
+				bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+				bootstrapTableDTO.setMessage(HttpCodeEnum.INVALID_REQUEST.getMessage());
+			}
+		}catch (Exception e) {
+			e.printStackTrace();
+			bootstrapTableDTO.setCode(HttpCodeEnum.FAIL.getCode());
+			bootstrapTableDTO.setMessage(e.getMessage());
+		}
+		return BOOTSTRAP_TABLE_JSON_DATA;
+	}
+
+	/**
+	 * 登记骑手
+	 * @return
+	 */
+	public String checkIn() {
+		logger.info("开始登记骑手");
+
+		TeleporterAdmin teleporterAdmin = (TeleporterAdmin) this.request.getSession().getAttribute(Constants.PortalSessionKey.USER_SESSION_KEY);
+
+		try {
+			riderService.validateCheckInData(rider,teleporterAdmin.getTeleporter());
+
+            riderService.riderCheckin(rider,teleporterAdmin.getTeleporter());
+
+			returnDTO = ReturnDTOUtil.success(rider.getTel()+"登记成功");
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("登记骑手失败，失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+
+		return JSON_DATA;
+	}
+
+	/**
+	 * 查询骑手详情
+	 * @return
+	 */
+	public String queryRiderDetailByTel() {
+		logger.info("查询骑手详情");
+
+		try {
+
+			Rider returnRider = riderService.findRiderByTel(rider.getTel());
+			returnDTO = ReturnDTOUtil.success(returnRider);
+		}catch (Exception e) {
+			e.printStackTrace();;
+			logger.info("查询骑手详情失败，失败原因:"+e.getMessage());
 			returnDTO = ReturnDTOUtil.fail(e.getMessage());
 		}
 		return JSON_DATA;

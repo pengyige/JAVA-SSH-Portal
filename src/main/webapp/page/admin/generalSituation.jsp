@@ -454,7 +454,7 @@ function sendDispacherOrderRequest(userOrderId, riderId) {
 				});
 			}
 		},
-		fail:function () {
+		error:function () {
 			sendRequestFailHandle();
 		}
 	});
@@ -502,7 +502,7 @@ function initRiders() {
 				});
 			}
 		},
-		fail:function () {
+		error:function () {
 			sendRequestFailHandle();
 		}
 	});
@@ -540,7 +540,7 @@ function loadDataForOrder() {
 				});
 			}
 		},
-		fail:function () {
+		error:function () {
 			sendRequestFailHandle();
 		}
 	});

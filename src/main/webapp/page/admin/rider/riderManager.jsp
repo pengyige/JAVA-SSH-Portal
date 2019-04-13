@@ -91,6 +91,10 @@
 				<span class="glyphicon glyphicon-search"></span> 查询
 			</button>
 
+			<button id="checkInRiderBtn" type="button" class="btn btn-primary" >
+				<span class="glyphicon  glyphicon-ok-sign"></span> 登记
+			</button>
+
 		</div>
 	</div>
 
@@ -98,6 +102,71 @@
 
 </div>
 <div class="panel-footer">传送门</div>
+</div>
+
+<%--登记骑手--%>
+<div id="checkInRiderDialog" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" >登记骑手</h4>
+			</div>
+			<div class="modal-body">
+				<form action="#" class="form-horizontal" role="form">
+
+					<!-- 手机号 -->
+					<div class="form-group">
+						<label class="col-sm-3 control-label" style="">手机号</label>
+						<div class="col-sm-5">
+							<input class="form-control" id="checkInRiderTel" type="text" value="" >
+
+						</div>
+					</div>
+
+					<!-- 注册名 -->
+					<div class="form-group">
+						<label class="col-sm-3 control-label">注册名</label>
+						<div class="col-sm-5">
+							<fieldset disabled>
+								<input class="form-control" id="checkInRiderUsername" type="text" value="" >
+							</fieldset>
+						</div>
+					</div>
+
+					<div style="width: 100%;background-color: #eeeaea;text-align: center;height: 20px;line-height: 20px;font-size:10px;color: #6e6e4b;">
+						实名认证
+					</div>
+
+					<%-- 真实姓名 --%>
+					<div class="form-group">
+						<label class="col-sm-3 control-label" >真实姓名</label>
+						<div class="col-sm-5">
+
+							<input class="form-control" id="checkInRiderRealname" type="text" value="" >
+
+						</div>
+					</div>
+
+					<%-- 身份证号码--%>
+					<div class="form-group">
+						<label class="col-sm-3 control-label">身份证号码</label>
+						<div class="col-sm-5">
+
+							<input class="form-control" id="checkInRiderIDNumber" type="text" value="" >
+
+						</div>
+					</div>
+
+
+
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button id="checkInRiderDialogOKBtn" type="button" class="btn btn-primary">确定</button>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><
 </div>
 
 <!-- 等待框 -->
@@ -113,8 +182,11 @@
 <script>
 	var $table;
 	/**分页查询骑手*/
-	var QUERY_RIDER_URL = "${pageContext.request.contextPath}/rider_queryAllByPage.action";
-
+	var QUERY_RIDER_BY_TELEPORTER_URL = "${pageContext.request.contextPath}/rider_queryAllByPageAndTeleporter.action";
+	/**登记骑手*/
+	var CHECKIN_RIDER_URL = "${pageContext.request.contextPath}/rider_checkIn.action";
+	/**查询骑手详情通过手机号*/
+	var QUERY_RIDER_BY_TEL_URL = "${pageContext.request.contextPath}/rider_queryRiderDetailByTel.action";
 
 	$(function (){
 		//初始化表格
@@ -147,6 +219,71 @@
 			queryRider();
 		});
 
+		$("#checkInRiderBtn").click(function () {
+			$("#checkInRiderDialog").modal();
+		})
+
+		$("#checkInRiderTel").blur(function () {
+			var tel = $("#checkInRiderTel").val();
+			if (null == tel || "" == tel.trim()) {
+				$.globalMessenger().post({
+					message: "手机号不能为空",//提示信息
+					type: 'error',//消息类型。error、info、success
+					hideAfter: 5,//多长时间消失
+					showCloseButton:true,//是否显示关闭按钮
+					hideOnNavigate: true //是否隐藏导航
+				});
+				return;
+			}
+
+			//查询骑手详情
+			queryRiderDetail(tel);
+		});
+
+		$("#checkInRiderDialogOKBtn").click(function () {
+			//手机号
+			var tel = $("#checkInRiderTel").val();
+			if (null == tel || "" == tel.trim()) {
+				$.globalMessenger().post({
+					message: "手机号不能为空",//提示信息
+					type: 'error',//消息类型。error、info、success
+					hideAfter: 5,//多长时间消失
+					showCloseButton:true,//是否显示关闭按钮
+					hideOnNavigate: true //是否隐藏导航
+				});
+				return;
+			}
+
+			//真实姓名
+			var realname = $("#checkInRiderRealname").val();
+			if (null == realname || "" == realname.trim()) {
+				$.globalMessenger().post({
+					message: "真实姓名不能为空",//提示信息
+					type: 'error',//消息类型。error、info、success
+					hideAfter: 5,//多长时间消失
+					showCloseButton:true,//是否显示关闭按钮
+					hideOnNavigate: true //是否隐藏导航
+				});
+
+				return;
+			}
+			//身份证号码
+			var IDNumber = $("#checkInRiderIDNumber").val();
+			if (null == IDNumber || "" == IDNumber.trim()) {
+				$.globalMessenger().post({
+					message: "手机号不能为空",//提示信息
+					type: 'error',//消息类型。error、info、success
+					hideAfter: 5,//多长时间消失
+					showCloseButton:true,//是否显示关闭按钮
+					hideOnNavigate: true //是否隐藏导航
+				});
+
+				return;
+			}
+
+			sendCheckInRiderRequest(tel,realname,IDNumber);
+		});
+
 
 	}
 
@@ -155,7 +292,7 @@
 	function initMainTable () {
 		//记录页面bootstrap-table全局变量$table，方便应用
 		$table = $('#grid').bootstrapTable({
-			url: QUERY_RIDER_URL,                      //请求后台的URL（*）
+			url: QUERY_RIDER_BY_TELEPORTER_URL,                      //请求后台的URL（*）
 			method: 'GET',                      //请求方式（*）
 			//toolbar: '#toolbar',              //工具按钮用哪个容器
 			striped: false,                      //是否显示行间隔色
@@ -371,7 +508,7 @@
 			"rows":5
 		}
 		$.ajax({
-			url:QUERY_RIDER_URL,
+			url:QUERY_RIDER_BY_TELEPORTER_URL,
 			method:'POST',
 			data:requestParam,
 			dataType:'json',
@@ -398,4 +535,96 @@
 
 	}
 
+	/**
+	 * 发送登记请求
+	 * @param tel
+	 * @param realname
+	 * @param IDNumber
+	 */
+	function sendCheckInRiderRequest(tel, realname, IDNumber) {
+		var requestParam = {
+			"rider.tel" : tel,
+			"rider.realName" :realname,
+			"rider.IDNumber" : IDNumber
+		};
+
+		$.ajax({
+			url:CHECKIN_RIDER_URL,
+			method:'POST',
+			data:requestParam,
+			dataType:'json',
+			beforeSend:sendRequestBeforeHandle(),
+			success:function (result) {
+				$("#waitDialog").modal('hide');
+				if (200 == result.code){
+					$.globalMessenger().post({
+						message: result.message,//提示信息
+						type: 'error',//消息类型。error、info、success
+						hideAfter: 5,//多长时间消失
+						showCloseButton:true,//是否显示关闭按钮
+						hideOnNavigate: true //是否隐藏导航
+
+					});
+
+					//关闭对话框并清空数据
+					$("#checkInRiderDialog").modal('hide');
+					$("#checkInRiderTel").val('');
+					$("#checkInRiderRealname").val('');
+					$("#checkInRiderIDNumber").val('');
+				}else {
+					$.globalMessenger().post({
+						message: result.message,//提示信息
+						type: 'error',//消息类型。error、info、success
+						hideAfter: 5,//多长时间消失
+						showCloseButton:true,//是否显示关闭按钮
+						hideOnNavigate: true //是否隐藏导航
+
+					});
+				}
+			},
+			error:function () {
+				sendRequestFailHandle();
+			}
+
+		});
+	}
+
+	/**
+	 * 查询骑手详情
+	 * @param tel
+	 */
+	function queryRiderDetail(tel) {
+		var requestParam = {
+			"rider.tel" : tel
+
+		};
+
+		$.ajax({
+			url:QUERY_RIDER_BY_TEL_URL,
+			method:'POST',
+			data:requestParam,
+			dataType:'json',
+			beforeSend:sendRequestBeforeHandle(),
+			success:function (result) {
+				$("#waitDialog").modal('hide');
+				if (200 == result.code){
+					//设置用户名
+					$("#checkInRiderUsername").val(result.message.username);
+
+				}else {
+					$.globalMessenger().post({
+						message: result.message,//提示信息
+						type: 'error',//消息类型。error、info、success
+						hideAfter: 5,//多长时间消失
+						showCloseButton:true,//是否显示关闭按钮
+						hideOnNavigate: true //是否隐藏导航
+
+					});
+				}
+			},
+			error:function () {
+				sendRequestFailHandle();
+			}
+		});
+	}
 </script>

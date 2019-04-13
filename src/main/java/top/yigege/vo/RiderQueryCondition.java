@@ -15,7 +15,16 @@ public class RiderQueryCondition {
     /**注册日期*/
     private Date date;
 
+    /**传送点*/
+    private Integer teleporterId;
 
+    public Integer getTeleporterId() {
+        return teleporterId;
+    }
+
+    public void setTeleporterId(Integer teleporterId) {
+        this.teleporterId = teleporterId;
+    }
 
     public String getIds() {
         return ids;

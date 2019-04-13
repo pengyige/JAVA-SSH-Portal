@@ -454,7 +454,7 @@ function loadDataForRiderRegister() {
 				});
 			}
 		},
-		fail:function (){
+		error:function (){
 			sendRequestFailHandle();
 		}
 	});
