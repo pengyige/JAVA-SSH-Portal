@@ -197,4 +197,24 @@ public class SystemMessageAction extends BaseAction{
 		}
 		return JSON_DATA;
 	}
+
+
+	/**
+	 * 通过类型查询消息
+	 * @return
+	 */
+	public String queryMessageByType() {
+		logger.info("通过类型查询消息");
+
+		try{
+
+			List<SystemMessage> systemMessages = systemMessageService.pageListByCondition(1,10,systemMessageQueryCondition);
+			returnDTO = ReturnDTOUtil.success(systemMessages);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("通过类型查询消息失败，失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
+		return  JSON_DATA;
+	}
 }

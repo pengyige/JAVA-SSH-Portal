@@ -274,6 +274,38 @@ function connWebSocketEvent(){
 	});
 
 	webSocket.send(messageJson);*/
+	//创建小狐狸
+	var pt = new BMap.Point(114.353622,30.56786);
+	var myIcon = new BMap.Icon("http://lbsyun.baidu.com/jsdemo/img/fox.gif", new BMap.Size(300,150));
+	var marker1 = new BMap.Marker(pt,{icon:myIcon});  // 创建标注
+	map.addOverlay(marker1);              // 将标注添加到地图中
+
+
+
+	//创建小狐狸
+	var pt2 = new BMap.Point(114.351622,30.56786);
+	var marker2 = new BMap.Marker(pt2,{icon:myIcon});  // 创建标注
+	map.addOverlay(marker2);              // 将标注添加到地图中
+
+	//创建小狐狸
+	var pt3 = new BMap.Point(114.351122,30.56586);
+	var marker3 = new BMap.Marker(pt3,{icon:myIcon});  // 创建标注
+	map.addOverlay(marker3);              // 将标注添加到地图中
+
+	//创建小狐狸
+	var pt4 = new BMap.Point(114.356122,30.56786);
+	var marker4 = new BMap.Marker(pt4,{icon:myIcon});  // 创建标注
+	map.addOverlay(marker4);              // 将标注添加到地图中
+
+	//创建小狐狸
+	var pt5 = new BMap.Point(114.352122,30.56186);
+	var marker5 = new BMap.Marker(pt5,{icon:myIcon});  // 创建标注
+
+	map.addOverlay(marker5);              // 将标注添加到地图中
+
+
+	marker5.setPosition(new BMap.Point(114.363922,30.56586));
+
 }
 
 /**
@@ -376,7 +408,11 @@ function createOrderPoint(point,map,orderData) {
 	//设置订单图片
 	var myIcon = new BMap.Icon("${pageContext.request.contextPath}/asserts/img/orderIcon.png", new BMap.Size(32,32));
 	var marker = new BMap.Marker(point,{icon:myIcon});
+//	var tempRriderIcon = new BMap.Icon("${pageContext.request.contextPath}/asserts/img/rider.gif", new BMap.Size(48,48))
+	//var tempRiderMarker = new BMap.Marker(point,{icon:tempRriderIcon});
+//	tempRiderMarker.setPosition(10,10);
 	map.addOverlay(marker);
+	//map.addOverlay(tempRiderMarker);
 	//设置订单数据
 	marker.z.label = orderData;
 

@@ -7,14 +7,30 @@
 <head>
 	<meta charset="utf-8" />
 	<title>传送门-首页</title>
-	
+
+
 	<link href="${pageContext.request.contextPath}/asserts/css/common.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/asserts/css/bootstrap/bootstrap.css" rel="stylesheet" />
 	<link href="${pageContext.request.contextPath}/asserts/css/font-awesome/font-awesome.css" rel="stylesheet" />
-	
+	<link href="${pageContext.request.contextPath}/asserts/css/bootstrap/bootstrap.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath}/asserts/css/font-awesome/font-awesome.css" rel="stylesheet" type="text/css"/>
+	<link href="${pageContext.request.contextPath}/asserts/css/bootstrap-table/bootstrap-table.css" rel="stylesheet"type="text/css" />
+	<link href="${pageContext.request.contextPath}/asserts/css/messenger/messenger.css" rel="stylesheet" type="text/css"/>
+	<link href="${pageContext.request.contextPath}/asserts/css/bootstrap-select/bootstrap-select.min.css" rel="stylesheet" type="text/css" />
+	<link href="${pageContext.request.contextPath}/asserts/css/messenger/messenger-theme-ice.css" rel="stylesheet" type="text/css"/>
+	<link href="${pageContext.request.contextPath}/asserts/css/bootstrap-datetimepicker/bootstrap-datetimepicker.min.css" rel="stylesheet" type="text/css"/>
+
+
+	<script src="${pageContext.request.contextPath}/asserts/js/common.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/asserts/js/jquery/jquery-1.10.2.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap/bootstrap.js" type="text/javascript"></script>
-		
+	<script src="${pageContext.request.contextPath}/asserts/js/echarts/echarts.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/asserts/js/messenger/messenger.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/asserts/js/messenger/messenger-theme-future.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-select/bootstrap-select.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-select/defaults-zh_CN.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-datetimepicker/bootstrap-datetimepicker.min.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath}/asserts/js/bootstrap-datetimepicker/bootstrap-datetimepicker.zh-CN.js" type="text/javascript"></script>
 	<style>
         @font-face {
             font-family: 'Glyphicons Halflings';
@@ -116,6 +132,14 @@
 				<span id="teleporterAddress"><%=teleporterAdmin.getTeleporter().getAddress()%></span>
 
 		   	</div>
+
+
+		  <!-- 消息 -->
+		  <div class="navbar-text running-text time" style="width:500px;">
+
+
+			<span id="teleporterMessage">暂无消息</span>
+		  </div>
 		   
 		   <!-- 头像 -->
 		    <div class="navbar-text pic-div">
@@ -241,6 +265,13 @@ var QUERY_GENERAL_SITUATION_URL = "${pageContext.request.contextPath}/teleporter
 var RIDER_MANAGER_URL = "${pageContext.request.contextPath}/rider_intoRiderManagerPageForTeleporterAdmin.action";
 /**订单管理*/
 var ORDER_MANAGER_URL = "${pageContext.request.contextPath}/userOrder_intoOrderManagerPage.action";
+/**传送点消息*/
+var QUERY_TELEPORTER_MESSAGE_URL = "${pageContext.request.contextPath}/systemMessage_queryMessageByType.action";
+
+/**消息*/
+var global_message_list = null;
+/**当前消息索引*/
+var currentIndex = -1;
 
 $(function() {
 	$("#logout").click(function (){
@@ -259,9 +290,34 @@ $(function() {
 	$("#generalSituation").click(function (){
 		$("#iframe").attr("src",QUERY_GENERAL_SITUATION_URL);
 	});
-	
-	
+
+	//获取所有消息
+	queryTeleporterMessage();
+
+	setInterval(nextMessage,3000);
+
+
 });
+
+function nextMessage() {
+
+	if (null != global_message_list && global_message_list.length > 0 ) {
+		if (currentIndex == -1) {
+			currentIndex = 0;
+		}else {
+			currentIndex = (currentIndex + 1) % global_message_list.length;
+		}
+
+		console.log(global_message_list);
+		$("#teleporterMessage").slideUp();
+		$("#teleporterMessage").slideDown(1000,function (){
+			$("#teleporterMessage").html(global_message_list[currentIndex].title+":"+global_message_list[currentIndex].content);
+		});
+
+	}else {
+		$("marquee").html("暂无消息");
+	}
+}
 
 
 
@@ -278,6 +334,39 @@ function intoRiderManagerPage() {
 function intoOrderManagerPage() {
 	$("#iframe").attr("src",ORDER_MANAGER_URL);
 }
+
+/**
+ * 查询传送点消息
+ */
+function queryTeleporterMessage() {
+	var requestParam = {
+		"systemMessageQueryCondition.type" : 1
+	}
+
+	$.ajax({
+		url:QUERY_TELEPORTER_MESSAGE_URL,
+		method:'POST',
+		data:requestParam,
+		dataType:'json',
+		success:function (result) {
+			if (200 == result.code) {
+				var message =result.message;
+				global_message_list = message;
+			}else {
+				$.globalMessenger().post({
+					message: result.message,//提示信息
+					type: 'error',//消息类型。error、info、success
+					hideAfter: 2,//多长时间消失
+					showCloseButton: true,//是否显示关闭按钮
+					hideOnNavigate: true //是否隐藏导航
+
+				});
+			}
+		}
+	});
+}
+
+
 
 
 </script>
