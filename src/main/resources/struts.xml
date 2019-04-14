@@ -83,7 +83,7 @@
 			</result>
 
 			<result name="intoTeleporterAdminManagerPage">
-				/page/super-admin/teleporter-admin/teleporterAdminManage.jsp
+				/page/super-admin/teleporter-admin/teleporterAdminManager.jsp
 			</result>
 
 			<!--总体概况-->

@@ -402,7 +402,7 @@ public class RiderAction extends BaseAction implements ModelDriven<Rider>,Servle
 		try {
 			riderService.validateCheckInData(rider,teleporterAdmin.getTeleporter());
 
-            riderService.riderCheckin(rider,teleporterAdmin.getTeleporter());
+            riderService.doRiderCheckin(rider,teleporterAdmin.getTeleporter());
 
 			returnDTO = ReturnDTOUtil.success(rider.getTel()+"登记成功");
 		}catch (Exception e) {

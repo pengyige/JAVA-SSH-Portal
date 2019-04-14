@@ -95,7 +95,7 @@ public class RiderService extends BaseService{
 	 * @param rider
 	 * @param teleporter
 	 */
-	public void riderCheckin(Rider rider,Teleporter teleporter) {
+	public void doRiderCheckin(Rider rider,Teleporter teleporter) throws Exception {
 		/*int state = 1;
 		try {
 			riderDao.checkIn(teleporterId,riderId);
@@ -106,8 +106,18 @@ public class RiderService extends BaseService{
 		//验证实名认证
 		if (VerifyIdCardHelper.sendVerfidyIdCardRequest(rider.getIDNumber(),rider.getRealName())){
 			logger.info("认证成功");
+			Rider updateRider = findRiderByTel(rider.getTel());
+			//绑定传送点
+			updateRider.setTeleporter(teleporter);
+
+			//更新骑手信息
+			updateRider.setRealName(rider.getRealName());
+			updateRider.setIDNumber(rider.getIDNumber());
+
+			updateRiderService(updateRider);
 		}else {
 			logger.info("认证失败");
+			throw new Exception("姓名【"+rider.getRealName()+"】与身份证号码【"+rider.getIDNumber()+"】不匹配，请重试");
 		}
 	}
 	
@@ -246,10 +256,6 @@ public class RiderService extends BaseService{
 			throw  new Exception(rider.getTel()+"已在传送点【"+returnRider.getTeleporter().getAddress()+"】登记，请先到该传送点进行注销");
 		}
 
-		//判断该传送点是否已登记
-		if (returnRider.getTeleporter().getTeleporterId().equals(teleporter.getTeleporterId())) {
-			throw new Exception(rider.getTel()+"已登记");
-		}
 
 	}
 }

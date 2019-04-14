@@ -83,7 +83,7 @@
 			</result>
 
 			<result name="intoTeleporterAdminManagerPage">
-				/page/super-admin/teleporter-admin/teleporterAdminManage.jsp
+				/page/super-admin/teleporter-admin/teleporterAdminManager.jsp
 			</result>
 
 			<!--总体概况-->
@@ -108,6 +108,10 @@
 		<action name="rider_*" class="riderAction" method="{1}">
 			<result name="intoRiderManagerPage">
 				/page/super-admin/rider/riderManager.jsp
+			</result>
+
+			<result name="intoRiderManagerPageForTeleporterAdmin">
+				/page/admin/rider/riderManager.jsp
 			</result>
 		</action>
 		

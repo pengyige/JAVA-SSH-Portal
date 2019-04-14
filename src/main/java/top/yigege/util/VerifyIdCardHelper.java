@@ -7,11 +7,13 @@ import com.sun.deploy.net.HttpResponse;
 import com.sun.deploy.net.HttpUtils;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+import top.yigege.domain.VerfifyReturnDTO;
+import top.yigege.domain.VerifyIdCardInfor;
+import top.yigege.domain.VerifyResult;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -33,7 +35,7 @@ public class VerifyIdCardHelper {
     private static final String CARD_NO = "cardNo";
 
     /**姓名KEY*/
-    private static final String REAL_NAME = "readlName";
+    private static final String REAL_NAME = "realName";
 
     /**认证KEY*/
     private static final String APPCODE = "Authorization";
@@ -51,37 +53,42 @@ public class VerifyIdCardHelper {
     /**
      * 是否实名认证
      * @param cardNo
-     * @param readName
+     * @param realName
      * @return
      */
-    public static boolean sendVerfidyIdCardRequest(String cardNo,String readName) {
-        logger.info("开始实名认证,身份证="+cardNo+",用户名="+readName);
+    public static boolean sendVerfidyIdCardRequest(String cardNo,String realName) {
+        logger.info("开始实名认证,身份证="+cardNo+",用户名="+realName);
       /*  Map<String, String> headers = new HashMap<String, String>();
         //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
         headers.put(APPCODE, "APPCODE " + code);*/
         RestTemplate restTemplate = new RestTemplate();
 
         //设置参数
-        Map<String, String> querys = new HashMap<String, String>();
-        querys.put(CARD_NO, cardNo);
-        querys.put(REAL_NAME, readName);
-
+      /*  MultiValueMap<String, String> querys = new LinkedMultiValueMap<>();
+       *//* querys.add(CARD_NO, cardNo);
+        querys.add(REAL_NAME, realName);
+*/
         //设置响应头
         HttpHeaders restHeaders = new HttpHeaders();
+
         restHeaders.add(APPCODE,"APPCODE " + code);
 
-        HttpEntity<Map<String,String>> requestEntity = new HttpEntity<>(querys,restHeaders);
-
+        HttpEntity<MultiValueMap<String,String>> requestEntity = new HttpEntity<>(restHeaders);
         //执行请求
-        ResponseEntity<String> resp = restTemplate.exchange(VERIFY_ID_CARD_V2, HttpMethod.GET,requestEntity,String.class);
+        ResponseEntity<String> resp = restTemplate.exchange(VERIFY_ID_CARD_V2+"?cardNo="+cardNo+"&realName="+realName,HttpMethod.GET,requestEntity,String.class);
         String result = resp.getBody();
         logger.info("认证结束，结果="+result);
-        JSONObject jsonObject = JSON.parseObject(result);
+        /*JSONObject jsonObject = JSON.parseObject(result);
         if (jsonObject.getInteger("error_code").equals(SUCCESS_CODE)) {
             return jsonObject.getJSONObject("result").getBoolean("isok");
         }else {
             return false;
-        }
+        }*/
+
+        //String result = "{\"error_code\":0,\"reason\":\"成功\",\"result\":{\"realname\":\"余越\",\"idcard\":\"429006199802126410\",\"isok\":true}";
+        VerfifyReturnDTO verfifyReturnDTO = JSONObject.parseObject(result,VerfifyReturnDTO.class);
+
+        return verfifyReturnDTO.getResult().isIsok();
 
     }
 

@@ -139,7 +139,7 @@
 					</div>
 
 					<%-- 真实姓名 --%>
-					<div class="form-group">
+					<div class="form-group" style="margin-top: 10px;">
 						<label class="col-sm-3 control-label" >真实姓名</label>
 						<div class="col-sm-5">
 
@@ -571,6 +571,9 @@
 					$("#checkInRiderTel").val('');
 					$("#checkInRiderRealname").val('');
 					$("#checkInRiderIDNumber").val('');
+					$("#checkInRiderUsername").val('');
+					//刷新表格
+					queryRider();
 				}else {
 					$.globalMessenger().post({
 						message: result.message,//提示信息
