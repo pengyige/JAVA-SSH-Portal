@@ -95,6 +95,10 @@
 				<span class="glyphicon  glyphicon-ok-sign"></span> 登记
 			</button>
 
+			<button id="logoutRiderBtn" type="button" class="btn btn-danger" >
+				<span class="glyphicon glyphicon-trash"></span> 注销
+			</button>
+
 		</div>
 	</div>
 
