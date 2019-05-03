@@ -72,6 +72,16 @@ public class UserAction extends BaseAction{
 	 * @return
 	 */
 	public String register() {
+		logger.info("开始注册用户");
+		try {
+			userService.validateUserInfo(user);
+
+			userService.registerUser(user);
+		}catch (Exception e) {
+			e.printStackTrace();
+			logger.info("注册失败,失败原因:"+e.getMessage());
+			returnDTO = ReturnDTOUtil.fail(e.getMessage());
+		}
 		return  JSON_DATA;
 	}
 	

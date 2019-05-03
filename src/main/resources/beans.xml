@@ -208,5 +208,11 @@
    
    	 <bean id="areaAction" class="top.yigege.web.action.AreaAction" scope="prototype">
    	 	<property name="areaService" ref="areaService"></property>
-   	 </bean>   
+   	 </bean>
+
+	<!-- 短信模块-->
+	<bean id="smsAction" class="top.yigege.web.action.SmsAction" scope="prototype">
+		<property name="userService" ref="userService"/>
+		<property name="riderService" ref="riderService"/>
+	</bean>
 </beans>

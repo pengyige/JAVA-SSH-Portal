@@ -1,9 +1,11 @@
 package top.yigege.service;
 
+import org.apache.commons.lang.StringUtils;
 import top.yigege.constants.Constants;
 import top.yigege.dao.UserDao;
 import top.yigege.domain.User;
 import top.yigege.exception.RegisterException;
+import top.yigege.util.ValidatorUtil;
 import top.yigege.vo.OrderQueryCondition;
 import top.yigege.vo.TypeVO;
 import top.yigege.vo.UserQueryCondition;
@@ -30,14 +32,11 @@ public class UserService {
 	 * @param user
 	 * @return
 	 */
-	public int registerUser(User user){
-		int state = Constants.YesOrNo.YES;
-		try {
-			userDao.save(user);
-		}catch(Exception e) {
-			state = Constants.YesOrNo.ERROR;
-		}
-		return state;
+	public void registerUser(User user){
+
+		userDao.save(user);
+
+
 	}
 		
 	/**
@@ -189,5 +188,37 @@ public class UserService {
 	 */
     public TypeVO[] queryUserRegisterCountByTime() {
     	return userDao.getUserRegisterCountByTime();
+    }
+
+	/**
+	 * 校验用户信息
+	 * @param user
+	 */
+	public void validateUserInfo(User user) throws Exception {
+		if (StringUtils.isBlank(user.getTel())) {
+			throw  new Exception("手机号不能为空");
+		}else {
+			if (!ValidatorUtil.isMobile(user.getTel())) {
+				throw  new Exception("手机号非法");
+			}
+
+			if (null != findUserByTel(user.getTel())) {
+				throw  new Exception("手机号已被注册");
+			}
+		}
+
+		if (StringUtils.isBlank(user.getUsername())) {
+			throw  new Exception("用户名不能为空");
+		}
+
+		if (StringUtils.isBlank(user.getPassword())) {
+			throw new Exception("密码不能为空");
+		}else {
+			if (!ValidatorUtil.isPassword(user.getPassword())) {
+				throw new Exception("密码非法");
+			}
+		}
+
+
     }
 }

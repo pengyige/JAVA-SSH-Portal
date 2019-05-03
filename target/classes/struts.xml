@@ -152,6 +152,12 @@
 		<action name="area_*" class="areaAction" method="{1}">
 			
 		</action>
+
+		<!-- 短信模块 -->
+		<action name="sms_portal_app_*" class="smsAction" method="{1}">
+
+		</action>
+
 	</package>
 
 </struts>

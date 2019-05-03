@@ -67,7 +67,8 @@ public class LoginFilter implements Filter{
 		String suffix = uriPath.substring(uriPath.lastIndexOf('.'));
 		logger.info("请求的路径为:"+uri);
 		//如果不在资源内并且不在排除的排除的uri,判断session是否有效
-		if (!resourceList.contains(suffix) && !excludedUri.contains(uriPath)) {
+        //排除app接口、用户接口
+		if (!resourceList.contains(suffix) && !excludedUri.contains(uriPath) && uri.indexOf("portal_app") == -1 && uri.indexOf("/user") == -1) {
 			Object user = httpServletRequest.getSession().getAttribute(PortalSessionKey.USER_SESSION_KEY);
 			if (null == user) {
 				logger.info("还没有登入");
@@ -121,6 +122,7 @@ public class LoginFilter implements Filter{
 		excludedUri.add("/teleporterAdmin_login.action");
 		//系统管理员登入
 		excludedUri.add("/superAdmin_login.action");
+		//用户
 	}
 
 }

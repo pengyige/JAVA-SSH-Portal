@@ -135,7 +135,7 @@
 
 
 		  <!-- 消息 -->
-		  <div class="navbar-text running-text time" style="width:500px;">
+		  <div class="navbar-text running-text time" style="width:250px;">
 
 
 			<span id="teleporterMessage">暂无消息</span>
