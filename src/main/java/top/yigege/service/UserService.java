@@ -10,7 +10,9 @@ import top.yigege.vo.OrderQueryCondition;
 import top.yigege.vo.TypeVO;
 import top.yigege.vo.UserQueryCondition;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * 
@@ -32,8 +34,14 @@ public class UserService {
 	 * @param user
 	 * @return
 	 */
-	public void registerUser(User user){
+	public void doRegisterUser(User user){
 
+
+		//生成token
+		user.setToken(UUID.randomUUID()+"_"+System.currentTimeMillis());
+		//初始余额5
+		user.setBalance(5.0d);
+		user.setCreateTime(new java.util.Date());
 		userDao.save(user);
 
 

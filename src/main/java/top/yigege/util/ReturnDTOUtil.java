@@ -58,7 +58,7 @@ public class ReturnDTOUtil {
      * @return
      */
     public static ReturnDTO error() {
-        return new ReturnDTO(HttpCodeEnum.INTERNAL_SERVER_ERROR.getCode(), HttpCodeEnum.INTERNAL_SERVER_ERROR.getMessage());
+        return new ReturnDTO(HttpCodeEnum.INTERNAL_SERVER_ERROR.getCode(),null, HttpCodeEnum.INTERNAL_SERVER_ERROR.getMessage());
     }
 
 
@@ -69,7 +69,7 @@ public class ReturnDTOUtil {
      * @return
      */
     public static ReturnDTO error(Object data) {
-        return new ReturnDTO(HttpCodeEnum.INTERNAL_SERVER_ERROR.getCode(), HttpCodeEnum.INTERNAL_SERVER_ERROR.getMessage(), data);
+        return new ReturnDTO(HttpCodeEnum.INTERNAL_SERVER_ERROR.getCode(),null, HttpCodeEnum.INTERNAL_SERVER_ERROR.getMessage());
     }
 
     /**
@@ -88,7 +88,7 @@ public class ReturnDTOUtil {
      * @return
      */
     public static ReturnDTO paramError(Object data) {
-        return new ReturnDTO(HttpCodeEnum.INVALID_REQUEST.getCode(), HttpCodeEnum.INVALID_REQUEST.getMessage(), data);
+        return new ReturnDTO(HttpCodeEnum.INVALID_REQUEST.getCode(),null, HttpCodeEnum.INVALID_REQUEST.getMessage());
     }
 
     /**

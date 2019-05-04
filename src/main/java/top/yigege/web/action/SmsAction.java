@@ -68,7 +68,7 @@ public class SmsAction extends BaseAction {
 
         User user = userService.findUserByTel(phone.toString());
         if (null != user) {
-            returnDTO = new ReturnDTO(HttpCodeEnum.USER_ALREADY_REGISTER.getCode(),USER_ALREADY_REGISTER.getMessage());
+            returnDTO = new ReturnDTO(HttpCodeEnum.USER_ALREADY_REGISTER.getCode(),null,USER_ALREADY_REGISTER.getMessage());
             return JSON_DATA;
         }
 

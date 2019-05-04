@@ -76,7 +76,8 @@ public class UserAction extends BaseAction{
 		try {
 			userService.validateUserInfo(user);
 
-			userService.registerUser(user);
+			userService.doRegisterUser(user);
+			returnDTO = ReturnDTOUtil.success(user);
 		}catch (Exception e) {
 			e.printStackTrace();
 			logger.info("注册失败,失败原因:"+e.getMessage());
